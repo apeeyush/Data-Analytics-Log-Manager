@@ -38,3 +38,9 @@ gem 'spring',        group: :development
 # Use debugger
 # gem 'debugger', group: [:development, :test]
 
+# Better Errors replaces the standard Rails error page with a much better and more useful error page
+# binding_of_caller gem added to use Better Errors' advanced features (REPL, local/instance variable inspection, pretty stack frame names)
+group :development do
+  gem 'better_errors'
+  gem 'binding_of_caller'
+end
