@@ -44,3 +44,8 @@ group :development do
   gem 'better_errors'
   gem 'binding_of_caller'
 end
+
+# rspec-rails is a testing framework for Rails. Read more: https://github.com/rspec/rspec-rails
+group :development, :test do
+  gem 'rspec-rails'
+end
