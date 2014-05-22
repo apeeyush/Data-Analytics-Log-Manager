@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :logs
+
   root 'pages#main'
   get 'pages/main'
 

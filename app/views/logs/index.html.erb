@@ -1,0 +1,39 @@
+<h1>Listing logs</h1>
+
+<table>
+  <thead>
+    <tr>
+      <th>Session</th>
+      <th>User</th>
+      <th>Application</th>
+      <th>Activity</th>
+      <th>Event</th>
+      <th>Time</th>
+      <th>Parameters</th>
+      <th>Extras</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @logs.each do |log| %>
+      <tr>
+        <td><%= log.session %></td>
+        <td><%= log.user %></td>
+        <td><%= log.application %></td>
+        <td><%= log.activity %></td>
+        <td><%= log.event %></td>
+        <td><%= log.time %></td>
+        <td><%= log.parameters %></td>
+        <td><%= log.extras %></td>
+        <td><%= link_to 'Show', log %></td>
+        <td><%= link_to 'Edit', edit_log_path(log) %></td>
+        <td><%= link_to 'Destroy', log, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Log', new_log_path %>
