@@ -49,3 +49,8 @@ end
 group :development, :test do
   gem 'rspec-rails'
 end
+
+# Capybara helps test web applications by simulating how a real user would interact with app.
+group :test do
+  gem 'capybara'
+end
