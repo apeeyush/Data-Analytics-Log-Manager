@@ -16,7 +16,12 @@ module Api
   	  log[:event] = params[:event]
   	  log[:time] = DateTime.strptime("#{params[:time].to_i/1000}",'%s').in_time_zone("Eastern Time (US & Canada)").to_s
   	  log[:parameters] = params[:parameters]
-  	  log[:extras] = params[:extras]
+  	  log[:extras] = Hash.new
+      request.request_parameters.each do |key,value|
+        if key != "log" && key != "session" && key != "user" && key != "application" && key != "activity" && key != "event" && key != "time" && key != "parameters"
+          log[:extras][key] = value
+        end
+      end
 
   	  if log.save
   	  	render json: log, status: :created
