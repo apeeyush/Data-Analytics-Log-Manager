@@ -3,8 +3,7 @@ module Api
   class LogsController < ApplicationController
 
   	def index
-  	  logs = Log.all
-  	  render json: logs, status: 200
+  	  @logs = Log.all
   	end
 
   	def create
@@ -30,11 +29,6 @@ module Api
   	  end
   	end
 
-  private
-    # Never trust parameters from the scary internet, only allow the white list through.
-    def log_params
-      params.require(:log).permit(:session, :user, :application, :activity, :event, :time)
-    end
-end
+  end
 
 end
