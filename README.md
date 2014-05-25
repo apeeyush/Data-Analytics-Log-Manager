@@ -1,5 +1,7 @@
-Data Analytics
+Data Analytics Log Manager
 ========
+
+[![Build Status](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master)](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager)
 
 The Rails application servers as a common system for sending user action logging data from various applications into visualization application CODAP after applying transformations.
 
@@ -11,7 +13,7 @@ Project Setup
 --------
 Install Rails 4.1 and make sure that you are running PostgreSQL 9.1 or higher on your system. Next clone the repository. Run `bundle install` from terminal after changing directory to the project directory.
 
-Set up the `config/database.yml` file to allow the Rails application to connect to PostgreSQL. Either update the `username` and `password` with your existing user's value or create a new user in PostgreSQL having a `username` of `log_manager`. Now, grant this user all privileges on `log_manager_development` database or make it a superuser.
+Set up the `config/database.yml` file to allow the Rails application to connect to PostgreSQL. Either update the `username` and `password` with your existing user's value or create a new user in PostgreSQL having `username`:`log_manager` and `password`:`log_manager`. Now, create database `log_manager_development` and grant this user all privileges on `log_manager_development` database or make it a superuser.
 
 Run `rake db:migrate` to apply migrations and after that you can start the rails server by using `rails server`. The rails console can be accessed using `rails console`.
 
