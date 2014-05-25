@@ -54,3 +54,7 @@ end
 group :test do
   gem 'capybara'
 end
+
+# Makes running Rails app easier. Based on the ideas behind 12factor.net
+# Required by Heroku to precompile assets in Rails 4
+gem 'rails_12factor', group: :production
