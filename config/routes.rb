@@ -4,6 +4,7 @@ Rails.application.routes.draw do
   get 'pages/main'
 
   namespace :api, defaults: {format: 'json'} do
+    match 'logs', to: 'logs#options', via: [:options]
     resources :logs, except: [:destroy, :edit, :update]
   end
 
