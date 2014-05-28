@@ -3,9 +3,12 @@ Rails.application.routes.draw do
   root 'pages#main'
   get 'pages/main'
 
+  post '/DataGames/api/auth/login', to: 'auth#index'
+
   namespace :api, defaults: {format: 'json'} do
     match 'logs', to: 'logs#options', via: [:options]
     resources :logs, except: [:destroy, :edit, :update]
+
   end
 
   resources :logs
