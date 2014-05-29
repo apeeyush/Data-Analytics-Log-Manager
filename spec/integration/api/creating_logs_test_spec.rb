@@ -9,23 +9,16 @@ describe "CreatingLogsTest" do
 
   	assert_equal 201, response.status
   	body = JSON.parse(response.body)
-    body.should include('session')
+    body.should include('session','user','application','activity','event','time','parameters','extras')
     body["session"] == "12345"
-    body.should include('user')
     body["user"] == "user1"
-    body.should include('application')
     body["application"] == "Application1"
-    body.should include('activity')
     body["activity"] == "Activity1"
-    body.should include('event')
     body["event"] == "Event1"
-    body.should include('time')
     body["time"] == "2014-02-20T02:08:13.000Z"
-    body.should include('parameters')
     body["parameters"].should have(2).items
     body["parameters"]["parameter1"] == "value1"
     body["parameters"]["parameter2"] == "value2"
-    body.should include('extras')
     body["extras"].should have(1).items
     body["extras"]["extra_key"] == "extra_value"
   end
