@@ -3,11 +3,19 @@ Rails.application.routes.draw do
   root 'pages#main'
   get 'pages/main'
 
+  # Temporary Login Solution for CODAP hosted simultaneously with Rails (in Public folder)
   post '/DataGames/api/auth/login', to: 'auth#index'
 
   namespace :api, defaults: {format: 'json'} do
+
+    # To allow CORS request. The browser first sends an Options request which is matched to logs#options
     match 'logs', to: 'logs#options', via: [:options]
+    
+    # To send log(s) and get all logs stored in database
     resources :logs, except: [:destroy, :edit, :update]
+    
+    # To filter data and send just filtered data to applications
+    post 'filter', to: 'filter#index'
 
   end
 
