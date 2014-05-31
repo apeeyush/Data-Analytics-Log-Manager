@@ -1,0 +1,20 @@
+<html>
+	<head>
+		<title>Data Interactive</title>
+		<link href="Analytics.css" rel="stylesheet" type="text/css" />
+		<script src="Analytics.js" language="javascript"></script>
+		<script src="jquery.min.js"></script>
+	</head>
+
+	<body>
+		<h1>Data Interactive</h1>
+		<p>To analyse all the data present in log-manager, click the button below:</p>
+		<button type="button" onclick="Analytics.analyze()">Analyse</button>
+		<hr>
+		<p>To filter data to be imported for analysis, put the JSON body in the text box below and click the button</p>
+		<textarea id="body_data" cols="60" rows="15"></textarea>
+		<br>
+		<button type="button" onclick="Analytics.analyze_filtered()">Analyse Filtered Data</button>
+	</body>
+
+</html>
