@@ -4,7 +4,7 @@ describe "logs/edit" do
   before(:each) do
     @log = assign(:log, stub_model(Log,
       :session => "MyString",
-      :user => "MyString",
+      :username => "MyString",
       :application => "MyString",
       :activity => "MyString",
       :event => "MyString",
@@ -19,7 +19,7 @@ describe "logs/edit" do
     # Run the generator again with the --webrat flag if you want to use webrat matchers
     assert_select "form[action=?][method=?]", log_path(@log), "post" do
       assert_select "input#log_session[name=?]", "log[session]"
-      assert_select "input#log_user[name=?]", "log[user]"
+      assert_select "input#log_username[name=?]", "log[username]"
       assert_select "input#log_application[name=?]", "log[application]"
       assert_select "input#log_activity[name=?]", "log[activity]"
       assert_select "input#log_event[name=?]", "log[event]"

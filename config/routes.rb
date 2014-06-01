@@ -17,6 +17,9 @@ Rails.application.routes.draw do
     # To filter data and send just filtered data to applications
     post 'filter', to: 'filter#index'
 
+    # To group data and send grouped data (having parent-child relationship) to applications
+    post 'group', to: 'group#index'
+
   end
 
   resources :logs

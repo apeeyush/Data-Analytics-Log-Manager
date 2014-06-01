@@ -1,1 +1,1 @@
-json.extract! @log, :id, :session, :user, :application, :activity, :event, :time, :parameters, :extras, :created_at, :updated_at
+json.extract! @log, :id, :session, :username, :application, :activity, :event, :time, :parameters, :extras, :created_at, :updated_at

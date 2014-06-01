@@ -4,7 +4,7 @@
   <thead>
     <tr>
       <th>Session</th>
-      <th>User</th>
+      <th>Username</th>
       <th>Application</th>
       <th>Activity</th>
       <th>Event</th>
@@ -19,7 +19,7 @@
     <% @logs.each do |log| %>
       <tr>
         <td><%= log.session %></td>
-        <td><%= log.user %></td>
+        <td><%= log.username %></td>
         <td><%= log.application %></td>
         <td><%= log.activity %></td>
         <td><%= log.event %></td>

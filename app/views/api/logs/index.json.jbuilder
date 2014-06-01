@@ -1,6 +1,6 @@
 json.array! @logs do |log|
   json.session log.session
-  json.user log.user
+  json.username log.username
   json.application log.application
   json.activity log.activity
   json.event log.event

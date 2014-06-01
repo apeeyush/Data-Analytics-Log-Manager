@@ -4,21 +4,21 @@ describe "CreatingMultipleLogsTest" do
   it "Creates Multiple Logs when passed an array of Logs" do
   	data = [
       {
-  	    session: "session1", user: 'user1', application: 'Application1', activity: 'Activity1', event: 'Event1', time: '1392862093110', parameters: {parameter1: 'value1', parameter2: 'value2'}, extra_key: 'extra_value'
+  	    session: "session1", username: 'user1', application: 'Application1', activity: 'Activity1', event: 'Event1', time: '1392862093110', parameters: {parameter1: 'value1', parameter2: 'value2'}, extra_key: 'extra_value'
   	  },
       {
-        session: "session2", user: 'user2', application: 'Application2', activity: 'Activity2', event: 'Event2', time: '1392862093110', parameters: {parameter1: 'value1', parameter2: 'value2'}, extra_key1: 'extra_value1'
+        session: "session2", username: 'user2', application: 'Application2', activity: 'Activity2', event: 'Event2', time: '1392862093110', parameters: {parameter1: 'value1', parameter2: 'value2'}, extra_key1: 'extra_value1'
       }
     ].to_json
   	post '/api/logs', data, { 'CONTENT_TYPE' => 'application/json', 'ACCEPT' => 'application/json' }
 
   	assert_equal 201, response.status
   	body = JSON.parse(response.body)
-    body[0].should include('session','user','application','activity','event','time','parameters','extras')
-    body[1].should include('session','user','application','activity','event','time','parameters','extras')
+    body[0].should include('session','username','application','activity','event','time','parameters','extras')
+    body[1].should include('session','username','application','activity','event','time','parameters','extras')
 
     body[0]["session"] == "session1"
-    body[0]["user"] == "user1"
+    body[0]["username"] == "user1"
     body[0]["application"] == "Application1"
     body[0]["activity"] == "Activity1"
     body[0]["event"] == "Event1"
@@ -30,7 +30,7 @@ describe "CreatingMultipleLogsTest" do
     body[0]["extras"]["extra_key"] == "extra_value"
 
     body[1]["session"] == "session2"
-    body[1]["user"] == "user2"
+    body[1]["username"] == "user2"
     body[1]["application"] == "Application2"
     body[1]["activity"] == "Activity2"
     body[1]["event"] == "Event2"

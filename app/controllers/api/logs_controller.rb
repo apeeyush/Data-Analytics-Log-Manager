@@ -42,7 +42,7 @@ module Api
       def create_new_log (log_data)
         new_log = Log.new()
         new_log[:session] = log_data["session"]
-        new_log[:user] = log_data["user"]
+        new_log[:username] = log_data["username"]
         new_log[:application] = log_data["application"]
         new_log[:activity] = log_data["activity"]
         new_log[:event] = log_data["event"]
@@ -50,7 +50,7 @@ module Api
         new_log[:parameters] = log_data["parameters"]
         new_log[:extras] = Hash.new
         log_data.each do |key, value|
-          if key != "session" && key != "user" && key != "application" && key != "activity" && key != "event" && key != "time" && key != "parameters"
+          if key != "session" && key != "username" && key != "application" && key != "activity" && key != "event" && key != "time" && key != "parameters"
             new_log[:extras][key] = value
           end
         end

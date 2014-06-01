@@ -69,6 +69,6 @@ class LogsController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def log_params
-      params.require(:log).permit(:session, :user, :application, :activity, :event, :time, :parameters, :extras)
+      params.require(:log).permit(:session, :username, :application, :activity, :event, :time, :parameters, :extras)
     end
 end

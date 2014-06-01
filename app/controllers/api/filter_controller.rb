@@ -16,8 +16,8 @@ module Api
         if (filter["activity"] != nil && !filter["activity"].empty?)
         	logs = logs.where({activity: filter["activity"]})
         end
-        if (filter["user"] != nil && !filter["user"].empty?)
-        	logs = logs.where({user: filter["user"]})
+        if (filter["username"] != nil && !filter["username"].empty?)
+        	logs = logs.where({username: filter["username"]})
         end
         if (filter["event"] != nil && !filter["event"].empty?)
         	logs = logs.where({event: filter["event"]})
