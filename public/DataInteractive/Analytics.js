@@ -10,8 +10,9 @@ var Analytics = {
     // console.log("I am inside analyze function.");
     var this_ = this;
     $.ajax({ 
-      type: 'GET', 
+      type: 'GET',
       url: 'http://log-manager.herokuapp.com/api/logs',
+      // url: 'http://localhost:3000/api/logs',
       success: function(data){
         this_.doAnalysis(data)
       }
@@ -37,7 +38,8 @@ var Analytics = {
       console.log(JSON.stringify(data));
       $.ajax({ 
         type: "POST",
-        url: "http://log-manager.herokuapp.com/api/filter", 
+        url: "http://log-manager.herokuapp.com/api/filter",
+        // url: "http://localhost:3000/api/filter",
         data: data,
         success: function(data){
           this_.doAnalysis(data)
