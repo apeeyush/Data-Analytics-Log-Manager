@@ -1,5 +1,11 @@
 Rails.application.routes.draw do
 
+  get 'analytics/index'
+  get 'analytics/all'
+  post 'analytics/all'
+  get 'analytics/filter'
+  get 'analytics/group'
+
   root 'pages#main'
   get 'pages/main'
 
