@@ -56,6 +56,29 @@ window.analyzeGrouped = function() {
   }
 };
 
+window.analyzeTransformed = function() {
+  var data, is_valid, _error;
+  data = document.getElementById("body_data").value;
+  try {
+    JSON.parse(data);
+    is_valid = true;
+  } catch (_error) {
+    is_valid = false;
+  }
+  if (is_valid) {
+    $.ajax({
+      type: "POST",
+      url: "/api/transform",
+      data: data,
+      success: function(data) {
+        Analytics.doGroupAnalysis(data);
+      }
+    });
+  } else {
+    alert("Invalid JSON");
+  }
+};
+
 controller = window.parent.DG;
 
 Analytics = {
@@ -109,7 +132,6 @@ Analytics = {
 
       var children = data.groups[i][data.groups[i].length - 1].children;
       var parent_values = data.groups[i].slice(0, data.groups[i].length - 1);
-      console.log(parent_values);
       result = this_.controller.doCommand( {
         action: 'createCase',
         args: {

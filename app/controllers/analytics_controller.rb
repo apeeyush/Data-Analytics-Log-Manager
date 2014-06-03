@@ -1,4 +1,7 @@
 class AnalyticsController < ApplicationController
+
+  layout 'analytics'
+
   def index
   end
 
@@ -9,5 +12,8 @@ class AnalyticsController < ApplicationController
   end
 
   def group
+  end
+
+  def transformation
   end
 end

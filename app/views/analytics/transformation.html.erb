@@ -1,7 +1,7 @@
-<p>To filter data to be imported for analysis, put the JSON body in the text box below and click the button</p>
+<p>To group data before importing for analysis, put the JSON body in the text box below and click the button</p>
 <textarea id="body_data" cols="60" rows="10"></textarea>
 <br>
-<button type="button" onclick="analyzeFiltered()">Analyse Filtered Data</button>
+<button type="button" onclick="analyzeTransformed()">Analyse Filtered Data</button>
 
 <hr>
 
@@ -10,7 +10,8 @@
 {
   "filter" : {
     "username" : ["peeyush"]
-  }
+  },
+  "group" : "username"
 }
 </pre>
 
@@ -32,6 +33,7 @@
       "keys" : [list of keys],
       "pairs": {list of key-value pairs. Eg. {"teacher":"X"},{"level":"5"}}
     }
-  }
+  },
+  "group" : "user/session/application/activity"
 }
 </pre>

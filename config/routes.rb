@@ -5,6 +5,7 @@ Rails.application.routes.draw do
   post 'analytics/all'
   get 'analytics/filter'
   get 'analytics/group'
+  get 'analytics/transformation'
 
   root 'pages#main'
   get 'pages/main'
@@ -18,6 +19,7 @@ Rails.application.routes.draw do
     match 'logs', to: 'logs#options', via: [:options]
     match 'filter', to: 'logs#options', via: [:options]
     match 'group', to: 'logs#options', via: [:options]
+    match 'transform', to: 'logs#options', via: [:options]
 
     # To send log(s) and get all logs stored in database
     resources :logs, except: [:destroy, :edit, :update]
@@ -28,6 +30,8 @@ Rails.application.routes.draw do
     # To group data and send grouped data (having parent-child relationship) to applications
     post 'group', to: 'group#index'
 
+    # Used to combine individual components and perform overall transformation
+    post 'transform', to: 'transform#index'
   end
 
   resources :logs
