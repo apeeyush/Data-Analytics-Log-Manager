@@ -2,7 +2,7 @@ json.template do
   json.parent_keys @parent_keys
   json.child_keys @child_keys
 end
-json.data @groups do |parent_name, logs|
+json.groups @groups do |parent_name, logs|
   parent_collection = [parent_name]
   child_collection = []
   logs.each do |log|
