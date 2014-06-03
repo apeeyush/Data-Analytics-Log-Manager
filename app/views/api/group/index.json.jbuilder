@@ -1,9 +1,19 @@
-json.array! @groups do |parent_name, logs|
-  collection1 = [parent_name]
-  collection = []
+json.template do
+  json.parent_keys @parent_keys
+  json.child_keys @child_keys
+end
+json.data @groups do |parent_name, logs|
+  parent_collection = [parent_name]
+  child_collection = []
   logs.each do |log|
-    collection << [ log["session"], log["username"], log["application"], log["activity"], log["event"], log["time"], log["parameters"], log["extras"] ]
+  	child = []
+  	@child_keys.each do |child_key|
+    	child << log.value(child_key)
+    end
+    child_collection << child
   end
-  collection1 << collection
-  json.array!  collection1
+  child_collection_hash = Hash.new
+  child_collection_hash["children"] = child_collection
+  parent_collection << child_collection_hash
+  json.array!  parent_collection
 end
