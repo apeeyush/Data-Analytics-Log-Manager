@@ -16,7 +16,9 @@ Rails.application.routes.draw do
 
     # To allow CORS request. The browser first sends an Options request which is matched to logs#options
     match 'logs', to: 'logs#options', via: [:options]
-    
+    match 'filter', to: 'logs#options', via: [:options]
+    match 'group', to: 'logs#options', via: [:options]
+
     # To send log(s) and get all logs stored in database
     resources :logs, except: [:destroy, :edit, :update]
     
