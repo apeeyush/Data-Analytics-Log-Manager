@@ -5,3 +5,36 @@
 <textarea id="body_data" cols="60" rows="10"></textarea>
 <br>
 <button type="button" onclick="analyzeFiltered()">Analyse Filtered Data</button>
+
+<hr>
+
+<h2> Sample Body </h2>
+<pre>
+{
+  "filter" : {
+    "username" : ["peeyush"]
+  }
+}
+</pre>
+
+<hr>
+
+<h2> Brief Description </h2>
+<pre>
+{
+  "filter" : {
+    "activity" : [list of activities],
+    "application" : [list of applications],
+    "username" : [list of usernames],
+    "time" : ["start time","end time"],
+    "parameters" : {
+      "keys" : [list of keys],
+      "pairs": {list of key-value pairs. Eg. {"teacher":"X"},{"level":"5"}}
+    }
+    "extras" : {
+      "keys" : [list of keys],
+      "pairs": {list of key-value pairs. Eg. {"teacher":"X"},{"level":"5"}}
+    }
+  }
+}
+</pre>
