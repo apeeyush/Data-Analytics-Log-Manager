@@ -46,8 +46,11 @@ group :development do
 end
 
 # rspec-rails is a testing framework for Rails. Read more: https://github.com/rspec/rspec-rails
+# factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies, and support for multiple factories for the same class, including factory inheritance.
+# Load factory_girl_rails in development to get generator hooks
 group :development, :test do
   gem 'rspec-rails'
+  gem 'factory_girl_rails'
 end
 
 # Capybara helps test web applications by simulating how a real user would interact with app.
