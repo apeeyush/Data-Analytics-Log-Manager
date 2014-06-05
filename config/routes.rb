@@ -32,6 +32,13 @@ Rails.application.routes.draw do
 
     # Used to combine individual components and perform overall transformation
     post 'transform', to: 'transform#index'
+
+    # CODAP API component
+    post 'auth/login'
+    get 'document/all'
+    get 'document/open'
+    post 'document/save'
+
   end
 
   resources :logs
