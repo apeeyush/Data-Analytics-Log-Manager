@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  resources :documents
+
   get 'analytics/index'
   get 'analytics/all'
   post 'analytics/all'
