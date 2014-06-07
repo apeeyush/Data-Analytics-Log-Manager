@@ -1,18 +1,9 @@
-json.array! @logs do |log|
-  json.session log.session
-  json.username log.username
-  json.application log.application
-  json.activity log.activity
-  json.event log.event
-  json.time log.time
-  if log.parameters.present?
-    log.parameters.each do |key,value|
-      json.set!(key,value)
-    end
+json.template @column_names
+
+json.values @logs do |log|
+  child = []
+  @column_names.each do |column_name|
+    child << log.value(column_name)
   end
-  if log.extras.present?
-  	log.extras.each do |key,value|
-  	  json.set!(key,value)
-  	end
-  end
+  json.array! child
 end

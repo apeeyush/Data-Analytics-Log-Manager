@@ -1,0 +1,34 @@
+<p>To perform aggregation analytics, put the JSON body in the text box below and click the button</p>
+<textarea id="body_data" cols="60" rows="10"></textarea>
+<br>
+<button type="button" id="js-analyze-aggregation">Analyse Filtered Data</button>
+
+<hr>
+
+<h2> Sample Body </h2>
+<pre>
+{
+  "group" : "username",
+  "aggregations" : {
+    "event_count" : {
+      "CountOfEvents" : {}
+    }
+  }
+}
+</pre>
+
+<hr>
+
+<h2> Brief Description </h2>
+<pre>
+{
+  "group" : "user/session/application/activity",
+  "aggregations" : {
+    "<aggregation_name>" : {
+      "<aggregation_type>" : {
+        "<aggregation_body/params>"
+      }
+    }
+  }
+}
+</pre>

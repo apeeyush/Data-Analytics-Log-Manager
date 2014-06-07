@@ -1,83 +1,110 @@
 var Analytics, controller;
 
-window.analyze = function() {
-  $.ajax({
-    type: "GET",
-    url: "/api/logs",
-    success: function(data) {
-      Analytics.doAnalysis(data);
+$(function() {
+
+  $("#js-analyze").click(function(){
+    $.ajax({
+      type: "GET",
+      url: "/api/logs",
+      success: function(data) {
+        Analytics.doSingleTableAnalysis(data);
+      }
+    });
+  });
+
+  $("#js-analyze-filtered").click(function(){
+    var data, is_valid, _error;
+    data = document.getElementById("body_data").value;
+    try {
+      JSON.parse(data);
+      is_valid = true;
+    } catch (_error) {
+      is_valid = false;
+    }
+    if (is_valid) {
+      $.ajax({
+        type: "POST",
+        url: "/api/filter",
+        data: data,
+        success: function(data) {
+          Analytics.doSingleTableAnalysis(data);
+        }
+      });
+    } else {
+      alert("Invalid JSON");
     }
   });
-};
 
-window.analyzeFiltered = function() {
-  var data, is_valid, _error;
-  data = document.getElementById("body_data").value;
-  try {
-    JSON.parse(data);
-    is_valid = true;
-  } catch (_error) {
-    is_valid = false;
-  }
-  if (is_valid) {
-    $.ajax({
-      type: "POST",
-      url: "/api/filter",
-      data: data,
-      success: function(data) {
-        Analytics.doAnalysis(data);
-      }
-    });
-  } else {
-    alert("Invalid JSON");
-  }
-};
+  $("#js-analyze-grouped").click(function(){
+    var data, is_valid, _error;
+    data = document.getElementById("body_data").value;
+    try {
+      JSON.parse(data);
+      is_valid = true;
+    } catch (_error) {
+      is_valid = false;
+    }
+    if (is_valid) {
+      $.ajax({
+        type: "POST",
+        url: "/api/group",
+        data: data,
+        success: function(data) {
+          Analytics.doGroupAnalysis(data);
+        }
+      });
+    } else {
+      alert("Invalid JSON");
+    }
+  });
 
-window.analyzeGrouped = function() {
-  var data, is_valid, _error;
-  data = document.getElementById("body_data").value;
-  try {
-    JSON.parse(data);
-    is_valid = true;
-  } catch (_error) {
-    is_valid = false;
-  }
-  if (is_valid) {
-    $.ajax({
-      type: "POST",
-      url: "/api/group",
-      data: data,
-      success: function(data) {
-        Analytics.doGroupAnalysis(data);
-      }
-    });
-  } else {
-    alert("Invalid JSON");
-  }
-};
+  $("#js-analyze-transformed").click(function(){
+    var data, is_valid, _error;
+    data = document.getElementById("body_data").value;
+    try {
+      JSON.parse(data);
+      is_valid = true;
+    } catch (_error) {
+      is_valid = false;
+    }
+    if (is_valid) {
+      $.ajax({
+        type: "POST",
+        url: "/api/transform",
+        data: data,
+        success: function(data) {
+          Analytics.doGroupAnalysis(data);
+        }
+      });
+    } else {
+      alert("Invalid JSON");
+    }
+  });
 
-window.analyzeTransformed = function() {
-  var data, is_valid, _error;
-  data = document.getElementById("body_data").value;
-  try {
-    JSON.parse(data);
-    is_valid = true;
-  } catch (_error) {
-    is_valid = false;
-  }
-  if (is_valid) {
-    $.ajax({
-      type: "POST",
-      url: "/api/transform",
-      data: data,
-      success: function(data) {
-        Analytics.doGroupAnalysis(data);
-      }
-    });
-  } else {
-    alert("Invalid JSON");
-  }
-};
+  $("#js-analyze-aggregation").click(function(){
+    var data, is_valid, _error;
+    data = document.getElementById("body_data").value;
+    try {
+      JSON.parse(data);
+      is_valid = true;
+    } catch (_error) {
+      is_valid = false;
+    }
+    if (is_valid) {
+      $.ajax({
+        type: "POST",
+        url: "/api/aggregation",
+        data: data,
+        success: function(data) {
+          Analytics.doSingleTableAnalysis(data);
+        }
+      });
+    } else {
+      alert("Invalid JSON");
+    }
+  });
+
+});
 
 controller = window.parent.DG;
 
@@ -85,7 +112,7 @@ Analytics = {
   controller: window.parent.DG,
 
   doGroupAnalysis: function(data) {
-    var this_ = this;
+    console.log(data);
     var parent_keys = data.template.parent_keys;
     var child_keys = data.template.child_keys;
     var kParentCollectionName = "Parent Table";
@@ -101,7 +128,7 @@ Analytics = {
       kChildAttributeList.push({ name : child_keys[i] });
     }
 
-    this_.controller.doCommand( {
+    controller.doCommand( {
       action: 'initGame',
       args: {
         name: "DataInteractive",
@@ -109,7 +136,7 @@ Analytics = {
       }
     });
 
-    this_.controller.doCommand( {
+    controller.doCommand( {
       action: 'createCollection',
       args: {
         name: kParentCollectionName,
@@ -119,7 +146,7 @@ Analytics = {
       }
     });
 
-    this_.controller.doCommand( {
+    controller.doCommand( {
       action: 'createCollection',
       args: {
         name: kChildCollectionName,
@@ -132,7 +159,7 @@ Analytics = {
 
       var children = data.groups[i][data.groups[i].length - 1].children;
       var parent_values = data.groups[i].slice(0, data.groups[i].length - 1);
-      result = this_.controller.doCommand( {
+      result = controller.doCommand( {
         action: 'createCase',
         args: {
           collection: kParentCollectionName,
@@ -140,7 +167,7 @@ Analytics = {
         }
       });
       var caseID = result["caseID"]
-      this_.controller.doCommand( {
+      controller.doCommand( {
         action: 'createCases',
         args: {
           collection: kChildCollectionName,
@@ -151,49 +178,17 @@ Analytics = {
     }
   },
 
-  doAnalysis: function(data) {
-    var i, k, kParentCollectionName, key, this_, attrs, attrs_obj, all_log_cases, single_log_case;
-    attrs = [];
-    attrs_obj = [];
-    all_log_cases = [];       // Used to store logs which will then be passed to CODAP for visualization
-    single_log_case = [];     // Used to store single log values during iteration through all logs
-    key = void 0;
-    this_ = this;
-    kParentCollectionName = "Logs";
-
-    // Parses the whole data to get the attribute list
-    for (key in data) {
-      if (data.hasOwnProperty(key)) {
-        for (k in data[key]) {
-          if ($.inArray(k, attrs) <= -1) {
-            attrs.push(k);
-            attrs_obj.push({ name: k });
-          }
-        }
-      }
-    }
-
-
-    for (key in data) {
-      if (data.hasOwnProperty(key)) {
-        single_log_case = [];
-        i = 0;
-        while (i < attrs.length) {
-          if (attrs[i] in data[key]) {
-            if (typeof data[key][attrs[i]] === "object") {
-              single_log_case.push(JSON.stringify(data[key][attrs[i]]));
-            } else {
-              single_log_case.push(data[key][attrs[i]]);
-            }
-          } else {
-            single_log_case.push("");
-          }
-          i++;
-          all_log_cases.push(single_log_case);
-        }
-      }
-    }
-
+  // Sample Data Format for doSingleTableAnalysis Function
+  // var data = new Object();
+  // data['template'] = ["columne_1", "column_2"];
+  // data['values'] = [
+  //   ["child_1_value_1", "child_1_value_2"],
+  //   ["child_1_value_1", "child_1_value_2"],
+  //   ["child_1_value_1", "child_1_value_2"]
+  // ];
+  doSingleTableAnalysis: function(data){
+    console.log(data)
+    var kParentCollectionName = "Parent Table"
     controller.doCommand({
       action: "initGame",
       args: {
@@ -204,6 +199,10 @@ Analytics = {
         }
       }
     });
+    var attrs_obj = [];
+    for (var i=0; i<data["template"].length; i++){
+      attrs_obj.push({ name: data["template"][i] });
+    }
     controller.doCommand({
       action: "createCollection",
       args: {
@@ -215,9 +214,10 @@ Analytics = {
     controller.doCommand({
       action: "createCases",
       args: {
-        collection: "Logs",
-        values: all_log_cases
+        collection: kParentCollectionName,
+        values: data['values']
       }
     });
+
   }
 };

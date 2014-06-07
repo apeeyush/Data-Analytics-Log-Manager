@@ -1,7 +1,7 @@
 <p>To group data before importing for analysis, put the JSON body in the text box below and click the button</p>
 <textarea id="body_data" cols="60" rows="10"></textarea>
 <br>
-<button type="button" onclick="analyzeTransformed()">Analyse Filtered Data</button>
+<button type="button" id="js-analyze-transformed">Analyse Filtered Data</button>
 
 <hr>
 
@@ -27,11 +27,11 @@
     "time" : ["start time","end time"],
     "parameters" : {
       "keys" : [list of keys],
-      "pairs": {list of key-value pairs. Eg. {"teacher":"X"},{"level":"5"}}
+      "pairs": [{"key_1":"value_1"},{"key_2":"value_2"}]
     }
     "extras" : {
       "keys" : [list of keys],
-      "pairs": {list of key-value pairs. Eg. {"teacher":"X"},{"level":"5"}}
+      "pairs": [{"key_1":"value_1"},{"key_2":"value_2"}]
     }
   },
   "group" : "user/session/application/activity"

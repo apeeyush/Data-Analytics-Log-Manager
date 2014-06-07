@@ -8,6 +8,13 @@ module Api
 
   	def index
   	  @logs = Log.all
+      @column_names = []
+      @column_names = Log.column_names - %w{id parameters extras}
+      @logs.each do |log|
+        log.parameters.present? ? @column_names << log.parameters.keys : @column_names << []
+        log.extras.present? ? @column_names << log.extras.keys : @column_names << []
+      end
+      @column_names = @column_names.flatten.uniq
   	end
 
     # Send empty text for options request

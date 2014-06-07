@@ -13,12 +13,13 @@ module Api
           # Group by Username by default
           @groups = Log.all.group_by { |t| t.username }
         end
-
+        # @parent_keys used to store keys (columns) for Parent Table
         @parent_keys = []
         @parent_keys << @parent
-
+        # @child_keys used to store keys (columns) for Child Table
         @child_keys = []
         @child_keys = Log.column_names - %w{id parameters extras}
+        @child_keys = @child_keys - @parent_keys
         @groups.each do |parent_name, logs|
           logs.each do |log|
             log.parameters.present? ? @child_keys << log.parameters.keys : @child_keys << []
