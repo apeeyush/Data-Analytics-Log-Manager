@@ -1,10 +1,18 @@
 class Log < ActiveRecord::Base
 
-  # Takes a key, returns the corresponding value if key is a column name.
-  # Otherwise searches parameters and extras for presence of key, and if present, returns the corresponding value.
+  # Takes a key, returns the corresponding value if key is a column name, otherwise 
+  # searches parameters and extras for presence of key, and if present, returns the
+  # corresponding value.
+  #
+  # Example:
+  #  log = Log.first; session_value = log.value("session");
   def value(key)
   	if self[key].present?
-  		return self[key]
+      if self[key].class != ActiveSupport::TimeWithZone
+  		  return self[key]
+      else
+        return self[key].to_i
+      end
     elsif self[:parameters].present? && self[:parameters][key].present?
       return self[:parameters][key]
     elsif self[:extras].present? && self[:extras][key].present?
@@ -14,6 +22,12 @@ class Log < ActiveRecord::Base
   	end
   end
 
+  # Filters data based on request_body["filter"]
+  #
+  # Example:
+  #  logs = Log.all
+  #  body = Hash.new; body["filter"] = Hash.new; body["filter"]["username"] = ["peeyush","apeeyush"];
+  #  logs.filter(body)
   def self.filter(request_body)
     logs = self
     logger.debug(self)
