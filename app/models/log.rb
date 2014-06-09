@@ -83,7 +83,7 @@ class Log < ActiveRecord::Base
         if !keys["list"].empty?
           if keys["type"] == "remove"
             keys["list"].each do |key|
-              logs = logs.where.not("#{hstore_column} ? :key", key: key)
+              logs = logs.where("NOT #{hstore_column} ? :key", key: key)
             end
           else
             keys["list"].each do |key|
@@ -97,12 +97,12 @@ class Log < ActiveRecord::Base
         if pairs["type"] == "remove"
           pairs["list"].each do |pair|
             key = pair.keys[0]
-            logs = logs.where.not("#{hstore_column} @> (:key => :value)", :key => pair.keys[0], :value => pair[key])
+            logs = logs.where.not("#{hstore_column} @> hstore(:key,:value)", :key => pair.keys[0], :value => pair[key])
           end
         else
           pairs["list"].each do |pair|
             key = pair.keys[0]
-            logs = logs.where("#{hstore_column} @> (:key => :value)", :key => pair.keys[0], :value => pair[key])
+            logs = logs.where("#{hstore_column} @> hstore(:key,:value)", :key => pair.keys[0], :value => pair[key])
           end
         end
       end
