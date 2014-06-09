@@ -9,9 +9,12 @@
 <pre>
 {
   "filter" : {
-    "username" : ["peeyush"]
+    "event" : {
+      "type" : "remove",
+      "list" : ["Bred Dragon"]
+    }
   },
-  "group" : "username"
+  "group" : "session"
 }
 </pre>
 
@@ -21,18 +24,7 @@
 <pre>
 {
   "filter" : {
-    "activity" : [list of activities],
-    "application" : [list of applications],
-    "username" : [list of usernames],
-    "time" : ["start time","end time"],
-    "parameters" : {
-      "keys" : [list of keys],
-      "pairs": [{"key_1":"value_1"},{"key_2":"value_2"}]
-    }
-    "extras" : {
-      "keys" : [list of keys],
-      "pairs": [{"key_1":"value_1"},{"key_2":"value_2"}]
-    }
+<%= render 'filter' %>
   },
   "group" : "user/session/application/activity"
 }

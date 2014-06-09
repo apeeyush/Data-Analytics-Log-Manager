@@ -8,7 +8,9 @@ module Api
     def index
       request_body = JSON.parse(request.body.read)
       logs = Log.all
-      logs = logs.filter(request_body)
+      if (request_body["filter"] != nil)
+        logs = logs.filter(request_body["filter"])
+      end
 	    if logs != nil
       	@logs = logs
         @column_names = []
