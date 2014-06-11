@@ -18,6 +18,11 @@
       "list" : ["Office"]      
     }
   },
+  "filter_having_keys" : {
+    "keys" : {
+      "list" : ["event"]
+    }
+  },
   "group" : "session"
 }
 </pre>
@@ -29,6 +34,9 @@
 {
   "filter" : {
 <%= render 'filter' %>
+  },
+  "filter_having_keys" : {
+<%= render 'filter_having_keys' %>
   },
   "group" : "user/session/application/activity"
 }

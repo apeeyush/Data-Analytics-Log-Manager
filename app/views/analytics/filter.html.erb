@@ -21,6 +21,11 @@
       "start_time" : "2014-02-21",
       "end_time" : "2014-10-29"
     }
+  },
+  "filter_having_keys" : {
+    "keys" : {
+      "list" : ["event"]
+    }
   }
 }
 </pre>
@@ -32,6 +37,9 @@
 {
   "filter" : {
 <%= render 'filter' %>
+  },
+  "filter_having_keys" : {
+<%= render 'filter_having_keys' %>
   }
 }
 </pre>

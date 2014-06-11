@@ -62,9 +62,9 @@ class Log < ActiveRecord::Base
   #     "time" : {
   #       "start_time" : "2014-02-25",
   #       "end_time" : "2014-10-29"
-  #     }
+  #     },
   #     "color" : {
-  #       "type" : "remove"                                //Optional (For filter out)
+  #       "type" : "remove",                               //Optional (For filter out)
   #       "list" : [ {"color":"green"}]      
   #     }
   #   }
@@ -100,17 +100,29 @@ class Log < ActiveRecord::Base
   #
   # Example JSON Body:
   #   "keys" : {
-  #     "type" : "remove",                                 //Optional (For filter out)
-  #     "list" : ["color"]
-  #   },
-  # def self.filter_having_keys(filter)
-
-  #     # keys = filter["others"]["keys"]
-  #     # if keys["type"] == "remove"
-  #     #   logs = logs.where("NOT #{hstore_columns} ?& ARRAY[:keys]", keys: keys["list"])
-  #     # else
-  #     #   logs = logs.where("#{hstore_columns} ?& ARRAY[:keys]", keys: keys["list"])
-  #     # end
-  # end
+  #     "list" : ["event","color"]
+  #   }
+  def self.filter_having_keys(filter)
+    logs = self
+    logs_columns = Log.column_lists
+    string_columns = logs_columns["string_columns"]
+    time_columns = logs_columns["time_columns"]
+    hstore_columns = logs_columns["hstore_columns"]
+    if filter["keys"].present? && filter["keys"]["list"].present?
+      list = filter["keys"]["list"]
+      additional_keys = []
+      list.each do |key|
+        if string_columns.include? key or time_columns.include? key
+          logs = logs.where("#{key} IS NOT NULL")
+        else
+          additional_keys << key
+        end
+      end
+      if additional_keys.any?
+        logs = logs.where("#{hstore_columns} ?& ARRAY[:additional_keys]", additional_keys: additional_keys)
+      end
+    end
+    return logs
+  end
 
 end

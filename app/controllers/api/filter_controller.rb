@@ -11,6 +11,9 @@ module Api
       if (request_body["filter"] != nil)
         logs = logs.filter(request_body["filter"])
       end
+      if (request_body["filter_having_keys"] != nil)
+        logs = logs.filter_having_keys(request_body["filter_having_keys"])
+      end
 	    if logs != nil
       	@logs = logs
         @column_names = []
