@@ -1,5 +1,38 @@
 class Log < ActiveRecord::Base
 
+  # Returns a hash with key as column_type and value as lists of names of that column_type 
+  #
+  # Example:
+  #   Log.column_lists
+  #   Returns:
+  #     {
+  #       "string_columns"=>["session", "username", "application", "activity", "event"],
+  #       "time_columns"=>["time", "created_at", "updated_at"], 
+  #       "hstore_columns"=>"parameters || extras"
+  #     }
+  def self.column_lists
+    string_columns, time_columns, hstore_concat_string = [], [], ""
+    columns_hash = Hash.new
+    Log.columns.each do |column|
+      columns_hash[column.name] = column.type
+    end
+    columns_hash.except!("id")
+    columns_hash.each do |column_name, type|
+      if type == :string
+        string_columns << column_name
+      elsif type == :datetime
+        time_columns << column_name
+      elsif type == :hstore
+        hstore_concat_string == "" ? hstore_concat_string << column_name : hstore_concat_string << " || " + column_name
+      end
+    end
+    logs_columns = Hash.new
+    logs_columns["string_columns"] = string_columns
+    logs_columns["time_columns"] = time_columns
+    logs_columns["hstore_columns"] = hstore_concat_string
+    return logs_columns
+  end
+
   # Takes a key, returns the corresponding value if key is a column name, otherwise 
   # searches parameters and extras for presence of key, and if present, returns the
   # corresponding value.
@@ -8,11 +41,7 @@ class Log < ActiveRecord::Base
   #  log = Log.first; session_value = log.value("session");
   def value(key)
   	if self[key].present?
-      if self[key].class != ActiveSupport::TimeWithZone
-  		  return self[key]
-      else
-        return self[key].to_i
-      end
+      self[key].class != ActiveSupport::TimeWithZone ? self[key] : self[key].to_i
     elsif self[:parameters].present? && self[:parameters][key].present?
       return self[:parameters][key]
     elsif self[:extras].present? && self[:extras][key].present?
@@ -22,7 +51,7 @@ class Log < ActiveRecord::Base
   	end
   end
 
-  # Filters data based on request_body["filter"]
+  # Filters data having specified values/range for the keys
   #
   # Example JSON Body:
   # {
@@ -30,77 +59,58 @@ class Log < ActiveRecord::Base
   #     "username" : {
   #       "list" : ["peeyush", "apeeyush"]
   #     },
-  #     "time" : ["start time","end time"],
-  #     "parameters" : {
-  #       "keys" : {
-  #         "type" : "remove",                               //Optional (For filter out)
-  #         "list" : ["color"]
-  #       },
-  #       "pairs": {
-  #         "type" : "remove"                                //Optional (For filter out)
-  #         "list" : [ {"color":"green"}]      
-  #       } 
+  #     "time" : {
+  #       "start_time" : "2014-02-25",
+  #       "end_time" : "2014-10-29"
+  #     }
+  #     "color" : {
+  #       "type" : "remove"                                //Optional (For filter out)
+  #       "list" : [ {"color":"green"}]      
   #     }
   #   }
   # }
   #  logs.filter(body)
   def self.filter(filter)
     logs = self
-    logs_columns = Hash.new
-    Log.columns.each do |column|
-      logs_columns[column.name] = column.type
-    end
-    string_columns = []
-    time_columns = []
-    hstore_columns = ""
-    logs_columns.except!("id")
-    logs_columns.each do |column_name, type|
-      if type == :string
-        string_columns << column_name
-      elsif type == :datetime
-        time_columns << column_name
-      elsif type == :hstore
-        hstore_columns == "" ? hstore_columns << column_name : hstore_columns << " || " + column_name
-      end
-    end
-    logger.debug(hstore_columns)
-    string_columns.each do |string_column|
-      if (filter[string_column] != nil && !filter[string_column].empty? )
-        if filter[string_column]["type"] == "remove"
-          logs = logs.where.not({ string_column => filter[string_column]["list"]})
+    logs_columns = Log.column_lists
+    string_columns = logs_columns["string_columns"]
+    time_columns = logs_columns["time_columns"]
+    hstore_columns = logs_columns["hstore_columns"]
+    filter.each do |key, value|
+      if string_columns.include? key
+        if value["type"] == "remove"
+          logs = logs.where.not({ key => value["list"]})
         else
-          logs = logs.where({ string_column => filter[string_column]["list"]})
+          logs = logs.where({ key => value["list"]})
         end
-      end
-    end
-    time_columns.each do |time_column|
-      if (filter[time_column] != nil && !filter[time_column].empty?)
-       logs = logs.where("#{time_column} >= :start_time AND time <= :end_time",{start_time: filter["time"][0], end_time: filter["time"][1]})
-      end
-    end
-    if (filter["others"] != nil && filter["others"]["keys"] != nil && !filter["others"]["keys"].empty? && !filter["others"]["keys"]["list"].empty?)
-      keys = filter["others"]["keys"]
-      if keys["type"] == "remove"
-        logs = logs.where("NOT #{hstore_columns} ?& ARRAY[:keys]", keys: keys["list"])
+      elsif time_columns.include? key
+        logs = logs.where("#{key} >= :start_time AND time <= :end_time",{start_time: value["start_time"], end_time: value["end_time"]})
       else
-        logs = logs.where("#{hstore_columns} ?& ARRAY[:keys]", keys: keys["list"])
-      end
-    end
-    if (filter["others"] != nil && filter["others"]["pairs"] != nil && !filter["others"]["pairs"].empty?)
-      pairs = filter["others"]["pairs"]
-      if pairs["type"] == "remove"
-        pairs["list"].each do |pair|
-          key = pair.keys[0]
-          logs = logs.where.not("#{hstore_columns} @> hstore(:key,:value)", :key => pair.keys[0], :value => pair[key])
-        end
-      else
-        pairs["list"].each do |pair|
-          key = pair.keys[0]
-          logs = logs.where("#{hstore_columns} @> hstore(:key,:value)", :key => pair.keys[0], :value => pair[key])
+        if value["type"] == "remove"
+          logs = logs.where("#{hstore_columns} -> :key NOT IN ( :list )", :key => key, :list => value["list"])
+        else
+          logs = logs.where("#{hstore_columns} -> :key IN ( :list )", :key => key, :list => value["list"])
         end
       end
     end
     return logs
   end
+
+  # Filters data having specified keys
+  #
+  # Example JSON Body:
+  #   "keys" : {
+  #     "type" : "remove",                                 //Optional (For filter out)
+  #     "list" : ["color"]
+  #   },
+  # def self.filter_having_keys(filter)
+
+  #     # keys = filter["others"]["keys"]
+  #     # if keys["type"] == "remove"
+  #     #   logs = logs.where("NOT #{hstore_columns} ?& ARRAY[:keys]", keys: keys["list"])
+  #     # else
+  #     #   logs = logs.where("#{hstore_columns} ?& ARRAY[:keys]", keys: keys["list"])
+  #     # end
+  # end
 
 end

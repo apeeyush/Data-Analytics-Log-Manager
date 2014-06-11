@@ -1,23 +1,20 @@
     "activity" : {
-      "type" : "remove",                                 //Optional (Add for filter out)
+      "type" : "remove",                        //Optional (Add for filter out)
       "list" : [list of activities]
     },
     "application" : {
-      "type" : "remove",                                 //Optional (Add for filter out)
+      "type" : "remove",                        //Optional (Add for filter out)
       "list" : [list of applications]
     },
     "username" : {
-      "type" : "remove",                                 //Optional (Add for filter out)
+      "type" : "remove",                        //Optional (Add for filter out)
       "list" : [list of usernames]
     },
-    "time" : ["start time","end time"],
-    "others" : {
-      "keys" : {
-        "type" : "remove",                               //Optional (For filter out)
-        "list" : [list of keys]
-      },
-      "pairs": {
-        "type" : "remove",                               //Optional (For filter out)
-        "list" : [ {"key_1":"value_1"},{"key_2":"value_2"}]
-      }
-    }
+    "time" : {
+      "start_time" : "start_time",
+      "end_time" : "end_time"
+    },
+    "title" : {
+      "type" : "remove",                        //Optional (Add for filter out)
+      "list" : [list of titles]
+    } .......
