@@ -4,7 +4,7 @@ class LogsController < ApplicationController
   # GET /logs
   # GET /logs.json
   def index
-    @logs = Log.all
+    @logs = Log.page(params[:page]).per(10).order("created_at")
   end
 
   # GET /logs/1
