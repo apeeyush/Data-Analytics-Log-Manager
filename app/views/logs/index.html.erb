@@ -1,5 +1,16 @@
 <h1>Listing logs</h1>
 
+<%= simple_form_for :filter, url: '/logs' do |f| %>
+  <%= f.input :application, collection: @application_list, required: false %>
+  <%= f.input :activity, collection: @activity_list, required: false %>
+  <label for="start_period">Start Period</label>
+  <input type="datetime-local" id="start_period"  value="1970-01-01T00:00:00.00">
+  <br>
+  <label for="end_period">End Period</label>
+  <input type="datetime-local" id="end_period" value="<%= Time.now.strftime("%Y-%m-%dT%H:%M:%S") %>">
+  <%= f.input :time_zone, required: false %>
+<% end %>
+
 <table id="logs" data-source="<%= logs_url(format: "json") %>">
   <thead>
     <tr>

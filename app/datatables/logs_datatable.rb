@@ -17,7 +17,7 @@ class LogsDatatable
 private
 
   def data
-    time_zone = "Pacific Time (US & Canada)"
+    params[:timeZone].present? ? time_zone=params[:timeZone] : time_zone="Pacific Time (US & Canada)"
     logs.map do |log|
       [
         log.session,
@@ -38,9 +38,18 @@ private
 
   def fetch_logs
     logs = Log.order("#{sort_column} #{sort_direction}")
+    if params[:applicationName].present?
+      logs = logs.where(application: params[:applicationName])
+    end
+    if params[:activityName].present?
+      logs = logs.where(activity: params[:activityName])
+    end
     logs = logs.page(page).per(per_page)
     if params[:sSearch].present?
       logs = logs.where("application like :search or username like :search", search: "%#{params[:sSearch]}%")
+    end
+    if params[:startPeriod].present? && params[:endPeriod].present?
+      logs = logs.where("time >= :startPeriod AND time <= :endPeriod", {startPeriod: params[:startPeriod], endPeriod: params[:endPeriod]})
     end
     logs
   end

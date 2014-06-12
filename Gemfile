@@ -17,6 +17,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator
 gem 'kaminari'
 
+# Rails forms made easy.
+gem 'simple_form'
+
 # jquery-datatables gem for rails. Provides all the basic DataTables files, and a few extras.
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 
