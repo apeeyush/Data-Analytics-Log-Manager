@@ -31,11 +31,6 @@ describe LogsController do
   let(:valid_session) { {} }
 
   describe "GET index" do
-    it "assigns all logs as @logs" do
-      log = Log.create! valid_attributes
-      get :index, {}, valid_session
-      assigns(:logs).should eq([log])
-    end
   end
 
   describe "GET show" do

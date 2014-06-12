@@ -4,7 +4,10 @@ class LogsController < ApplicationController
   # GET /logs
   # GET /logs.json
   def index
-    @logs = Log.page(params[:page]).per(10).order("created_at")
+    respond_to do |format|
+      format.html
+      format.json { render json: LogsDatatable.new(view_context) }
+    end
   end
 
   # GET /logs/1
