@@ -8,7 +8,7 @@ Rails.application.routes.draw do
   get 'analytics/filter'
   get 'analytics/group'
   get 'analytics/transformation'
-  get 'analytics/aggregation'
+  get 'analytics/measures'
 
   root 'pages#main'
   get 'pages/main'
@@ -23,7 +23,7 @@ Rails.application.routes.draw do
     match 'filter', to: 'logs#options', via: [:options]
     match 'group', to: 'logs#options', via: [:options]
     match 'transform', to: 'logs#options', via: [:options]
-    match 'aggregation', to: 'logs#options', via: [:options]
+    match 'measures', to: 'logs#options', via: [:options]
 
     # To send log(s) and get all logs stored in database
     resources :logs, except: [:destroy, :edit, :update]
@@ -38,7 +38,7 @@ Rails.application.routes.draw do
     post 'transform', to: 'transform#index'
 
     # Used to perform aggregation analytics
-    post 'aggregation', to: 'aggregation#index'
+    post 'measures', to: 'measures#index'
 
     # CODAP API component
     post 'auth/login'

@@ -1,7 +1,7 @@
 require 'json'
 module Api
 
-  class AggregationController < ApplicationController
+  class MeasuresController < ApplicationController
     after_action :cors_preflight_check
     after_filter :cors_set_access_control_headers
 
@@ -21,18 +21,17 @@ module Api
         @groups[log[parent]] = {"parent_values" => []}
         @groups[log[parent]]["parent_values"] << log[parent]
       end
-      if request_body["aggregations"] != nil
-        aggregations = request_body["aggregations"]
-        aggregations.each do |aggregation_name, aggregation_info|
-          @column_names << aggregation_name
-          if (aggregation_info.keys[0] == "CountOfEvents")
-            Log.select("#{parent}, count(event) as #{aggregation_name}").group(parent).order(parent).each do |values|
-              @groups[values[parent]]["parent_values"] << values[aggregation_name]
+      if request_body["measures"] != nil
+        measures = request_body["measures"]
+        measures.each do |measure_name, measure_info|
+          @column_names << measure_name
+          if (measure_info.keys[0] == "CountOfEvents")
+            Log.select("#{parent}, count(event) as #{measure_name}").group(parent).order(parent).each do |values|
+              @groups[values[parent]]["parent_values"] << values[measure_name]
             end
           end
         end
       end
-      logger.debug(@groups)
   	end
   end
 end

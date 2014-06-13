@@ -81,7 +81,7 @@ $(function() {
     }
   });
 
-  $("#js-analyze-aggregation").click(function(){
+  $("#js-analyze-measures").click(function(){
     var data, is_valid, _error;
     data = document.getElementById("body_data").value;
     try {
@@ -93,7 +93,7 @@ $(function() {
     if (is_valid) {
       $.ajax({
         type: "POST",
-        url: "/api/aggregation",
+        url: "/api/measures",
         data: data,
         success: function(data) {
           Analytics.doSingleTableAnalysis(data);

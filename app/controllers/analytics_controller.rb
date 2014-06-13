@@ -16,4 +16,8 @@ class AnalyticsController < ApplicationController
 
   def transformation
   end
+
+  def measures
+  end
+
 end
