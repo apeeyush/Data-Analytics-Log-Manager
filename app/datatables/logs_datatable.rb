@@ -48,8 +48,11 @@ private
     if params[:sSearch].present?
       logs = logs.where("application like :search or username like :search", search: "%#{params[:sSearch]}%")
     end
+    params[:timeZone].present? ? Time.zone=params[:timeZone] : Time.zone="Pacific Time (US & Canada)" 
     if params[:startPeriod].present? && params[:endPeriod].present?
-      logs = logs.where("time >= :startPeriod AND time <= :endPeriod", {startPeriod: params[:startPeriod], endPeriod: params[:endPeriod]})
+      startPeriod = Time.zone.parse(params[:startPeriod]).utc
+      endPeriod = Time.zone.parse(params[:endPeriod]).utc
+      logs = logs.where("time >= :startPeriod AND time <= :endPeriod", {startPeriod: startPeriod, endPeriod: endPeriod})
     end
     logs
   end
