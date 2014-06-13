@@ -26,8 +26,8 @@ private
         log.activity,
         log.event,
         log.time.in_time_zone(time_zone).strftime("%Y-%m-%d, %I:%M:%S %p, %Z"),
-        log.parameters,
-        log.extras
+        log.parameters.to_s,
+        log.extras.to_s
       ]
     end
   end
@@ -46,7 +46,7 @@ private
     end
     logs = logs.page(page).per(per_page)
     if params[:sSearch].present?
-      logs = logs.where("application like :search or username like :search", search: "%#{params[:sSearch]}%")
+      logs = logs.where("application like :search or username like :search or activity like :search or event like :search", search: "%#{params[:sSearch]}%")
     end
     params[:timeZone].present? ? Time.zone=params[:timeZone] : Time.zone="Pacific Time (US & Canada)" 
     if params[:startPeriod].present? && params[:endPeriod].present?

@@ -54,8 +54,6 @@ class Log < ActiveRecord::Base
   # Filters data having specified values/range for the keys
   #
   # Example JSON Body:
-  # {
-  #   "filter" : {
   #     "username" : {
   #       "list" : ["peeyush", "apeeyush"]
   #     },
@@ -67,8 +65,6 @@ class Log < ActiveRecord::Base
   #       "type" : "remove",                               //Optional (For filter out)
   #       "list" : [ {"color":"green"}]      
   #     }
-  #   }
-  # }
   #  logs.filter(body)
   def self.filter(filter)
     logs = self

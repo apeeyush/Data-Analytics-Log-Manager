@@ -14,10 +14,8 @@ module Api
       	parent = request_body["group"]
         @column_names << request_body["group"]
       end
-      @parent_values_list = []
       @groups = Hash.new
-      Log.select(parent).group(parent).order(parent).each do |log|
-        @parent_values_list << log[parent]
+      logs.select(parent).group(parent).order(parent).each do |log|
         @groups[log[parent]] = {"parent_values" => []}
         @groups[log[parent]]["parent_values"] << log[parent]
       end
@@ -25,8 +23,14 @@ module Api
         measures = request_body["measures"]
         measures.each do |measure_name, measure_info|
           @column_names << measure_name
-          if (measure_info.keys[0] == "CountOfEvents")
-            Log.select("#{parent}, count(event) as #{measure_name}").group(parent).order(parent).each do |values|
+          if measure_info.keys[0] == "CountOfEvents"
+            logs.select("#{parent}, count(event) as #{measure_name}").group(parent).order(parent).each do |values|
+              @groups[values[parent]]["parent_values"] << values[measure_name]
+            end
+          elsif measure_info.keys[0] == "Count"
+            filter = measure_info["Count"]["filter"]
+            logs = logs.filter(filter)
+            logs.select("#{parent}, count(*) as #{measure_name}").group(parent).order(parent).each do |values|
               @groups[values[parent]]["parent_values"] << values[measure_name]
             end
           end

@@ -8,10 +8,20 @@
 <h2> Sample Body </h2>
 <pre>
 {
-  "group" : "username",
+  "group" : "session",
   "measures" : {
     "event_count" : {
       "CountOfEvents" : {}
+    },
+    "my_smart_count" : {
+      "Count" : {
+        "filter" : {
+          "event" : {
+            "type" : "remove",
+            "list" : ["Bred dragons"]
+          }
+        }
+      }
     }
   }
 }
