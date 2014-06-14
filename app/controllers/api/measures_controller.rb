@@ -28,8 +28,12 @@ module Api
               @groups[values[parent]]["parent_values"] << values[measure_name]
             end
           elsif measure_info.keys[0] == "Count"
-            filter = measure_info["Count"]["filter"]
-            logs = logs.filter(filter)
+            if measure_info["Count"]["filter_having_keys"].present?
+              logs = logs.filter_having_keys(measure_info["Count"]["filter_having_keys"])
+            end
+            if measure_info["Count"]["filter"].present?
+              logs = logs.filter(measure_info["Count"]["filter"])
+            end
             logs.select("#{parent}, count(*) as #{measure_name}").group(parent).order(parent).each do |values|
               @groups[values[parent]]["parent_values"] << values[measure_name]
             end
