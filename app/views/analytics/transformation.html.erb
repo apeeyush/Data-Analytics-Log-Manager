@@ -9,22 +9,33 @@
 <h2> Sample Body </h2>
 <pre>
 {
-  "filter" : {
-    "event" : {
-      "type" : "remove",
-      "list" : ["Moved to"]
-    },
-    "title" : {
-      "type" : "remove",
-      "list" : ["Office"]      
-    }
-  },
   "filter_having_keys" : {
     "keys" : {
       "list" : ["event"]
     }
   },
-  "group" : "session"
+  "group" : "session",
+  "measures" : {
+    "my_smart_count_1" : {
+      "Count" : {
+        "filter" : {
+          "event" : {
+            "type" : "remove",
+            "list" : ["Bred dragons"]
+          }
+        }
+      }
+    },
+    "my_smart_count_2" : {
+      "Count" : {
+        "filter_having_keys" : {
+          "keys" : {
+            "list" : ["event"]
+          }
+        }
+      }
+    }
+  }
 }
 </pre>
 

@@ -112,7 +112,7 @@ Analytics = {
   controller: window.parent.DG,
 
   doGroupAnalysis: function(data) {
-    console.log(data);
+    console.log(data["groups"])
     var parent_keys = data.template.parent_keys;
     var child_keys = data.template.child_keys;
     var kParentCollectionName = "Parent Table";
@@ -135,7 +135,6 @@ Analytics = {
         dimensions: { width: 600, height: 400 },
       }
     });
-
     controller.doCommand( {
       action: 'createCollection',
       args: {
@@ -145,7 +144,6 @@ Analytics = {
         log: false
       }
     });
-
     controller.doCommand( {
       action: 'createCollection',
       args: {
@@ -155,10 +153,11 @@ Analytics = {
       }
     });
 
-    for ( var i=0; i < data.groups.length; i++){
-
-      var children = data.groups[i][data.groups[i].length - 1].children;
-      var parent_values = data.groups[i].slice(0, data.groups[i].length - 1);
+    Object.keys(data["groups"]).forEach(function (key) {
+      var value = data["groups"][key]
+      console.log(value);
+      var children = value["child_values"];
+      var parent_values = value["parent_values"];
       result = controller.doCommand( {
         action: 'createCase',
         args: {
@@ -175,7 +174,7 @@ Analytics = {
           values: children
         }
       });
-    }
+    })
   },
 
   // Sample Data Format for doSingleTableAnalysis Function
