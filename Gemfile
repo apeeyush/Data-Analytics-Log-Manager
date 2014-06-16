@@ -14,6 +14,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # See https://github.com/sstephenson/execjs#readme for more supported runtimes
 # gem 'therubyracer',  platforms: :ruby
 
+# Official Sass port of Bootstrap http://getbootstrap.com/css/#sass
+gem 'bootstrap-sass', '~> 3.1.1'
+
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator
 gem 'kaminari'
 

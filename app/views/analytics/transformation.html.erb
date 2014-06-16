@@ -1,8 +1,45 @@
-<p>To group data before importing for analysis, put the JSON body in the text box below and click the button</p>
+<p>Data Analytics - Filter, Group and add Measures!</p>
+
 <form id="transformation_form" >
-<textarea name="body_data" id="body_data" cols="60" rows="10"></textarea>
-<br>
-<button type="button" id="js-analyze-transformed">Analyse Filtered Data</button>
+
+  <ul class="nav nav-tabs" id="section-tabs">
+    <li class="current active"><span>1.</span>Filter</li>
+    <li><span>2.</span>Filter Having Keys</li>
+    <li><span>3.</span> Group</li>
+    <li><span>4.</span> Measures</li>
+  </ul>
+
+<!-- <a id="js-show-filter">Filter</a> >
+<a id="js-show-filter_having_keys">Filter Having Keys</a> >
+<a id="js-show-group">Group</a> >
+<a id="js-show-measures">Measures</a>
+ -->
+<div id="fieldsets">
+  <fieldset id="filter" class="current">
+  <h3>Add Filter</h3>
+  <textarea name="filter" id="filter_data" cols="60" rows="10"></textarea><br>
+  </fieldset>
+
+  <fieldset id="filter_having_keys" class="next">
+  <h3>Filter Data having non NULL value for specified keys</h3>
+  <textarea name="filter_having_keys" id="filter_having_keys_data" cols="60" rows="5"></textarea><br>
+  </fieldset>
+
+  <fieldset id="group" class="next">
+  <h3>Add Group</h3>
+  <textarea name="group" id="group_data" cols="60" rows="1"></textarea><br>
+  </fieldset>
+
+  <fieldset id="measures" class="next">
+  <h3>Add Measures</h3>
+  <textarea name="measures" id="measures_data" cols="60" rows="10"></textarea><br>
+  <br>
+  <button type="button" id="js-analyze-transformed">Analyse Filtered Data</button>
+  </fieldset>
+  <a class="btn" id="next">Next Section ▷</a>
+  <input type="submit" class="btn">
+</div>
+
 </form>
 <hr>
 
@@ -45,10 +82,10 @@
 <pre>
 {
   "filter" : {
-<%= render 'filter' %>
+<%= render 'filter_example_json' %>
   },
   "filter_having_keys" : {
-<%= render 'filter_having_keys' %>
+<%= render 'filter_having_keys_example_json' %>
   },
   "group" : "user/session/application/activity"
 }

@@ -1,4 +1,5 @@
 require 'json'
+include ERB::Util
 module Api
 
   class TransformController < ApplicationController
@@ -6,17 +7,26 @@ module Api
     after_filter :cors_set_access_control_headers
 
     def index
-      request_body = JSON.parse(request.body.read)
+      if json_escape(params["filter"]).present?
+        filter = JSON.parse(json_escape(params["filter"]))
+      end
+      group = params["group"]
+      if json_escape(params["measures"]).present?
+        measures = JSON.parse(json_escape(params["measures"]))
+      end
+      if json_escape(params["filter_having_keys"]).present?
+        filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"]))
+      end
       logs = Log.all
-      if (request_body["filter"] != nil)
-        logs = logs.filter(request_body["filter"])
+      if (filter != nil)
+        logs = Log.filter(filter)
       end
-      if (request_body["filter_having_keys"] != nil)
-        logs = logs.filter_having_keys(request_body["filter_having_keys"])
+      if (filter_having_keys != nil)
+        logs = logs.filter_having_keys(filter_having_keys)
       end
-      if request_body["group"] != nil
+      if group != nil
         @groups = Hash.new
-        parent = request_body["group"]
+        parent = group
         logs.select(parent).group(parent).order(parent).each do |log|
           @groups[log[parent]] = Hash.new
           @groups[log[parent]]["parent_values"] = []
@@ -49,8 +59,7 @@ module Api
           @groups[parent_name]["child_values"] = child_collection
         end
       end
-      if request_body["measures"] != nil
-        measures = request_body["measures"]
+      if measures != nil
         measures.each do |measure_name, measure_info|
           @parent_keys << measure_name
           if measure_info.keys[0] == "CountOfEvents"
