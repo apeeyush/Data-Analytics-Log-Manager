@@ -14,3 +14,7 @@
  *= require_self
  *= require dataTables/jquery.dataTables
  */
+
+body {
+  padding: 6px;
+}

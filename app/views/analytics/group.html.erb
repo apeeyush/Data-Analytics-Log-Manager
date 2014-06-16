@@ -1,12 +1,12 @@
 <p>To group data before importing for analysis, put the JSON body in the text box below and click the button</p>
-<form id="group_form" >
-<textarea name="body_data" id="body_data" cols="60" rows="10"></textarea>
+<form id="group_form" role="form">
+<textarea class="form-control" name="body_data" id="body_data" cols="60" rows="10"></textarea>
 <br>
-<button type="button" id="js-analyze-grouped">Analyse Filtered Data</button>
+<button type="button" class="btn btn-default" id="js-analyze-grouped">Analyse Grouped Data</button>
 </form>
 <hr>
 
-<h2> Sample Body </h2>
+<h3> Sample Body </h3>
 <pre>
 {
   "group" : "username"
@@ -15,7 +15,7 @@
 
 <hr>
 
-<h2> Brief Description </h2>
+<h3> Brief Description </h3>
 <pre>
 {
   "group" : "user/session/application/activity"

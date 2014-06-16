@@ -1,0 +1,44 @@
+<h3>Add Measures</h3>
+<textarea class="form-control" name="measures" id="measures_data" rows="8"></textarea><br>
+<br>
+<button type="button" class="btn btn-default" id="js-analyze-transformed">Analyse Filtered Data</button>
+
+<span class="help-block">
+<h3> Sample Body </h3>
+<pre>
+{
+  "my_smart_count_1" : {
+    "Count" : {
+      "filter" : {
+        "event" : {
+          "type" : "remove",
+          "list" : ["Bred dragons"]
+        }
+      }
+    }
+  },
+  "my_smart_count_2" : {
+    "Count" : {
+      "filter_having_keys" : {
+        "keys" : {
+          "list" : ["event"]
+        }
+      }
+    }
+  }
+}
+</pre>
+
+<hr>
+
+<h3> Brief Description </h3>
+<pre>
+{
+  "measure_name" : {
+    "measure_type" : {
+      "measure_body/params"
+    }
+  }
+}
+</pre>
+</span>

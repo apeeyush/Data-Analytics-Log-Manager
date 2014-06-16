@@ -1,92 +1,32 @@
 <p>Data Analytics - Filter, Group and add Measures!</p>
 
-<form id="transformation_form" >
+<ul class="nav nav-tabs" id="section-tabs">
+  <li class="active"><a href="#filter" data-toggle="tab">Filter</a></li>
+  <li><a href="#filter_having_keys" data-toggle="tab">Filter Having Keys</a></li>
+  <li><a href="#group" data-toggle="tab">Group</a></li>
+  <li><a href="#measures" data-toggle="tab">Measures</a></li>
+</ul>
 
-  <ul class="nav nav-tabs" id="section-tabs">
-    <li class="current active"><span>1.</span>Filter</li>
-    <li><span>2.</span>Filter Having Keys</li>
-    <li><span>3.</span> Group</li>
-    <li><span>4.</span> Measures</li>
-  </ul>
+<form id="transformation_form" role="form">
 
-<!-- <a id="js-show-filter">Filter</a> >
-<a id="js-show-filter_having_keys">Filter Having Keys</a> >
-<a id="js-show-group">Group</a> >
-<a id="js-show-measures">Measures</a>
- -->
-<div id="fieldsets">
-  <fieldset id="filter" class="current">
-  <h3>Add Filter</h3>
-  <textarea name="filter" id="filter_data" cols="60" rows="10"></textarea><br>
-  </fieldset>
+<div class="tab-content">
+  <div id="filter" class="tab-pane active current">
+    <%= render 'transform_filter' %>
+  </div>
 
-  <fieldset id="filter_having_keys" class="next">
-  <h3>Filter Data having non NULL value for specified keys</h3>
-  <textarea name="filter_having_keys" id="filter_having_keys_data" cols="60" rows="5"></textarea><br>
-  </fieldset>
+  <div id="filter_having_keys" class="tab-pane next">
+    <%= render 'transform_filter_having_keys' %>
+  </div>
 
-  <fieldset id="group" class="next">
-  <h3>Add Group</h3>
-  <textarea name="group" id="group_data" cols="60" rows="1"></textarea><br>
-  </fieldset>
+  <div id="group" class="tab-pane next">
+    <%= render 'transform_group' %>
+  </div>
 
-  <fieldset id="measures" class="next">
-  <h3>Add Measures</h3>
-  <textarea name="measures" id="measures_data" cols="60" rows="10"></textarea><br>
-  <br>
-  <button type="button" id="js-analyze-transformed">Analyse Filtered Data</button>
-  </fieldset>
-  <a class="btn" id="next">Next Section ▷</a>
-  <input type="submit" class="btn">
+  <div id="measures" class="tab-pane next">
+    <%= render 'transform_measures' %>  
+  </div>
+
 </div>
 
 </form>
 <hr>
-
-<h2> Sample Body </h2>
-<pre>
-{
-  "filter_having_keys" : {
-    "keys" : {
-      "list" : ["event"]
-    }
-  },
-  "group" : "session",
-  "measures" : {
-    "my_smart_count_1" : {
-      "Count" : {
-        "filter" : {
-          "event" : {
-            "type" : "remove",
-            "list" : ["Bred dragons"]
-          }
-        }
-      }
-    },
-    "my_smart_count_2" : {
-      "Count" : {
-        "filter_having_keys" : {
-          "keys" : {
-            "list" : ["event"]
-          }
-        }
-      }
-    }
-  }
-}
-</pre>
-
-<hr>
-
-<h2> Brief Description </h2>
-<pre>
-{
-  "filter" : {
-<%= render 'filter_example_json' %>
-  },
-  "filter_having_keys" : {
-<%= render 'filter_having_keys_example_json' %>
-  },
-  "group" : "user/session/application/activity"
-}
-</pre>

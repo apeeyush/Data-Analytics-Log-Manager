@@ -1,12 +1,12 @@
 <p>To add additional measures for analytics, put the JSON body in the text box below and click the button</p>
-<form id="measures_form" >
-<textarea name="body_data" id="body_data" cols="60" rows="10"></textarea>
+<form id="measures_form" role="form">
+<textarea class="form-control" name="body_data" id="body_data" cols="60" rows="10"></textarea>
 <br>
-<button type="button" id="js-analyze-measures">Analyse Filtered Data</button>
+<button type="button" class="btn btn-default" id="js-analyze-measures">Analyse Data</button>
 </form>
 <hr>
 
-<h2> Sample Body </h2>
+<h3> Sample Body </h3>
 <pre>
 {
   "group" : "session",
@@ -39,14 +39,14 @@
 
 <hr>
 
-<h2> Brief Description </h2>
+<h3> Brief Description </h3>
 <pre>
 {
   "group" : "user/session/application/activity",
   "measures" : {
-    "<measure_name>" : {
-      "<measure_type>" : {
-        "<measure_body/params>"
+    "measure_name" : {
+      "measure_type" : {
+        "measure_body/params"
       }
     }
   }

@@ -10,12 +10,12 @@ module Api
       if json_escape(params["filter"]).present?
         filter = JSON.parse(json_escape(params["filter"]))
       end
+      if json_escape(params["filter_having_keys"]).present?
+        filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"]))
+      end
       group = params["group"]
       if json_escape(params["measures"]).present?
         measures = JSON.parse(json_escape(params["measures"]))
-      end
-      if json_escape(params["filter_having_keys"]).present?
-        filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"]))
       end
       logs = Log.all
       if (filter != nil)

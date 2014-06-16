@@ -9,10 +9,29 @@
 </head>
 
 <body>
-<h1>Analytics</h1>
-<%= link_to "All",analytics_all_path %> | <%= link_to "Filter",analytics_filter_path %> | <%= link_to "Group",analytics_group_path %> | <%= link_to "Transformation", analytics_transformation_path %> | <%= link_to "Measures",analytics_measures_path %>
-<hr>
-<%= yield %>
+  <nav class="navbar navbar-default" role="navigation">
+  	<div class="container-fluid">
+  	  <div class="navbar-header">
+  	  	<button type="button" class="navbar-toggle" data-toggle="collapse" data-target="#navbar-collapse">
+          <span class="sr-only">Toggle navigation</span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+          <span class="icon-bar"></span>
+        </button>
+        <a class="navbar-brand" href="#">Log Manager</a>
+	  </div>
+	  <div class="collapse navbar-collapse" id="navbar-collapse">
+        <ul class="nav navbar-nav">
+          <li class="<%= 'active' if params[:action] == 'all' %>"><%= link_to "All",analytics_all_path %></li>
+          <li class="<%= 'active' if params[:action] == 'filter' %>"><%= link_to "Filter",analytics_filter_path %></li>
+          <li class="<%= 'active' if params[:action] == 'group' %>"><%= link_to "Group",analytics_group_path %></li>
+          <li class="<%= 'active' if params[:action] == 'transformation' %>"><%= link_to "Transformation", analytics_transformation_path %></li>
+          <li class="<%= 'active' if params[:action] == 'measures' %>"><%= link_to "Measures",analytics_measures_path %></li>
+        </ul>
+      </div>
+    </div>
+  </nav>
+  <%= yield %>
 </body>
 
 </html>
