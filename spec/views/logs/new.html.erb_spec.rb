@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "logs/new" do
+describe "logs/new", :type => :view do
   before(:each) do
     assign(:log, stub_model(Log,
       :session => "MyString",

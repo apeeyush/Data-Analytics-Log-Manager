@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "CreatingMultipleLogsTest" do
+describe "CreatingMultipleLogsTest", :type => :request do
   it "Creates Multiple Logs when passed an array of Logs" do
   	data = [
       {
@@ -14,8 +14,8 @@ describe "CreatingMultipleLogsTest" do
 
   	assert_equal 201, response.status
   	body = JSON.parse(response.body)
-    body[0].should include('session','username','application','activity','event','time','parameters','extras')
-    body[1].should include('session','username','application','activity','event','time','parameters','extras')
+    expect(body[0]).to include('session','username','application','activity','event','time','parameters','extras')
+    expect(body[1]).to include('session','username','application','activity','event','time','parameters','extras')
 
     body[0]["session"] == "session1"
     body[0]["username"] == "user1"
@@ -23,10 +23,10 @@ describe "CreatingMultipleLogsTest" do
     body[0]["activity"] == "Activity1"
     body[0]["event"] == "Event1"
     body[0]["time"] == "2014-02-20T02:08:13.000Z"
-    body[0]["parameters"].should have(2).items
+    expect(body[0]["parameters"].size).to eq(2)
     body[0]["parameters"]["parameter1"] == "value1"
     body[0]["parameters"]["parameter2"] == "value2"
-    body[0]["extras"].should have(1).items
+    expect(body[0]["extras"].size).to eq(1)
     body[0]["extras"]["extra_key"] == "extra_value"
 
     body[1]["session"] == "session2"
@@ -35,10 +35,10 @@ describe "CreatingMultipleLogsTest" do
     body[1]["activity"] == "Activity2"
     body[1]["event"] == "Event2"
     body[1]["time"] == "2014-02-20T02:08:13.000Z"
-    body[1]["parameters"].should have(2).items
+    expect(body[1]["parameters"].size).to eq(2)
     body[1]["parameters"]["parameter1"] == "value1"
     body[1]["parameters"]["parameter2"] == "value2"
-    body[1]["extras"].should have(1).items
+    expect(body[1]["extras"].size).to eq(1)
     body[1]["extras"]["extra_key1"] == "extra_value1"
 
   end

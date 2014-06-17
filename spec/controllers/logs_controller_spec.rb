@@ -18,7 +18,7 @@ require 'spec_helper'
 # Message expectations are only used when there is no simpler way to specify
 # that an instance is receiving a specific message.
 
-describe LogsController do
+describe LogsController, :type => :controller do
 
   # This should return the minimal set of attributes required to create a valid
   # Log. As you add validations to Log, be sure to
@@ -37,14 +37,14 @@ describe LogsController do
     it "assigns the requested log as @log" do
       log = Log.create! valid_attributes
       get :show, {:id => log.to_param}, valid_session
-      assigns(:log).should eq(log)
+      expect(assigns(:log)).to eq(log)
     end
   end
 
   describe "GET new" do
     it "assigns a new log as @log" do
       get :new, {}, valid_session
-      assigns(:log).should be_a_new(Log)
+      expect(assigns(:log)).to be_a_new(Log)
     end
   end
 
@@ -52,7 +52,7 @@ describe LogsController do
     it "assigns the requested log as @log" do
       log = Log.create! valid_attributes
       get :edit, {:id => log.to_param}, valid_session
-      assigns(:log).should eq(log)
+      expect(assigns(:log)).to eq(log)
     end
   end
 
@@ -66,29 +66,29 @@ describe LogsController do
 
       it "assigns a newly created log as @log" do
         post :create, {:log => valid_attributes}, valid_session
-        assigns(:log).should be_a(Log)
-        assigns(:log).should be_persisted
+        expect(assigns(:log)).to be_a(Log)
+        expect(assigns(:log)).to be_persisted
       end
 
       it "redirects to the created log" do
         post :create, {:log => valid_attributes}, valid_session
-        response.should redirect_to(Log.last)
+        expect(response).to redirect_to(Log.last)
       end
     end
 
     describe "with invalid params" do
       it "assigns a newly created but unsaved log as @log" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Log.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Log).to receive(:save).and_return(false)
         post :create, {:log => { "session" => "invalid value" }}, valid_session
-        assigns(:log).should be_a_new(Log)
+        expect(assigns(:log)).to be_a_new(Log)
       end
 
       it "re-renders the 'new' template" do
         # Trigger the behavior that occurs when invalid params are submitted
-        Log.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Log).to receive(:save).and_return(false)
         post :create, {:log => { "session" => "invalid value" }}, valid_session
-        response.should render_template("new")
+        expect(response).to render_template("new")
       end
     end
   end
@@ -101,20 +101,20 @@ describe LogsController do
         # specifies that the Log created on the previous line
         # receives the :update_attributes message with whatever params are
         # submitted in the request.
-        Log.any_instance.should_receive(:update).with({ "session" => "MyString" })
+        expect_any_instance_of(Log).to receive(:update).with({ "session" => "MyString" })
         put :update, {:id => log.to_param, :log => { "session" => "MyString" }}, valid_session
       end
 
       it "assigns the requested log as @log" do
         log = Log.create! valid_attributes
         put :update, {:id => log.to_param, :log => valid_attributes}, valid_session
-        assigns(:log).should eq(log)
+        expect(assigns(:log)).to eq(log)
       end
 
       it "redirects to the log" do
         log = Log.create! valid_attributes
         put :update, {:id => log.to_param, :log => valid_attributes}, valid_session
-        response.should redirect_to(log)
+        expect(response).to redirect_to(log)
       end
     end
 
@@ -122,17 +122,17 @@ describe LogsController do
       it "assigns the log as @log" do
         log = Log.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Log.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Log).to receive(:save).and_return(false)
         put :update, {:id => log.to_param, :log => { "session" => "invalid value" }}, valid_session
-        assigns(:log).should eq(log)
+        expect(assigns(:log)).to eq(log)
       end
 
       it "re-renders the 'edit' template" do
         log = Log.create! valid_attributes
         # Trigger the behavior that occurs when invalid params are submitted
-        Log.any_instance.stub(:save).and_return(false)
+        allow_any_instance_of(Log).to receive(:save).and_return(false)
         put :update, {:id => log.to_param, :log => { "session" => "invalid value" }}, valid_session
-        response.should render_template("edit")
+        expect(response).to render_template("edit")
       end
     end
   end
@@ -148,7 +148,7 @@ describe LogsController do
     it "redirects to the logs list" do
       log = Log.create! valid_attributes
       delete :destroy, {:id => log.to_param}, valid_session
-      response.should redirect_to(logs_url)
+      expect(response).to redirect_to(logs_url)
     end
   end
 

@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "logs/show" do
+describe "logs/show", :type => :view do
   before(:each) do
     @log = assign(:log, stub_model(Log,
       :session => "Session",
@@ -16,12 +16,12 @@ describe "logs/show" do
   it "renders attributes in <p>" do
     render
     # Run the generator again with the --webrat flag if you want to use webrat matchers
-    rendered.should match(/Session/)
-    rendered.should match(/User/)
-    rendered.should match(/Application/)
-    rendered.should match(/Activity/)
-    rendered.should match(/Event/)
-    rendered.should match(//)
-    rendered.should match(//)
+    expect(rendered).to match(/Session/)
+    expect(rendered).to match(/User/)
+    expect(rendered).to match(/Application/)
+    expect(rendered).to match(/Activity/)
+    expect(rendered).to match(/Event/)
+    expect(rendered).to match(//)
+    expect(rendered).to match(//)
   end
 end

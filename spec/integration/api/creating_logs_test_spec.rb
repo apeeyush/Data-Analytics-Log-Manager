@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "CreatingLogsTest" do
+describe "CreatingLogsTest", :type => :request do
   it "Creates New Log" do
   	data = {
   	  session: "12345", username: 'user1', application: 'Application1', activity: 'Activity1', event: 'Event1', time: '1392862093110', parameters: {parameter1: 'value1', parameter2: 'value2'}, extra_key: 'extra_value'
@@ -9,17 +9,17 @@ describe "CreatingLogsTest" do
 
   	assert_equal 201, response.status
   	body = JSON.parse(response.body)
-    body.should include('session','username','application','activity','event','time','parameters','extras')
+    expect(body).to include('session','username','application','activity','event','time','parameters','extras')
     body["session"] == "12345"
     body["username"] == "user1"
     body["application"] == "Application1"
     body["activity"] == "Activity1"
     body["event"] == "Event1"
     body["time"] == "2014-02-20T02:08:13.000Z"
-    body["parameters"].should have(2).items
+    expect(body["parameters"].size).to eq(2)
     body["parameters"]["parameter1"] == "value1"
     body["parameters"]["parameter2"] == "value2"
-    body["extras"].should have(1).items
+    expect(body["extras"].size).to eq(1)
     body["extras"]["extra_key"] == "extra_value"
   end
 end

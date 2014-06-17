@@ -1,6 +1,6 @@
 require 'spec_helper'
 
-describe "documents/new" do
+describe "documents/new", :type => :view do
   before(:each) do
     assign(:document, stub_model(Document,
       :name => "MyString",
