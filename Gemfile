@@ -64,7 +64,7 @@ end
 # factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies, and support for multiple factories for the same class, including factory inheritance.
 # Load factory_girl_rails in development to get generator hooks
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 2.99'
   gem 'factory_girl_rails'
 end
 
