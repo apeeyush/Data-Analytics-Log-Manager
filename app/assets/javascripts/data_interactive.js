@@ -11,17 +11,24 @@ $(function() {
     // } catch (_error) {
     //   is_valid = false;
     // }
-    if (is_valid) {
+    if ( $("#js-group-data").val().length == 0) {
       $.ajax({
         type: "POST",
-        url: "/api/transform",
+        url: "/api/table_transform",
+        data: $('#transformation_form').serialize(),
+        success: function(data) {
+          doSingleTableAnalysis(data);
+        }
+      });
+    } else {
+      $.ajax({
+        type: "POST",
+        url: "/api/group_transform",
         data: $('#transformation_form').serialize(),
         success: function(data) {
           doGroupAnalysis(data);
         }
       });
-    } else {
-      alert("Invalid JSON");
     }
   });
 

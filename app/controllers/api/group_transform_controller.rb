@@ -2,7 +2,7 @@ require 'json'
 include ERB::Util
 module Api
 
-  class TransformController < ApplicationController
+  class GroupTransformController < ApplicationController
     after_action :cors_preflight_check
     after_filter :cors_set_access_control_headers
 
@@ -79,6 +79,6 @@ module Api
           end
         end
       end
-  	end
+    end
   end
 end

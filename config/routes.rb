@@ -26,6 +26,8 @@ Rails.application.routes.draw do
     match 'group', to: 'logs#options', via: [:options]
     match 'transform', to: 'logs#options', via: [:options]
     match 'measures', to: 'logs#options', via: [:options]
+    match 'group_transform', to: 'logs#options', via: [:options]
+    match 'table_transform', to: 'logs#options', via: [:options]
 
     # To send log(s) and get all logs stored in database
     resources :logs, except: [:destroy, :edit, :update]
@@ -41,6 +43,11 @@ Rails.application.routes.draw do
 
     # Used to perform aggregation analytics
     post 'measures', to: 'measures#index'
+
+    # Used for receiving form data from DataInteractive UI and apply appropriate transformation
+    post 'group_transform', to: 'group_transform#index'
+    post 'table_transform', to: 'table_transform#index'
+
 
     # CODAP API component
     post 'auth/login'
