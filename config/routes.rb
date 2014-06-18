@@ -1,5 +1,7 @@
 Rails.application.routes.draw do
 
+  get 'data_interactive/index'
+
   resources :documents
 
   get 'analytics/index'
