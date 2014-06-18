@@ -6,29 +6,41 @@ module Api
     def index
       request_body = JSON.parse(request.body.read)
       if request_body["group"] != nil
-      	@parent = request_body["group"]
-        if (@parent =="username" || @parent == "activity" || @parent == "application" || @parent == "session")
-          @groups = Log.all.group_by { |t| t.send(@parent.to_sym) }
-        else
-          # Group by Username by default
-          @groups = Log.all.group_by { |t| t.username }
+        @groups = Hash.new
+        logs=Log.all
+        parent = request_body["group"]
+        logs.select(parent).group(parent).order(parent).each do |log|
+          @groups[log[parent]] = Hash.new
+          @groups[log[parent]]["parent_values"] = []
+          @groups[log[parent]]["parent_values"] << log[parent]
         end
         # @parent_keys used to store keys (columns) for Parent Table
         @parent_keys = []
-        @parent_keys << @parent
+        @parent_keys << parent
         # @child_keys used to store keys (columns) for Child Table
         @child_keys = []
         @child_keys = Log.column_names - %w{id parameters extras}
         @child_keys = @child_keys - @parent_keys
-        @groups.each do |parent_name, logs|
+        logs.each do |log|
+          log.parameters.present? ? @child_keys << log.parameters.keys : @child_keys << []
+          log.extras.present? ? @child_keys << log.extras.keys : @child_keys << []
+        end
+        @child_keys = @child_keys.flatten.uniq
+        if (parent =="username" || parent == "activity" || parent == "application" || parent == "session")
+          child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
+        end
+        child_data_groups.each do |parent_name, logs|
+          child_collection = []
           logs.each do |log|
-            log.parameters.present? ? @child_keys << log.parameters.keys : @child_keys << []
-            log.extras.present? ? @child_keys << log.extras.keys : @child_keys << []
+            child = []
+            @child_keys.each do |child_key|
+              child << log.value(child_key)
+            end
+            child_collection << child
           end
-          @child_keys = @child_keys.flatten.uniq
+          @groups[parent_name]["child_values"] = child_collection
         end
       end
     end
-
   end
 end

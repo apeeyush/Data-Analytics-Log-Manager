@@ -67,8 +67,6 @@ class Log < ActiveRecord::Base
   #     }
   #  logs.filter(body)
   def self.filter(filter)
-    logger.debug(filter)
-    logger.debug("^ Filter")
     logs = self
     logs_columns = Log.column_lists
     string_columns = logs_columns["string_columns"]
@@ -77,7 +75,6 @@ class Log < ActiveRecord::Base
     filter.each do |key, value|
       if string_columns.include? key
         if value["type"] == "remove"
-          logger.debug("I am at right place")
           logs = logs.where.not({ key => value["list"]})
         else
           logs = logs.where({ key => value["list"]})
@@ -97,7 +94,6 @@ class Log < ActiveRecord::Base
         end
       end
     end
-    logger.debug(logs)
     return logs
   end
 
