@@ -80,11 +80,12 @@ class Log < ActiveRecord::Base
           logs = logs.where({ key => value["list"]})
         end
       elsif time_columns.include? key
-        if value["start_time"].present?
+        if value["start_time"].present? && !value["end_time"].present?
           logs = logs.where("#{key} >= :start_time",{start_time: value["start_time"]})
-        end
-        if value["end_time"].present?
+        elsif value["end_time"].present? && !value["start_time"].present?
           logs = logs.where("#{key} <= :end_time",{end_time: value["end_time"]})
+        elsif value["end_time"].present? && value["start_time"].present?
+          logs = logs.where("#{key} >= :start_time AND #{key} <= :end_time",{start_time: value["start_time"], end_time: value["end_time"]})
         end
       else
         if value["type"] == "remove"

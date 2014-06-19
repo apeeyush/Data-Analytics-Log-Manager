@@ -17,13 +17,14 @@
       }
     }
   },
-  "my_smart_count_2" : {
-    "Count" : {
-      "filter_having_keys" : {
-        "keys" : {
-          "list" : ["event"]
+  "session_username" : {
+    "AddValue" : {
+      "filter" : {
+        "event" : {
+          "list" : ["User logged in"]
         }
-      }
+      },
+      "key" : "username"
     }
   }
 }

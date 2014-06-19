@@ -62,19 +62,25 @@ module Api
       if measures.present? && !measures.empty?
         measures.each do |measure_name, measure_info|
           @parent_keys << measure_name
+          # Dummy measure, just used for testing
           if measure_info.keys[0] == "CountOfEvents"
             logs.select("#{parent}, count(event) as #{measure_name}").group(parent).order(parent).each do |values|
               @groups[values[parent]]["parent_values"] << values[measure_name]
             end
+          # Aggregation measure : Filters and then does count(*)
           elsif measure_info.keys[0] == "Count"
-            if measure_info["Count"]["filter_having_keys"].present?
-              logs = logs.filter_having_keys(measure_info["Count"]["filter_having_keys"])
-            end
-            if measure_info["Count"]["filter"].present?
-              logs = logs.filter(measure_info["Count"]["filter"])
-            end
+            logs = logs.filter_having_keys(measure_info["Count"]["filter_having_keys"]) if measure_info["Count"]["filter_having_keys"].present?
+            logs = logs.filter(measure_info["Count"]["filter"]) if measure_info["Count"]["filter"].present?
             logs.select("#{parent}, count(*) as #{measure_name}").group(parent).order(parent).each do |values|
               @groups[values[parent]]["parent_values"] << values[measure_name]
+            end
+          # Measure to add key's value to parent table
+          elsif measure_info.keys[0] == "AddValue"
+            logs = logs.filter_having_keys(measure_info["AddValue"]["filter_having_keys"]) if measure_info["AddValue"]["filter_having_keys"].present?
+            logs = logs.filter(measure_info["AddValue"]["filter"]) if measure_info["AddValue"]["filter"].present?
+            @groups.each do |parent_name, value|
+              log = logs.where("#{parent} = :parent_name", parent_name: parent_name).order(:id).first
+              log != nil ? value["parent_values"] <<  log.value(measure_info["AddValue"]["key"]) : value["parent_values"] << ""
             end
           end
         end
