@@ -41,6 +41,9 @@ gem 'spring',        group: :development
 # jQuery plugin for drop-in fix binded events problem caused by Turbolinks
 gem 'jquery-turbolinks'
 
+# A streaming JSON parsing and encoding library for Ruby (C bindings to yajl)
+gem 'yajl-ruby', require: 'yajl'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
