@@ -29,6 +29,7 @@
 //       "parent_values" : [List of parent values]
 //       "child_values"  : [Arrar of Array where each array is a list of child values]
 function doGroupAnalysis(data) {
+  console.log(data)
   var parent_keys = data.template.parent_keys;
   var child_keys = data.template.child_keys;
   var kParentCollectionName = "Parent Table";

@@ -127,4 +127,18 @@ class Log < ActiveRecord::Base
     return logs
   end
 
+  # Returns the list of keys for logs except id
+  #
+  # Example:
+  #   Log.keys_list
+  def self.keys_list
+    list = Log.column_names - %w{id parameters extras}
+    all.each do |log|
+      log.parameters.present? ? list << log.parameters.keys : list << []
+      log.extras.present? ? list << log.extras.keys : list << []
+    end
+    list = list.flatten.uniq
+    return list
+  end
+
 end

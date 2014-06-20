@@ -7,24 +7,15 @@ module Api
     after_filter :cors_set_access_control_headers
 
     def index
-      if json_escape(params["filter"]).present?
-        filter = JSON.parse(json_escape(params["filter"]))
-      end
-      if json_escape(params["filter_having_keys"]).present?
-        filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"]))
-      end
-      group = params["group"]
-      if json_escape(params["measures"]).present?
-        measures = JSON.parse(json_escape(params["measures"]))
-      end
+      filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?
+      filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"])) if json_escape(params["filter_having_keys"]).present?
+      child_filter = JSON.parse(json_escape(params["child_filter"])) if json_escape(params["child_filter"]).present?
+      group = params["group"]    
+      measures = JSON.parse(json_escape(params["measures"])) if json_escape(params["measures"]).present?
       logs = Log.all
-      if (filter != nil)
-        logs = Log.filter(filter)
-      end
-      if (filter_having_keys != nil)
-        logs = logs.filter_having_keys(filter_having_keys)
-      end
-      if group != nil && !group.empty?
+      logs = Log.filter(filter) if (filter != nil)
+      logs = logs.filter_having_keys(filter_having_keys) if (filter_having_keys != nil)
+      if group != nil && !group.empty? && (group =="username" || group == "activity" || group == "application" || group == "session")
         @groups = Hash.new
         parent = group
         logs.select(parent).group(parent).order(parent).each do |log|
@@ -33,19 +24,15 @@ module Api
           @groups[log[parent]]["parent_values"] << log[parent]
         end
         # @parent_keys used to store keys (columns) for Parent Table
+        # @child_keys used to store keys (columns) for Child Table
         @parent_keys = []
         @parent_keys << parent
-        # @child_keys used to store keys (columns) for Child Table
-        @child_keys = []
-        @child_keys = Log.column_names - %w{id parameters extras}
-        @child_keys = @child_keys - @parent_keys
-        logs.each do |log|
-          log.parameters.present? ? @child_keys << log.parameters.keys : @child_keys << []
-          log.extras.present? ? @child_keys << log.extras.keys : @child_keys << []
-        end
-        @child_keys = @child_keys.flatten.uniq
-        if (parent =="username" || parent == "activity" || parent == "application" || parent == "session")
+        if child_filter != nil
+          child_data_groups = logs.filter(child_filter).group_by { |t| t.send(parent.to_sym) }
+          @child_keys = logs.filter(child_filter).keys_list
+        else
           child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
+          @child_keys = logs.keys_list
         end
         child_data_groups.each do |parent_name, logs|
           child_collection = []
@@ -59,6 +46,7 @@ module Api
           @groups[parent_name]["child_values"] = child_collection
         end
       end
+
       if measures.present? && !measures.empty?
         measures.each do |measure_name, measure_info|
           @parent_keys << measure_name

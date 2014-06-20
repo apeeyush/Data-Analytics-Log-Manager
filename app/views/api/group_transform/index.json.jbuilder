@@ -19,7 +19,7 @@ json.template do
 end
 json.groups @groups do |parent_name, data|
   parent_collection = data["parent_values"]
-  child_collection = data["child_values"]
+  child_collection = data["child_values"] || []
   json.parent_values  parent_collection
   json.child_values child_collection
 end
