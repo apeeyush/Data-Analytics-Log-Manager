@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140619075945) do
+ActiveRecord::Schema.define(version: 20140621125340) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -35,6 +35,7 @@ ActiveRecord::Schema.define(version: 20140619075945) do
     t.hstore   "extras"
     t.datetime "created_at"
     t.datetime "updated_at"
+    t.string   "event_value"
   end
 
   add_index "logs", ["activity"], name: "index_logs_on_activity", using: :btree
