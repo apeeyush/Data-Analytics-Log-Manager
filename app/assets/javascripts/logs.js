@@ -1,6 +1,18 @@
 jQuery(function() {
   var table;
   table = $('#logs').dataTable({
+    "sPaginationType": "bootstrap",
+    "columns": [
+    null,
+    null,
+    null,
+    null,
+    null,
+    null,
+    {"orderable": false},
+    {"orderable": false},
+    {"orderable": false}
+    ],
     bProcessing: true,
     bServerSide: true,
     sAjaxSource: $('#logs').data('source'),

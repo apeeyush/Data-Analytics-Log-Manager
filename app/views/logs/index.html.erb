@@ -20,22 +20,24 @@
   </div>
 <% end %>
 
-<table id="logs" data-source="<%= logs_url(format: "json") %>">
+<div class="table-responsive">
+<table class="table table-hover table-condensed" id="logs" data-source="<%= logs_url(format: "json") %>">
   <thead>
     <tr>
-      <th>Session</th>
-      <th>Username</th>
-      <th>Application</th>
-      <th>Activity</th>
-      <th>Event</th>
-      <th>Time</th>
-      <th>Parameters</th>
-      <th>Extras</th>
+      <th class="col-sm-1">Session</th>
+      <th class="col-sm-1">Username</th>
+      <th class="col-sm-1">Application</th>
+      <th class="col-sm-1">Activity</th>
+      <th class="col-sm-1">Event</th>
+      <th class="col-sm-1">Time</th>
+      <th class="col-sm-3">Parameters</th>
+      <th class="col-sm-2">Extras</th>
+      <th class="col-sm-1">Event Value</th>
     </tr>
   </thead>
 
   <tbody>
   </tbody>
 </table>
-
+</div>
 <br>

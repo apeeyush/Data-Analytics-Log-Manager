@@ -17,7 +17,7 @@
 //= require_tree .
 //= require dataTables/jquery.dataTables
 //= require bootstrap
-
+//= require dataTables/jquery.dataTables.bootstrap3
 
 // Used to put data having a parent-child relationship to CODAP via Data Interactive API
 // Expects a hash in data with two keys
@@ -29,7 +29,6 @@
 //       "parent_values" : [List of parent values]
 //       "child_values"  : [Arrar of Array where each array is a list of child values]
 function doGroupAnalysis(data) {
-  console.log(data)
   var parent_keys = data.template.parent_keys;
   var child_keys = data.template.child_keys;
   var kParentCollectionName = "Parent Table";

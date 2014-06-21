@@ -12,9 +12,14 @@
  *
  *= require_tree .
  *= require_self
- *= require dataTables/jquery.dataTables
+ *= require dataTables/jquery.dataTables.bootstrap3
  */
 
 body {
   padding: 6px;
+}
+
+table {
+  table-layout: fixed;
+  word-wrap: break-word;
 }
