@@ -7,19 +7,13 @@ module Api
     after_filter :cors_set_access_control_headers
 
     def index
-      if json_escape(params["filter"]).present?
-        filter = JSON.parse(json_escape(params["filter"]))
-      end
-      if json_escape(params["filter_having_keys"]).present?
-        filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"]))
-      end
+      filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?
+      filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"])) if json_escape(params["filter_having_keys"]).present?
+
       logs = Log.all
-      if (filter != nil)
-        logs = Log.filter(filter)
-      end
-      if (filter_having_keys != nil)
-        logs = logs.filter_having_keys(filter_having_keys)
-      end
+      logs = Log.filter(filter) if (filter != nil)
+      logs = logs.filter_having_keys(filter_having_keys) if (filter_having_keys != nil)
+
       if logs != nil
         @logs = logs
         @column_names = []
@@ -29,6 +23,7 @@ module Api
           log.extras.present? ? @column_names << log.extras.keys : @column_names << []
         end
         @column_names = @column_names.flatten.uniq
+        render "layouts/single_table.json.jbuilder"
       else
         render status: :no_content
       end

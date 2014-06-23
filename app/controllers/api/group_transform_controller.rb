@@ -73,6 +73,7 @@ module Api
           end
         end
       end
+      render "layouts/grouped_data.json.jbuilder"
     end
   end
 end

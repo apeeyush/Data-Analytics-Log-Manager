@@ -23,6 +23,7 @@ module Api
           log.extras.present? ? @column_names << log.extras.keys : @column_names << []
         end
         @column_names = @column_names.flatten.uniq
+        render "layouts/single_table.json.jbuilder"
       else
         render status: :no_content
       end

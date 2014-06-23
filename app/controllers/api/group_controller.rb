@@ -41,6 +41,7 @@ module Api
           @groups[parent_name]["child_values"] = child_collection
         end
       end
+      render "layouts/grouped_data.json.jbuilder"
     end
   end
 end
