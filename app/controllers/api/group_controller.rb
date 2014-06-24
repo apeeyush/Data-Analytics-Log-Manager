@@ -18,14 +18,8 @@ module Api
         @parent_keys = []
         @parent_keys << parent
         # @child_keys used to store keys (columns) for Child Table
-        @child_keys = []
-        @child_keys = Log.column_names - %w{id parameters extras}
+        @child_keys = logs.keys_list
         @child_keys = @child_keys - @parent_keys
-        logs.each do |log|
-          log.parameters.present? ? @child_keys << log.parameters.keys : @child_keys << []
-          log.extras.present? ? @child_keys << log.extras.keys : @child_keys << []
-        end
-        @child_keys = @child_keys.flatten.uniq
         if (parent =="username" || parent == "activity" || parent == "application" || parent == "session")
           child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
         end

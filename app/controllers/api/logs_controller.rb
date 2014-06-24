@@ -7,14 +7,8 @@ module Api
     after_filter :cors_set_access_control_headers
 
   	def index
-  	  @logs = Log.all
-      @column_names = []
-      @column_names = Log.column_names - %w{id parameters extras}
-      @logs.each do |log|
-        log.parameters.present? ? @column_names << log.parameters.keys : @column_names << []
-        log.extras.present? ? @column_names << log.extras.keys : @column_names << []
-      end
-      @column_names = @column_names.flatten.uniq
+      @logs = Log.all
+      @column_names = Log.keys_list
       render "layouts/single_table.json.jbuilder"
   	end
 

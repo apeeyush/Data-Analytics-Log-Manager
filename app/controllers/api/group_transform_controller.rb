@@ -34,6 +34,7 @@ module Api
           child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
           @child_keys = logs.keys_list
         end
+        @child_keys = @child_keys - @parent_keys
         child_data_groups.each do |parent_name, logs|
           child_collection = []
           logs.each do |log|
