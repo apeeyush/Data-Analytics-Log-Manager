@@ -1,8 +1,9 @@
 Rails.application.routes.draw do
 
-  get 'data_interactive/index'
+  root 'pages#main'
 
   resources :documents
+  resources :logs
 
   get 'analytics/index'
   get 'analytics/all'
@@ -12,8 +13,11 @@ Rails.application.routes.draw do
   get 'analytics/transformation'
   get 'analytics/measures'
 
-  root 'pages#main'
   get 'pages/main'
+  get 'pages/explore'
+  post 'pages/get_explore_data'
+
+  get 'data_interactive/index'
 
   # Temporary Login Solution for CODAP hosted simultaneously with Rails (in Public folder)
   post '/DataGames/api/auth/login', to: 'auth#index'
@@ -60,8 +64,6 @@ Rails.application.routes.draw do
     post 'document/save'
 
   end
-
-  resources :logs
 
   # The priority is based upon order of creation: first created -> highest priority.
   # See how all your routes lay out with "rake routes".

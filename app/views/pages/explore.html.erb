@@ -1,0 +1,29 @@
+<div class="container">
+<div class="row">
+  <div class="col-md-12">
+    <h3>Select application/activity to explore.</h3>
+    <%= simple_form_for :explore, html: { id: 'explore', class: "form-vertical" } do |f| %>
+      <div class="form-group">
+        <%= f.input :application, collection: @application_list, required: false %>
+      </div>
+      <div class="form-group">
+        <%= f.input :activity, collection: @activity_list, required: false %>
+      </div>
+    <% end %>
+  </div>
+</div>
+</div>
+<br>
+<div class="container">
+  <h4>List of events:</h4>
+    <ul id="events-list">
+      <li>A list of events appear here once you have selected an appication/activity.</li>
+    </ul>
+</div>
+
+<div class="container">
+  <h4>List of keys(properties):</h4>
+  <ul id="keys-list">
+    <li>A list of keys appear here once you have selected an appication/activity.</li>
+  </ul>
+</div>

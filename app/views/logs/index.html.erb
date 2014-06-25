@@ -1,3 +1,4 @@
+<div class="container">
 <h1>Listing logs</h1>
 
 <%= simple_form_for :filter, html: {class: 'form-horizontal' }, url: '/logs' do |f| %>
@@ -19,7 +20,9 @@
     <%= f.input :time_zone, required: false %>
   </div>
 <% end %>
+</div>
 
+<div class="container">
 <div class="table-responsive">
 <table class="table table-hover table-condensed" id="logs" data-source="<%= logs_url(format: "json") %>">
   <thead>
@@ -40,4 +43,4 @@
   </tbody>
 </table>
 </div>
-<br>
+</div>
