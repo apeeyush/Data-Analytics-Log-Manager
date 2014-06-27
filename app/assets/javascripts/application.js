@@ -45,6 +45,10 @@ function doGroupAnalysis(data) {
   }
 
   window.parent.DG.doCommand({
+    action: 'reset'
+  });
+
+  window.parent.DG.doCommand({
     action: 'initGame',
     args: {
       name: "DataInteractive",
@@ -102,6 +106,11 @@ function doGroupAnalysis(data) {
 // ];
 function doSingleTableAnalysis(data){
   var kParentCollectionName = "Parent Table"
+
+  window.parent.DG.doCommand({
+    action: 'reset'
+  });
+
   window.parent.DG.doCommand({
     action: "initGame",
     args: {
