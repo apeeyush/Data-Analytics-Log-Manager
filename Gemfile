@@ -17,6 +17,9 @@ gem 'coffee-rails', '~> 4.0.0'
 # Official Sass port of Bootstrap http://getbootstrap.com/css/#sass
 gem 'bootstrap-sass', '~> 3.1.1'
 
+# Flexible authentication solution for Rails with Warden.
+gem 'devise'
+
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator
 gem 'kaminari'
 
