@@ -4,7 +4,7 @@ Rails.application.routes.draw do
   root 'pages#main'
 
   resources :documents
-  resources :logs
+  resources :logs, except: [:destroy, :edit, :update]
 
   get 'analytics/index'
   get 'analytics/all'
@@ -28,12 +28,6 @@ Rails.application.routes.draw do
     # To allow CORS request. The browser first sends an Options request which is matched to logs#options
     match 'logs', to: 'logs#options', via: [:options]
     match 'is', to: 'logs#options', via: [:options]
-    match 'filter', to: 'logs#options', via: [:options]
-    match 'group', to: 'logs#options', via: [:options]
-    match 'transform', to: 'logs#options', via: [:options]
-    match 'measures', to: 'logs#options', via: [:options]
-    match 'group_transform', to: 'logs#options', via: [:options]
-    match 'table_transform', to: 'logs#options', via: [:options]
 
     # To send log(s) and get all logs stored in database
     resources :logs, except: [:destroy, :edit, :update]

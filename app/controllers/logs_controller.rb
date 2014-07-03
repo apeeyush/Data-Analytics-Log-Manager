@@ -1,5 +1,6 @@
 class LogsController < ApplicationController
   before_action :set_log, only: [:show, :edit, :update, :destroy]
+  before_action :authenticate_user!
 
   # GET /logs
   # GET /logs.json

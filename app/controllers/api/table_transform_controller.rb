@@ -3,8 +3,8 @@ include ERB::Util
 module Api
 
   class TableTransformController < ApplicationController
-    after_action :cors_preflight_check
-    after_filter :cors_set_access_control_headers
+
+    before_action :authenticate_user!
 
     def index
       filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?

@@ -1,5 +1,6 @@
 class AnalyticsController < ApplicationController
 
+  before_action :authenticate_user!
   layout 'analytics'
 
   def index

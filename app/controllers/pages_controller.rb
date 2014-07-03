@@ -1,4 +1,7 @@
 class PagesController < ApplicationController
+
+  before_action :authenticate_user!, only: [:explore, :get_explore_data]
+
   def main
   end
 

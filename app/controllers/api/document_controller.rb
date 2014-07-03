@@ -2,6 +2,8 @@ require 'json'
 module Api
   class DocumentController < ApplicationController
 
+    before_action :authenticate_user!
+
   	def all
   	  documents = Document.all
   	  docs_list = []
