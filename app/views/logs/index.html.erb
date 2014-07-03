@@ -1,7 +1,7 @@
 <div class="container">
 <h1>Listing logs</h1>
 
-<%= simple_form_for :filter, html: {class: 'form-horizontal' }, url: '/logs' do |f| %>
+<%= simple_form_for :filter, html: {role: 'form', class: 'form-horizontal' }, url: '/logs' do |f| %>
   <div class="form-group">
     <%= f.input :application, collection: @application_list, required: false %>
   </div>

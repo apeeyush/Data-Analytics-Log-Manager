@@ -1,15 +1,34 @@
+<div class="container">
 <h2>Sign in</h2>
 
-<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name)) do |f| %>
-  <div class="form-inputs">
-    <%= f.input :email, required: false, autofocus: true %>
-    <%= f.input :password, required: false %>
-    <%= f.input :remember_me, as: :boolean if devise_mapping.rememberable? %>
+<%= simple_form_for(resource, as: resource_name, url: session_path(resource_name), html: { role: "form", class: 'form-horizontal'}) do |f| %>
+
+  <div class="form-group">
+    <%= f.label :email, 'Email', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :email, required: false, class: "form-control"  %>
+    </div>
   </div>
 
-  <div class="form-actions">
-    <%= f.button :submit, "Sign in" %>
+  <div class="form-group">
+    <%= f.label :password, 'Password', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :password, required: false, class: "form-control"  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :remember_me, 'Remember me', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :remember_me, as: :boolean if devise_mapping.rememberable? %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.button :submit, "Sign in", class: "btn btn-default" %>
+    </div>
   </div>
 <% end %>
-
+</div>
 <%= render "users/shared/links" %>
