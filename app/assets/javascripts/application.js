@@ -17,7 +17,7 @@
 //= require_tree .
 //= require dataTables/jquery.dataTables
 //= require bootstrap
-//= require dataTables/jquery.dataTables.bootstrap3
+//= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 
 // Used to put data having a parent-child relationship to CODAP via Data Interactive API
 // Expects a hash in data with two keys
