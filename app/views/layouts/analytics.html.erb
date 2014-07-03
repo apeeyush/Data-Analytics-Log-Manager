@@ -28,6 +28,13 @@
           <li class="<%= 'active' if params[:action] == 'transformation' %>"><%= link_to "Transformation", analytics_transformation_path %></li>
           <li class="<%= 'active' if params[:action] == 'measures' %>"><%= link_to "Measures",analytics_measures_path %></li>
         </ul>
+        <ul class="nav navbar-nav navbar-right">
+          <% if user_signed_in? %>
+            <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+          <% else %>
+            <li><%= link_to "Sign in", new_user_session_path %></li>
+          <% end %>
+        </ul>
       </div>
     </div>
   </nav>
