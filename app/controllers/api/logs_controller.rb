@@ -3,7 +3,8 @@ module Api
 
   class LogsController < ApplicationController
 
-    before_action :authenticate_user!
+    after_action :cors_preflight_check
+    after_filter :cors_set_access_control_headers
 
   	def index
       @logs = Log.all

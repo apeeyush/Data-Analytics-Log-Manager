@@ -3,9 +3,10 @@ require 'spec_helper'
 RSpec.describe DataInteractiveController, :type => :controller do
 
   describe "GET 'index'" do
-    it "returns http success" do
+    it "redirects without sign_in" do
       get 'index'
-      expect(response).to be_success
+      expect(response.code).to eq("302")
+      expect(response).to redirect_to('/users/sign_in')
     end
   end
 

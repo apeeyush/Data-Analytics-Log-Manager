@@ -2,10 +2,10 @@ require 'spec_helper'
 
 describe "Logs", :type => :request do
   describe "GET /logs" do
-    it "works! (now write some real specs)" do
+    it "works!" do
       # Run the generator again with the --webrat flag if you want to use webrat methods/matchers
       get logs_path
-      expect(response.status).to be(200)
+      expect(response.status).to be(302)
     end
   end
 end

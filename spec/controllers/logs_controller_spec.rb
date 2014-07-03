@@ -48,13 +48,14 @@ describe LogsController, :type => :controller do
     end
   end
 
-  describe "GET edit" do
-    it "assigns the requested log as @log" do
-      log = Log.create! valid_attributes
-      get :edit, {:id => log.to_param}, valid_session
-      expect(assigns(:log)).to eq(log)
-    end
-  end
+  # Edit log not allowed
+  # describe "GET edit" do
+  #   it "assigns the requested log as @log" do
+  #     log = Log.create! valid_attributes
+  #     get :edit, {:id => log.to_param}, valid_session
+  #     expect(assigns(:log)).to eq(log)
+  #   end
+  # end
 
   describe "POST create" do
     describe "with valid params" do
@@ -93,63 +94,65 @@ describe LogsController, :type => :controller do
     end
   end
 
-  describe "PUT update" do
-    describe "with valid params" do
-      it "updates the requested log" do
-        log = Log.create! valid_attributes
-        # Assuming there are no other logs in the database, this
-        # specifies that the Log created on the previous line
-        # receives the :update_attributes message with whatever params are
-        # submitted in the request.
-        expect_any_instance_of(Log).to receive(:update).with({ "session" => "MyString" })
-        put :update, {:id => log.to_param, :log => { "session" => "MyString" }}, valid_session
-      end
+  # Update log not allowed
+  # describe "PUT update" do
+  #   describe "with valid params" do
+  #     it "updates the requested log" do
+  #       log = Log.create! valid_attributes
+  #       # Assuming there are no other logs in the database, this
+  #       # specifies that the Log created on the previous line
+  #       # receives the :update_attributes message with whatever params are
+  #       # submitted in the request.
+  #       expect_any_instance_of(Log).to receive(:update).with({ "session" => "MyString" })
+  #       put :update, {:id => log.to_param, :log => { "session" => "MyString" }}, valid_session
+  #     end
 
-      it "assigns the requested log as @log" do
-        log = Log.create! valid_attributes
-        put :update, {:id => log.to_param, :log => valid_attributes}, valid_session
-        expect(assigns(:log)).to eq(log)
-      end
+  #     it "assigns the requested log as @log" do
+  #       log = Log.create! valid_attributes
+  #       put :update, {:id => log.to_param, :log => valid_attributes}, valid_session
+  #       expect(assigns(:log)).to eq(log)
+  #     end
 
-      it "redirects to the log" do
-        log = Log.create! valid_attributes
-        put :update, {:id => log.to_param, :log => valid_attributes}, valid_session
-        expect(response).to redirect_to(log)
-      end
-    end
+  #     it "redirects to the log" do
+  #       log = Log.create! valid_attributes
+  #       put :update, {:id => log.to_param, :log => valid_attributes}, valid_session
+  #       expect(response).to redirect_to(log)
+  #     end
+  #   end
 
-    describe "with invalid params" do
-      it "assigns the log as @log" do
-        log = Log.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        allow_any_instance_of(Log).to receive(:save).and_return(false)
-        put :update, {:id => log.to_param, :log => { "session" => "invalid value" }}, valid_session
-        expect(assigns(:log)).to eq(log)
-      end
+  #   describe "with invalid params" do
+  #     it "assigns the log as @log" do
+  #       log = Log.create! valid_attributes
+  #       # Trigger the behavior that occurs when invalid params are submitted
+  #       allow_any_instance_of(Log).to receive(:save).and_return(false)
+  #       put :update, {:id => log.to_param, :log => { "session" => "invalid value" }}, valid_session
+  #       expect(assigns(:log)).to eq(log)
+  #     end
 
-      it "re-renders the 'edit' template" do
-        log = Log.create! valid_attributes
-        # Trigger the behavior that occurs when invalid params are submitted
-        allow_any_instance_of(Log).to receive(:save).and_return(false)
-        put :update, {:id => log.to_param, :log => { "session" => "invalid value" }}, valid_session
-        expect(response).to render_template("edit")
-      end
-    end
-  end
+  #     # it "re-renders the 'edit' template" do
+  #     #   log = Log.create! valid_attributes
+  #     #   # Trigger the behavior that occurs when invalid params are submitted
+  #     #   allow_any_instance_of(Log).to receive(:save).and_return(false)
+  #     #   put :update, {:id => log.to_param, :log => { "session" => "invalid value" }}, valid_session
+  #     #   expect(response).to render_template("edit")
+  #     # end
+  #   end
+  # end
 
-  describe "DELETE destroy" do
-    it "destroys the requested log" do
-      log = Log.create! valid_attributes
-      expect {
-        delete :destroy, {:id => log.to_param}, valid_session
-      }.to change(Log, :count).by(-1)
-    end
+  # Delete log not allowed
+  # describe "DELETE destroy" do
+  #   it "destroys the requested log" do
+  #     log = Log.create! valid_attributes
+  #     expect {
+  #       delete :destroy, {:id => log.to_param}, valid_session
+  #     }.to change(Log, :count).by(-1)
+  #   end
 
-    it "redirects to the logs list" do
-      log = Log.create! valid_attributes
-      delete :destroy, {:id => log.to_param}, valid_session
-      expect(response).to redirect_to(logs_url)
-    end
-  end
+  #   it "redirects to the logs list" do
+  #     log = Log.create! valid_attributes
+  #     delete :destroy, {:id => log.to_param}, valid_session
+  #     expect(response).to redirect_to(logs_url)
+  #   end
+  # end
 
 end
