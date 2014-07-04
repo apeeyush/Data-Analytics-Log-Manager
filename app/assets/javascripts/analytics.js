@@ -3,17 +3,25 @@ var Analytics, controller;
 $(function() {
 
   $("#js-analyze").click(function(){
+    var btn = $(this);
+    btn.button('loading');
     $.ajax({
       type: "GET",
       url: "/api/logs",
       success: function(data) {
         doSingleTableAnalysis(data);
+        btn.button('reset');
+      },
+      error: function(){
+        alert("An error occured!");
+        btn.button('reset');
       }
     });
   });
 
   $("#js-analyze-filtered").click(function(){
     var data, is_valid, _error;
+    var btn = $(this);
     data = document.getElementById("body_data").value;
     try {
       JSON.parse(data);
@@ -22,12 +30,18 @@ $(function() {
       is_valid = false;
     }
     if (is_valid) {
+      btn.button('loading');
       $.ajax({
         type: "POST",
         url: "/api/filter",
         data: data,
         success: function(data) {
           doSingleTableAnalysis(data);
+          btn.button('reset');
+        },
+        error: function(){
+          alert("An error occured!");
+          btn.button('reset');
         }
       });
     } else {
@@ -37,6 +51,7 @@ $(function() {
 
   $("#js-analyze-grouped").click(function(){
     var data, is_valid, _error;
+    var btn = $(this);
     data = document.getElementById("body_data").value;
     try {
       JSON.parse(data);
@@ -45,12 +60,18 @@ $(function() {
       is_valid = false;
     }
     if (is_valid) {
+      btn.button('loading');
       $.ajax({
         type: "POST",
         url: "/api/group",
         data: data,
         success: function(data) {
           doGroupAnalysis(data);
+          btn.button('reset');
+        },
+        error: function(){
+          alert("An error occured!");
+          btn.button('reset');
         }
       });
     } else {
@@ -59,30 +80,27 @@ $(function() {
   });
 
   $("#js-analyze-transformed").click(function(){
-    var data, is_valid, _error;
-    is_valid = true;
-    // try {
-    //   JSON.parse(data);
-    //   is_valid = true;
-    // } catch (_error) {
-    //   is_valid = false;
-    // }
-    if (is_valid) {
-      $.ajax({
-        type: "POST",
-        url: "/api/transform",
-        data: $('#transformation_form').serialize(),
-        success: function(data) {
-          doGroupAnalysis(data);
-        }
-      });
-    } else {
-      alert("Invalid JSON");
-    }
+    var data;
+    var btn = $(this);
+    btn.button('loading');
+    $.ajax({
+      type: "POST",
+      url: "/api/transform",
+      data: $('#transformation_form').serialize(),
+      success: function(data) {
+        doGroupAnalysis(data);
+        btn.button('reset');
+      },
+      error: function(){
+        alert("An error occured!");
+        btn.button('reset');
+      }
+    });
   });
 
   $("#js-analyze-measures").click(function(){
     var data, is_valid, _error;
+    var btn = $(this);
     data = document.getElementById("body_data").value;
     try {
       JSON.parse(data);
@@ -91,12 +109,18 @@ $(function() {
       is_valid = false;
     }
     if (is_valid) {
+      btn.button('loading');
       $.ajax({
         type: "POST",
         url: "/api/measures",
         data: data,
         success: function(data) {
           doSingleTableAnalysis(data);
+          btn.button('reset');
+        },
+        error: function(){
+          alert("An error occured!");
+          btn.button('reset');
         }
       });
     } else {

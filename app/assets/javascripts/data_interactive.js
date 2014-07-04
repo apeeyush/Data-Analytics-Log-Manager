@@ -3,14 +3,9 @@ var Analytics, controller;
 $(function() {
 
   $("#js-submit-query").click(function(){
-    var data, is_valid, _error;
-    is_valid = true;
-    // try {
-    //   JSON.parse(data);
-    //   is_valid = true;
-    // } catch (_error) {
-    //   is_valid = false;
-    // }
+    var data;
+    var btn = $(this);
+    btn.button('loading');
     if ( $("#js-group-data").val().length == 0) {
       $.ajax({
         type: "POST",
@@ -18,6 +13,11 @@ $(function() {
         data: $('#transformation_form').serialize(),
         success: function(data) {
           doSingleTableAnalysis(data);
+          btn.button('reset');
+        },
+        error: function() {
+          alert("An error occured!");
+          btn.button('reset');
         }
       });
     } else {
@@ -27,6 +27,11 @@ $(function() {
         data: $('#transformation_form').serialize(),
         success: function(data) {
           doGroupAnalysis(data);
+          btn.button('reset');
+        },
+        error: function(){
+          alert("An error occured!");
+          btn.button('reset');
         }
       });
     }
