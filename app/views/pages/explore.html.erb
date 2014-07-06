@@ -1,13 +1,19 @@
 <div class="container">
 <div class="row">
   <div class="col-md-12">
-    <h3>Select application/activity to explore.</h3>
-    <%= simple_form_for :explore, html: { id: 'explore', class: "form-vertical" } do |f| %>
+    <h3>Select application/activity to explore</h3>
+    <%= simple_form_for :explore, html: { id: 'explore', class: "form-horizontal" } do |f| %>
       <div class="form-group">
-        <%= f.input :application, collection: @application_list, required: false %>
+        <%= f.label :application, 'Application', class: 'col-sm-3 control-label' %>
+        <div class="col-sm-9">
+          <%= f.input_field :application, collection: @application_list, class: "form-control" %>
+        </div>
       </div>
       <div class="form-group">
-        <%= f.input :activity, collection: @activity_list, required: false %>
+        <%= f.label :activity, 'Activity', class: 'col-sm-3 control-label' %>
+        <div class="col-sm-9">
+          <%= f.input_field :activity, collection: @activity_list, class: "form-control" %>
+        </div>
       </div>
     <% end %>
   </div>
