@@ -1,6 +1,5 @@
 source 'https://rubygems.org'
 
-
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use postgresql as the database for Active Record
@@ -16,13 +15,10 @@ gem 'coffee-rails', '~> 4.0.0'
 
 # Official Sass port of Bootstrap http://getbootstrap.com/css/#sass
 gem 'bootstrap-sass', '~> 3.1.1'
-
 # Flexible authentication solution for Rails with Warden.
 gem 'devise'
-
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator
 gem 'kaminari'
-
 # Rails forms made easy.
 gem 'simple_form'
 

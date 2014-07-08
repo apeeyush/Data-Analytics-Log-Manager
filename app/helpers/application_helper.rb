@@ -1,5 +1,6 @@
 module ApplicationHelper
 
+  # Mapping from devise flast type to corresponding bootstrap class
   def bootstrap_class_for(flash_type)
     if flash_type == "success"
       return "alert-success"            # Green
