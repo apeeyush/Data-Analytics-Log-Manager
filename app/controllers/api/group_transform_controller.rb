@@ -6,6 +6,7 @@ module Api
 
     before_action :authenticate_user!
     require_dependency 'transform_data.rb'
+    require_dependency 'add_measure.rb'
 
     def index
 
@@ -50,37 +51,18 @@ module Api
 
       if measures.present? && !measures.empty?
         measures.each do |measure_name, measure_info|
-          measure_logs = logs
           @parent_keys << measure_name
           # Aggregation measure : Filters and then does count(*)
           if measure_info.keys[0] == "Count"
-            measure_logs = measure_logs.filter_having_keys(measure_info["Count"]["filter_having_keys"]) if measure_info["Count"]["filter_having_keys"].present?
-            measure_logs = measure_logs.filter(measure_info["Count"]["filter"]) if measure_info["Count"]["filter"].present?
-            measures_data = measure_logs.select("#{parent}, count(*) as #{measure_name}").group(parent).order(parent)
-            if measures_data.blank?
-              @groups.each do |parent_name, value|
-                value["parent_values"] <<  "0"
-              end
-            else
-              done_parents = []
-              measures_data.each do |values|
-                done_parents << values[parent]
-                @groups[values[parent]]["parent_values"] << values[measure_name]
-              end
-              left_parents = parents_list - done_parents
-              left_parents.each do |left_parent|
-                @groups[left_parent]["parent_values"] <<  "0"
-              end
-                # @groups[values[parent]]["parent_values"] << "values[measure_name]"
-                # values[measure_name].present? ? @groups[values[parent]]["parent_values"] << "values[measure_name]" : @groups[values[parent]]["parent_values"] << '0'
+            measures_hash = AddMeasure.calculate_count(measure_info["Count"], logs, parent, parents_list)
+            @groups.each do |parent_name, value|
+              value["parent_values"] << measures_hash[parent_name]
             end
           # Measure to add key's value to parent table
           elsif measure_info.keys[0] == "AddValue"
-            measure_logs = measure_logs.filter_having_keys(measure_info["AddValue"]["filter_having_keys"]) if measure_info["AddValue"]["filter_having_keys"].present?
-            measure_logs = measure_logs.filter(measure_info["AddValue"]["filter"]) if measure_info["AddValue"]["filter"].present?
+            measures_hash = AddMeasure.calculate_values(measure_info["AddValue"], logs, parent, parents_list)
             @groups.each do |parent_name, value|
-              log = measure_logs.where("#{parent} = :parent_name", parent_name: parent_name).order(:id).first
-              log != nil ? value["parent_values"] <<  log.value(measure_info["AddValue"]["key"]) : value["parent_values"] << ""
+              value["parent_values"] << measures_hash[parent_name]
             end
           end
         end
