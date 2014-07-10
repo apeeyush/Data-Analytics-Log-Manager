@@ -64,6 +64,13 @@ module Api
             @groups.each do |parent_name, value|
               value["parent_values"] << measures_hash[parent_name]
             end
+          elsif measure_info.keys[0] == "Sum"
+            Rails.logger.debug(measure_info["Sum"]["key"])
+            measures_hash = AddMeasure.calculate_sum(measure_info["Sum"], logs, parent, parents_list)
+            logger.debug(measures_hash)
+            @groups.each do |parent_name, value|
+              value["parent_values"] << measures_hash[parent_name]
+            end
           end
         end
       end
