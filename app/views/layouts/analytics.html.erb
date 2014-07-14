@@ -27,6 +27,7 @@
           <li class="<%= 'active' if params[:action] == 'group' %>"><%= link_to "Group",analytics_group_path %></li>
           <li class="<%= 'active' if params[:action] == 'transformation' %>"><%= link_to "Transformation", analytics_transformation_path %></li>
           <li class="<%= 'active' if params[:action] == 'measures' %>"><%= link_to "Measures",analytics_measures_path %></li>
+          <li class="<%= 'active' if params[:action] == 'synthetic_data' %>"><%= link_to "Synthetic Data",analytics_synthetic_data_path %></li>
         </ul>
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>

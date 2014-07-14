@@ -51,6 +51,17 @@ class Log < ActiveRecord::Base
   	end
   end
 
+  def update_value(key, value)
+    new_log = self
+    logs_columns = Log.column_lists
+    if logs_columns["string_columns"].include? key #|| logs_columns["time_columns"].include? key
+      new_log[key] = value
+    else
+      new_log[:parameters][key] = value
+    end
+    return new_log
+  end
+
   # Filters data having specified values/range for the keys
   #
   # Example JSON Body:
@@ -139,6 +150,13 @@ class Log < ActiveRecord::Base
     end
     list = list.flatten.uniq
     return list
+  end
+
+  def satisfies_conditions(conditions)
+    conditions.each do |key, value|
+      return false if value(key) != value
+    end
+    return true
   end
 
 end

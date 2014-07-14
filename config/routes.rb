@@ -13,6 +13,7 @@ Rails.application.routes.draw do
   get 'analytics/group'
   get 'analytics/transformation'
   get 'analytics/measures'
+  get 'analytics/synthetic_data'
 
   get 'pages/main'
   get 'pages/explore'
@@ -50,6 +51,9 @@ Rails.application.routes.draw do
 
     # Used to perform aggregation analytics
     post 'measures', to: 'measures#index'
+
+    # Used to add Synthetic Data to child table
+    post 'synthetic_data', to: 'synthetic_data#index'
 
     # Used for receiving form data from DataInteractive UI and apply appropriate transformation
     post 'group_transform', to: 'group_transform#index'

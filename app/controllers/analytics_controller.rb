@@ -21,4 +21,7 @@ class AnalyticsController < ApplicationController
   def measures
   end
 
+  def synthetic_data
+  end
+
 end
