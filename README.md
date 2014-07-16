@@ -2,6 +2,7 @@ Data Analytics Log Manager
 ========
 
 [![Build Status](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master)](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager)
+[![Code Climate](https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager.png)](https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager)
 
 Data Analytics Log Manager provides an API for receiving log data from multiple applications and storing them in a database. The data can then be transformed to create a parent-child relationship. It is also possible to add synthetic/computed data before visualizing it on [CODAP](https://github.com/concord-consortium/codap). More information about the project is available on [wiki](https://github.com/apeeyush/Data-Analytics-Log-Manager/wiki).
 
