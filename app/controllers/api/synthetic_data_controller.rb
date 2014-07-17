@@ -50,21 +50,6 @@ module Api
             end
           end
         end
-        logger.debug(@groups)
-        # if (parent =="username" || parent == "activity" || parent == "application" || parent == "session")
-        #   child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
-        # end
-        # child_data_groups.each do |parent_name, logs|
-        #   child_collection = []
-        #   logs.each do |log|
-        #     child = []
-        #     @child_keys.each do |child_key|
-        #       child << log.value(child_key)
-        #     end
-        #     child_collection << child
-        #   end
-        #   @groups[parent_name]["child_values"] = child_collection
-        # end
       end
       render "layouts/grouped_data.json.jbuilder"
     end
