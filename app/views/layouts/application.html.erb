@@ -30,6 +30,8 @@
         <ul class="nav navbar-nav navbar-right">
           <% if user_signed_in? %>
             <li><%= link_to "Sign out", destroy_user_session_path, :method => :delete %></li>
+          <% elsif admin_signed_in? %>
+            <li><%= link_to "Admin Sign out", destroy_admin_session_path, :method => :delete %></li>
           <% else %>
             <li><%= link_to "Sign in", new_user_session_path %></li>
           <% end %>
