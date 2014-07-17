@@ -32,9 +32,9 @@ function doGroupAnalysis(data) {
   var parent_keys = data.template.parent_keys;
   var child_keys = data.template.child_keys;
   var kParentCollectionName = "Parent Table";
-  var kChildCollectionName = "Child Table"
-  var kParentAttributeList = []
-  var kChildAttributeList = []
+  var kChildCollectionName = "Child Table";
+  var kParentAttributeList = [];
+  var kChildAttributeList = [];
 
   // Computes ParentAttributeList and ChildAttributeList to be sent to CODAP
   for (var i = 0; i < parent_keys.length; i++) {

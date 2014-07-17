@@ -1,5 +1,3 @@
-var Analytics, controller;
-
 $(function() {
 
   $("#js-analyze").click(function(){
@@ -50,7 +48,7 @@ $(function() {
   });
 
   $("#js-analyze-grouped").click(function(){
-    var data, is_valid, _error;
+    var data, is_valid;
     var btn = $(this);
     data = document.getElementById("body_data").value;
     try {
@@ -80,7 +78,7 @@ $(function() {
   });
 
   $("#js-analyze-synthetic-data").click(function(){
-    var data, is_valid, _error;
+    var data, is_valid;
     var btn = $(this);
     data = document.getElementById("body_data").value;
     try {
@@ -110,7 +108,6 @@ $(function() {
   });
 
   $("#js-analyze-transformed").click(function(){
-    var data;
     var btn = $(this);
     btn.button('loading');
     $.ajax({
@@ -129,7 +126,7 @@ $(function() {
   });
 
   $("#js-analyze-measures").click(function(){
-    var data, is_valid, _error;
+    var data, is_valid;
     var btn = $(this);
     data = document.getElementById("body_data").value;
     try {
