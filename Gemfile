@@ -21,7 +21,8 @@ gem 'devise'
 gem 'kaminari'
 # Rails forms made easy.
 gem 'simple_form'
-
+# RailsAdmin is a Rails engine that provides an easy-to-use interface for managing your data
+gem 'rails_admin'
 # jquery-datatables gem for rails. Provides all the basic DataTables files, and a few extras.
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
 
