@@ -84,7 +84,7 @@ function doGroupAnalysis(data) {
         values: parent_values
       }
     });
-    var caseID = result["caseID"]
+    var caseID = result["caseID"];
     window.parent.DG.doCommand( {
       action: 'createCases',
       args: {
@@ -93,7 +93,7 @@ function doGroupAnalysis(data) {
         values: children
       }
     });
-  })
+  });
 }
 
 // Sample Data Format for doSingleTableAnalysis Function
@@ -105,7 +105,7 @@ function doGroupAnalysis(data) {
 //   ["child_1_value_1", "child_1_value_2"]
 // ];
 function doSingleTableAnalysis(data){
-  var kParentCollectionName = "Parent Table"
+  var kParentCollectionName = "Parent Table";
 
   window.parent.DG.doCommand({
     action: 'reset'

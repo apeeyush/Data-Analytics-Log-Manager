@@ -18,7 +18,7 @@ $(function() {
   });
 
   $("#js-analyze-filtered").click(function(){
-    var data, is_valid, _error;
+    var data, is_valid;
     var btn = $(this);
     data = document.getElementById("body_data").value;
     try {

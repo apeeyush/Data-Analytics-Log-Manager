@@ -1,12 +1,9 @@
-var Analytics, controller;
-
 $(function() {
 
   $("#js-submit-query").click(function(){
-    var data;
     var btn = $(this);
     btn.button('loading');
-    if ( $("#js-group-data").val().length == 0) {
+    if ( $("#js-group-data").val().length === 0) {
       $.ajax({
         type: "POST",
         url: "/api/table_transform",
