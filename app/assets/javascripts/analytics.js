@@ -1,22 +1,5 @@
 $(function() {
 
-  $("#js-analyze").click(function(){
-    var btn = $(this);
-    btn.button('loading');
-    $.ajax({
-      type: "GET",
-      url: "/api/logs",
-      success: function(data) {
-        doSingleTableAnalysis(data);
-        btn.button('reset');
-      },
-      error: function(){
-        alert("An error occured!");
-        btn.button('reset');
-      }
-    });
-  });
-
   $("#js-analyze-filtered").click(function(){
     var data, is_valid;
     var btn = $(this);

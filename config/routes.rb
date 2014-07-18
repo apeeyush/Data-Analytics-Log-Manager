@@ -1,6 +1,6 @@
 Rails.application.routes.draw do
 
-  devise_for :admins
+  devise_for :admins, :skip => [:registrations]
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'
   devise_for :users
   root 'pages#main'
@@ -9,7 +9,6 @@ Rails.application.routes.draw do
   resources :logs, except: [:destroy, :edit, :update]
 
   get 'analytics/index'
-  get 'analytics/all'
   post 'analytics/all'
   get 'analytics/filter'
   get 'analytics/group'
@@ -36,8 +35,8 @@ Rails.application.routes.draw do
     match 'logs', to: 'logs#options', via: [:options]
     match 'is', to: 'logs#options', via: [:options]
 
-    # To send log(s) and get all logs stored in database
-    resources :logs, except: [:destroy, :edit, :update]
+    # API to receive log(s) and store it in database
+    post 'logs', to: 'logs#create'
 
     # To import some IS data in log manager
     post 'is', to: 'is#index'

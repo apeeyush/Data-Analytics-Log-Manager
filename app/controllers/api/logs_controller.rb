@@ -6,32 +6,30 @@ module Api
     after_action :cors_preflight_check
     after_filter :cors_set_access_control_headers
 
-  	def index
-      @logs = Log.all
-      @column_names = Log.keys_list
-      render "layouts/single_table.json.jbuilder"
-  	end
-
     # Send empty text for options request
     def options
       render :text => '', :content_type => 'text/plain'
     end
 
+    # Receive Post request and store logs from request body
   	def create
+      # If the request body contains a single log (request body is not an array)
       if ( !JSON.parse(request.body.read).is_a?(Array) )
         log_data = JSON.parse(request.body.read)
         status, log = create_new_log(log_data)
         if (status)
-          render json:log, status: :created
+          render json: log, status: :created
         else
-          render render json: log.errors,status: 422
+          render json: log.errors, status: :unprocessable_entity
         end
+      # If the request body contains multiple logs (request body is an array)
       else
         logs = []
+        # Loop through all logs. Each array element is considered a single log
         JSON.parse(request.body.read).each do |log_data|
           status, log = create_new_log(log_data)
           if (!status)
-            render render json: log.errors,status: 422
+            render render json: log.errors, status: :unprocessable_entity
           else
             logs.push(log)
           end
@@ -41,6 +39,10 @@ module Api
   	end
 
     private
+      # Creates a new log from the log_data and stores it in the database.
+      # Return Value:
+      #   If successful   : true , saved log details
+      #   If unsuccessful : false, unsuccessful save attempt log details
       def create_new_log (log_data)
         new_log = Log.new()
         new_log[:session] = log_data["session"]
@@ -57,9 +59,9 @@ module Api
           end
         end
         if new_log.save
-          return true, new_log# render json: log, status: :created
+          return true, new_log
         else
-          return false, new_log # render json: log.errors, status: 422
+          return false, new_log
         end
       end
 
