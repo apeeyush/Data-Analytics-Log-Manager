@@ -6,7 +6,7 @@ Rails.application.routes.draw do
   root 'pages#main'
 
   resources :documents
-  resources :logs, except: [:destroy, :edit, :update]
+  resources :logs, only: [:index]
 
   get 'analytics/index'
   post 'analytics/all'
