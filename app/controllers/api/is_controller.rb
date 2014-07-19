@@ -1,12 +1,16 @@
 module Api
   require 'json'
 
+  # This controller was added to use import some Inquiry Space Data to the Log Manager.
+  # The data did not consist of key-value pairs in the form directly consumable by the API.
+  # This may be deprecated in further versions and should not be used.
   class IsController < ApplicationController
 
     after_action :cors_preflight_check
     after_filter :cors_set_access_control_headers
 
     def index
+      # If the request body contains a single log (request body is not an array)
       if ( !JSON.parse(request.body.read).is_a?(Array) )
         log_data = JSON.parse(request.body.read)
         status, log = create_new_is_log(log_data)
@@ -15,6 +19,7 @@ module Api
         else
           render render json: log.errors,status: 422
         end
+      # If the request body contains multiple logs (request body is an array)
       else
         logs = []
         JSON.parse(request.body.read).each do |log_data|
@@ -30,6 +35,10 @@ module Api
     end
 
     private
+      # Creates a new log from the log_data and stores it in the database.
+      # Return Value:
+      #   If successful   : true , saved log details
+      #   If unsuccessful : false, unsuccessful save attempt log details
       def create_new_is_log (log_data)
         new_log = Log.new()
         new_log[:session] = log_data["sessionID"]
@@ -47,9 +56,9 @@ module Api
           end
         end
         if new_log.save
-          return true, new_log# render json: log, status: :created
+          return true, new_log
         else
-          return false, new_log # render json: log.errors, status: 422
+          return false, new_log
         end
       end
 

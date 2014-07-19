@@ -55,22 +55,15 @@ module Api
           # Aggregation measure : Filters and then does count(*)
           if measure_info.keys[0] == "Count"
             measures_hash = AddMeasure.calculate_count(measure_info["Count"], logs, parent, parents_list)
-            @groups.each do |parent_name, value|
-              value["parent_values"] << measures_hash[parent_name]
-            end
           # Measure to add key's value to parent table
           elsif measure_info.keys[0] == "AddValue"
             measures_hash = AddMeasure.calculate_values(measure_info["AddValue"], logs, parent, parents_list)
-            @groups.each do |parent_name, value|
-              value["parent_values"] << measures_hash[parent_name]
-            end
+          # Measure to add sum of values for the specified key
           elsif measure_info.keys[0] == "Sum"
-            Rails.logger.debug(measure_info["Sum"]["key"])
             measures_hash = AddMeasure.calculate_sum(measure_info["Sum"], logs, parent, parents_list)
-            logger.debug(measures_hash)
-            @groups.each do |parent_name, value|
-              value["parent_values"] << measures_hash[parent_name]
-            end
+          end
+          @groups.each do |parent_name, value|
+            value["parent_values"] << measures_hash[parent_name]
           end
         end
       end

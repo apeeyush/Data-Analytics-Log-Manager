@@ -27,8 +27,9 @@ module Api
         # @child_keys used to store keys (columns) for Child Table
         @child_keys = logs.keys_list
         @child_keys = @child_keys - @parent_keys
+
         parents_list.each do |parent_name|
-          child_logs = logs.where(parent => parent_name)
+          child_logs = logs.where(parent => parent_name).order(:time)
           n = child_logs.count()
           m = pattern.length
           for i in 0..(n-m)
