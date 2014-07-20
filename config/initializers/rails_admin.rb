@@ -19,7 +19,6 @@ RailsAdmin.config do |config|
   config.actions do
     dashboard                     # mandatory
     index                         # mandatory
-    new
     export
     bulk_delete
     show
@@ -31,4 +30,20 @@ RailsAdmin.config do |config|
     # history_index
     # history_show
   end
+
+  config.model 'User' do
+    list do
+      field :id
+      field :email
+      field :applications
+      field :approved
+      field :created_at
+      field :confirmed_at
+    end
+    edit do
+      field :approved
+      field :applications
+    end
+  end
+
 end
