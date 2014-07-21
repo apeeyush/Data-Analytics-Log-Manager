@@ -1,8 +1,9 @@
 class LogsDatatable
   delegate :params, :h, :link_to, :number_to_currency, to: :@view
 
-  def initialize(view)
+  def initialize(view, application_list)
     @view = view
+    @application_list = application_list
   end
 
   def as_json(options = {})
@@ -39,6 +40,7 @@ private
 
   def fetch_logs
     logs = Log.order("#{sort_column} #{sort_direction}")
+    logs = Log.where(application: @application_list)
     if params[:applicationName].present?
       logs = logs.where(application: params[:applicationName])
     end
