@@ -29,7 +29,7 @@ module Api
         @child_keys = @child_keys - @parent_keys
 
         parents_list.each do |parent_name|
-          child_logs = logs.where(parent => parent_name).order(:time)
+          child_logs = logs.where(parent => parent_name).order(time: :asc)
           n = child_logs.count()
           m = pattern.length
           for i in 0..(n-m)
