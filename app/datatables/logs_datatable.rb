@@ -9,7 +9,7 @@ class LogsDatatable
   def as_json(options = {})
     {
       sEcho: params[:sEcho].to_i,
-      iTotalRecords: Log.count,
+      iTotalRecords: Log.where(application: @application_list).count,
       iTotalDisplayRecords: logs.total_count,
       aaData: data
     }
@@ -39,8 +39,8 @@ private
   end
 
   def fetch_logs
-    logs = Log.order("#{sort_column} #{sort_direction}")
     logs = Log.where(application: @application_list)
+    logs = logs.order("#{sort_column} #{sort_direction}")
     if params[:applicationName].present?
       logs = logs.where(application: params[:applicationName])
     end
