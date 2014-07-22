@@ -1,0 +1,162 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>Rails Application Documentation</title>
+
+<link href="./fonts.css" rel="stylesheet">
+<link href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/navigation.js"></script>
+<script src="./js/search_index.js"></script>
+<script src="./js/search.js"></script>
+<script src="./js/searcher.js"></script>
+<script src="./js/darkfish.js"></script>
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</div>
+
+    <div id="classindex-section" class="nav-section">
+  <h3>Class and Module Index</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./AddMeasure.html">AddMeasure</a>
+  
+    <li><a href="./Admin.html">Admin</a>
+  
+    <li><a href="./AnalyticsController.html">AnalyticsController</a>
+  
+    <li><a href="./AnalyticsHelper.html">AnalyticsHelper</a>
+  
+    <li><a href="./Api.html">Api</a>
+  
+    <li><a href="./Api/AuthController.html">Api::AuthController</a>
+  
+    <li><a href="./Api/DocumentController.html">Api::DocumentController</a>
+  
+    <li><a href="./Api/FilterController.html">Api::FilterController</a>
+  
+    <li><a href="./Api/GroupController.html">Api::GroupController</a>
+  
+    <li><a href="./Api/GroupTransformController.html">Api::GroupTransformController</a>
+  
+    <li><a href="./Api/IsController.html">Api::IsController</a>
+  
+    <li><a href="./Api/LogsController.html">Api::LogsController</a>
+  
+    <li><a href="./Api/MeasuresController.html">Api::MeasuresController</a>
+  
+    <li><a href="./Api/SyntheticDataController.html">Api::SyntheticDataController</a>
+  
+    <li><a href="./Api/TableTransformController.html">Api::TableTransformController</a>
+  
+    <li><a href="./Api/TransformController.html">Api::TransformController</a>
+  
+    <li><a href="./Application.html">Application</a>
+  
+    <li><a href="./ApplicationController.html">ApplicationController</a>
+  
+    <li><a href="./ApplicationHelper.html">ApplicationHelper</a>
+  
+    <li><a href="./DataInteractiveController.html">DataInteractiveController</a>
+  
+    <li><a href="./DataInteractiveHelper.html">DataInteractiveHelper</a>
+  
+    <li><a href="./Document.html">Document</a>
+  
+    <li><a href="./DocumentsController.html">DocumentsController</a>
+  
+    <li><a href="./DocumentsHelper.html">DocumentsHelper</a>
+  
+    <li><a href="./Log.html">Log</a>
+  
+    <li><a href="./LogsController.html">LogsController</a>
+  
+    <li><a href="./LogsDatatable.html">LogsDatatable</a>
+  
+    <li><a href="./LogsHelper.html">LogsHelper</a>
+  
+    <li><a href="./Object.html">Object</a>
+  
+    <li><a href="./PagesController.html">PagesController</a>
+  
+    <li><a href="./PagesHelper.html">PagesHelper</a>
+  
+    <li><a href="./TransformData.html">TransformData</a>
+  
+    <li><a href="./User.html">User</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main">
+
+Data Analytics Log Manager helps collect log data and provides tools to analyze this data.
+
+It provides a lot of flexibility on the type of log data. A single log entry can contain multiple arbitrary key value pairs (Let's say "application" => "Test App", "event" => "Clicked on Wiki" and so on). The analytics tools are powerful as well as easy to use. We aim to make complex analytics easy for not only programmers but also other users such as researchers, managers, designers etc. who may not have prior exposure to programming.
+
+The application is being developed for data analytics under educational settings but it caters to a much wider audience. You may find it really useful if you have an application for which you would like to collect logs and visualize how your users are using it.
+
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+

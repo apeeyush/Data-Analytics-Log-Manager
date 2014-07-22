@@ -1,3 +1,21 @@
+# == Schema Information
+#
+# Table name: logs
+#
+#  id          :integer          not null, primary key
+#  session     :string(255)
+#  username    :string(255)
+#  application :string(255)
+#  activity    :string(255)
+#  event       :string(255)
+#  time        :datetime
+#  parameters  :hstore
+#  extras      :hstore
+#  created_at  :datetime
+#  updated_at  :datetime
+#  event_value :string(255)
+#
+
 class Log < ActiveRecord::Base
 
   # Select logs for user based on user's application list

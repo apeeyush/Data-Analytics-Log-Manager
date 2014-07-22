@@ -1,0 +1,144 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>README - Rails Application Documentation</title>
+
+<link href="./fonts.css" rel="stylesheet">
+<link href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/navigation.js"></script>
+<script src="./js/search_index.js"></script>
+<script src="./js/search.js"></script>
+<script src="./js/searcher.js"></script>
+<script src="./js/darkfish.js"></script>
+
+
+<body id="top" role="document" class="file">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="project-metadata">
+    <div id="fileindex-section" class="nav-section">
+  <h3>Pages</h3>
+
+  <ul class="link-list">
+  
+    <li><a href="./README_rdoc.html">README</a>
+  
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-label="Page README.rdoc">
+
+<p>Data Analytics <a href="Log.html">Log</a> Manager</p>
+
+<h6 id="label-"><span><a href="#label-">&para;</a> <a href="#documentation">&uarr;</a></span></h6>
+
+<p>[![Build Status](<a
+href="https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master)](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager">travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master)](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager</a>)
+[![Code Climate](<a
+href="https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager.png)](https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager">codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager.png)](https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager</a>)</p>
+
+<p>Data Analytics <a href="Log.html">Log</a> Manager provides an API for
+receiving log data from multiple applications and storing them in a
+database. The data can then be transformed to create a parent-child
+relationship. It is also possible to add synthetic/computed data before
+visualizing it on [CODAP](<a
+href="https://github.com/concord-consortium/codap">github.com/concord-consortium/codap</a>).
+More information about the project is available on [wiki](<a
+href="https://github.com/apeeyush/Data-Analytics-Log-Manager/wiki">github.com/apeeyush/Data-Analytics-Log-Manager/wiki</a>).</p>
+
+<p>You may find it useful if you have an application for which you would like
+to visualize how your users are using it and find patterns hidden in the
+data. And what&#39;s more, it&#39;s all real time.</p>
+
+<p>Motivation</p>
+<hr>
+
+<p>Existing Web Analytics tools, like Google Analytics, do not provide logging
+data at the individual-user data, and so are not usable for certain kinds
+of analytics. Many of The Concord Consortium&#39;s projects would like to
+capture detailed logs of actions students take in browser-based activities.
+Also, many other HTML5 projects would like to do analytics on event-based
+user data. The application will act as a shared tool for logging the data,
+transforming it and using CODAP for visualization.</p>
+
+<p>Project Setup</p>
+<hr>
+
+<p>Install Rails 4.1 and make sure that you are running PostgreSQL 9.2 or
+higher on your system. Next clone the repository. Run `bundle install` from
+terminal after changing directory to the project directory.</p>
+
+<p>Setup the `config/database.yml` file to allow the Rails application to
+connect to PostgreSQL. Either update the `username` and `password` with
+your existing user&#39;s value or create a new user in PostgreSQL having
+`username`:`log_manager` and `password`:`log_manager`. Now, create database
+`log_manager_development` and grant this user all privileges on
+`log_manager_development` database or make it a superuser.</p>
+
+<p>Run `rake db:migrate` to apply migrations and after that you can start the
+rails server by using `rails server`. The rails console can be accessed
+using `rails console`.</p>
+
+<p>Contributing</p>
+<hr>
+
+<p>Feel free to fork the repository and hack on it! Implemented some feature?
+Well, just send a pull request. Facing problems setting things up or
+thought of a feature that may be useful for everybody? Contact us or open
+github issues for questions, bugs, feature requests etc.</p>
+
+<p>Not sure how to start? Email us and let us know you&#39;re interested, and
+what you can do, and we&#39;ll figure out something you can help with.</p>
+</main>
+
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
