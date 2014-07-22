@@ -17,8 +17,8 @@ module Api
       synthetic_data = JSON.parse(json_escape(params["synthetic_data"])) if json_escape(params["synthetic_data"]).present?
       measures = JSON.parse(json_escape(params["measures"])) if json_escape(params["measures"]).present?
 
-      logs = Log.all
-      logs = Log.filter(filter) if (filter != nil)
+      logs = Log.access_filter(current_user)
+      logs = logs.filter(filter) if (filter != nil)
       logs = logs.filter_having_keys(filter_having_keys) if (filter_having_keys != nil)
       if group != nil && %w{username activity application session event}.include?(group)
         @groups = Hash.new

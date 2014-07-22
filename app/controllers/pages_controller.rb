@@ -6,14 +6,14 @@ class PagesController < ApplicationController
   end
 
   def explore
-    @application_list = Log.uniq.pluck(:application)
-    @activity_list = Log.uniq.pluck(:activity)
+    @application_list = Log.access_filter(current_user).uniq.pluck(:application)
+    @activity_list = Log.access_filter(current_user).uniq.pluck(:activity)
   end
 
   def get_explore_data
     application = params[:explore][:application]
     activity = params[:explore][:activity]
-    logs = Log.all
+    logs = Log.access_filter(current_user)
     logs = logs.where(application: application) if application.present?
     logs = logs.where(activity: activity) if activity.present?
     @events = logs.uniq.pluck(:event)

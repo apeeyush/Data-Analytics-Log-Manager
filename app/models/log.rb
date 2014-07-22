@@ -1,5 +1,10 @@
 class Log < ActiveRecord::Base
 
+  # Select logs for user based on user's application list
+  scope :access_filter, lambda { |user|
+      where(application: user.applications.pluck(:name) )
+  }
+
   # Returns a hash with key as column_type and value as lists of names of that column_type 
   #
   # Example:

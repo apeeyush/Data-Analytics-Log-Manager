@@ -10,7 +10,7 @@ module Api
       @column_names = []
       @values = []
       request_body = JSON.parse(request.body.read)
-      logs = Log.all
+      logs = Log.access_filter(current_user)
       if request_body["group"] != nil && %w{username activity application session event}.include?(request_body["group"])
       	parent = request_body["group"]
         @column_names << request_body["group"]

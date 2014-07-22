@@ -10,8 +10,8 @@ module Api
       filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?
       filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"])) if json_escape(params["filter_having_keys"]).present?
 
-      logs = Log.all
-      logs = Log.filter(filter) if (filter != nil)
+      logs = Log.access_filter(current_user)
+      logs = logs.filter(filter) if (filter != nil)
       logs = logs.filter_having_keys(filter_having_keys) if (filter_having_keys != nil)
 
       if logs != nil

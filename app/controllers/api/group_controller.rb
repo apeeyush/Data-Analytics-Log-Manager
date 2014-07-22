@@ -7,7 +7,7 @@ module Api
       request_body = JSON.parse(request.body.read)
       if request_body["group"] != nil
         @groups = Hash.new
-        logs=Log.all
+        logs = Log.access_filter(current_user)
         parent = request_body["group"]
         logs.select(parent).group(parent).order(parent).each do |log|
           @groups[log[parent]] = Hash.new

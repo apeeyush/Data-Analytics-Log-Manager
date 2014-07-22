@@ -9,7 +9,7 @@ module Api
       request_body = JSON.parse(request.body.read)
       if request_body["group"] != nil
         @groups = Hash.new
-        logs=Log.all
+        logs = Log.access_filter(current_user)
         parent = request_body["group"]
         pattern = request_body["synthetic_data"]["rule"]["pattern"]
         result = request_body["synthetic_data"]["result"]

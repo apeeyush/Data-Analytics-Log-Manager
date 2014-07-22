@@ -7,7 +7,7 @@ module Api
 
     def index
       request_body = JSON.parse(request.body.read)
-      logs = Log.all
+      logs = Log.access_filter(current_user)
       logs = logs.filter(request_body["filter"]) if (request_body["filter"] != nil)
       logs = logs.filter_having_keys(request_body["filter_having_keys"]) if (request_body["filter_having_keys"] != nil)
       if logs != nil
