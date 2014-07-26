@@ -37,7 +37,6 @@ RailsAdmin.config do |config|
       field :id
       field :email
       field :applications
-      field :approved
       field :created_at
       field :confirmed_at
     end
