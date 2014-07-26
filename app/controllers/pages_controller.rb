@@ -5,6 +5,9 @@ class PagesController < ApplicationController
   def main
   end
 
+  def about
+  end
+
   def explore
     @application_list = Log.access_filter(current_user).uniq.pluck(:application)
     @activity_list = Log.access_filter(current_user).uniq.pluck(:activity)

@@ -23,6 +23,7 @@
     <div class="collapse navbar-collapse" id="navbar-collapse">
         <ul class="nav navbar-nav">
           <li class="<%= 'active' if params[:controller] == 'pages' && params[:action] == 'main' %>"><%= link_to "Home",pages_main_path %></li>
+          <li class="<%= 'active' if params[:controller] == 'pages' && params[:action] == 'about' %>"><%= link_to "About",pages_about_path %></li>
           <li class="<%= 'active' if params[:controller] == 'logs' && params[:action] == 'index' %>"><%= link_to "Logs",logs_path %></li>
           <li class="<%= 'active' if params[:controller] == 'pages' && params[:action] == 'explore' %>"><%= link_to "Explore",pages_explore_path %></li>
           <li><a href="/codap" target="_blank">CODAP</a></li>

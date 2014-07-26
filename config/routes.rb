@@ -17,6 +17,7 @@ Rails.application.routes.draw do
   get 'analytics/synthetic_data'
 
   get 'pages/main'
+  get 'pages/about'
   get 'pages/explore'
   post 'pages/get_explore_data'
 

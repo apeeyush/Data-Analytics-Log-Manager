@@ -1,23 +1,27 @@
 <div class="container">
-<div class="row">
-  <div class="col-md-12">
-    <p class="lead">Data Analytics Log Manager provides an API for receiving log data from multiple applications and storing them in a database. The data can then be filtered and transformed to create a parent-child relationship. It is also possible to add synthetic/computed data before visualizing it on CODAP. More information about the project is available on <a href="https://github.com/apeeyush/Data-Analytics-Log-Manager/wiki">wiki</a>.<p>
+  <div class="row">
+    <div class="col-md-12">
+      <h2>Welcome to Data Analytics Log Manager</h2>
+      <p>Data Analytics Log Manager helps collect log data and provides tools to analyze this data.</p>
+      <p>For more information about the project, visit the <%= link_to "about",pages_about_path %></li> page.</p>
+    </div>
   </div>
-</div>
-</div>
-
-<div class="container">
-<div class = "row">
-  <div class="col-md-12">
-    <h2>Github Repositories for Project</h2>
-  </div>
-  <div class = "row">
-    <div class="col-md-10">
-      <ul>
-        <li><a class="btn btn-link" href="https://github.com/apeeyush/Data-Analytics-Log-Manager"> Main Rails Application </a></li>
-       <li><a class="btn btn-link" href="https://github.com/apeeyush/codap"> CODAP code complementing Rails application</a></li>
-      </ul>
+  <div class="row">
+    <div class="col-md-12">
+      <% if user_signed_in? %>
+        <p class="lead">Welcome <%= current_user.email %></p>
+        <% if current_user.applications.pluck(:name).empty? %>
+          <p> You will be able to view, explore and analyze logs once admin adds applications to your account.</p>
+        <% else %>
+          You can view data from following applications:
+          <ul>
+            <% current_user.applications.pluck(:name).each do |name| %>
+              <li><%= name %></li>
+            <% end %>
+          </ul>
+        <% end %>
+      <% end %>
     </div>
   </div>
 </div>
-</div>
+
