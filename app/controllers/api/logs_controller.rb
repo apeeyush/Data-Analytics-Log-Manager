@@ -47,7 +47,15 @@ module Api
         new_log = Log.new()
         new_log[:session] = log_data["session"]
         new_log[:username] = log_data["username"]
-        new_log[:application] = log_data["application"]
+        if log_data["application"].to_s == ''
+          if request.referer.to_s == ''
+            new_log[:application] = "Unknown"
+          else
+            new_log[:application] = "Unknown: " + request.referer
+          end
+        else
+          new_log[:application] = log_data["application"]
+        end
         new_log[:activity] = log_data["activity"]
         new_log[:event] = log_data["event"]
         new_log[:time] = DateTime.strptime("#{log_data["time"].to_i/1000}",'%s').in_time_zone("Eastern Time (US & Canada)").to_s
