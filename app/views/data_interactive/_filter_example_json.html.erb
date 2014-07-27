@@ -1,20 +1,25 @@
-    "activity" : {
-      "type" : "remove",                        //Optional (Add for filter out)
-      "list" : [list of activities]
+    {
+      "key" : "activity",
+      "list" : [list of activities],
+      "remove" : true                        //Optional (Add for filter out)
     },
-    "application" : {
-      "type" : "remove",                        //Optional (Add for filter out)
-      "list" : [list of applications]
+    {
+      "key" : "application",
+      "list" : [list of applications],
+      "remove" : true                        //Optional (Add for filter out)
     },
-    "username" : {
-      "type" : "remove",                        //Optional (Add for filter out)
+    {
+      "key" : "username",
+      "remove" : true,                        //Optional (Add for filter out)
       "list" : [list of usernames]
     },
-    "time" : {
+    {
+      "key" : "time",
       "start_time" : "start_time",
       "end_time" : "end_time"
     },
-    "title" : {
-      "type" : "remove",                        //Optional (Add for filter out)
+    {
+      "key" : "title",
+      "remove" : true,                        //Optional (Add for filter out)
       "list" : [list of titles]
     } .......

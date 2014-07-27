@@ -10,20 +10,22 @@
 <h3> Sample Body </h3>
 <pre>
 {
-  "filter" : {
-    "event" : {
-      "type" : "remove",
-      "list" : ["Moved to"]
+  "filter" : [
+    {
+      "key" : "event",
+      "list" : ["Moved to"],
+      "remove" : true
     },
-    "title" : {
-      "type" : "remove",
+    {
+      "key" : "title",
       "list" : ["Office"]      
     },
-    "time" : {
+    {
+      "key" : "time",
       "start_time" : "2014-04-10 00:00:00",
       "end_time" : "2014-04-10 23:59:59"
     }
-  },
+  ],
   "filter_having_keys" : {
     "keys" : {
       "list" : ["event"]

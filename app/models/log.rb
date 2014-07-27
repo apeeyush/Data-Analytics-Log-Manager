@@ -88,44 +88,50 @@ class Log < ActiveRecord::Base
   # Filters data having specified values/range for the keys
   #
   # Example JSON Body:
-  #     "username" : {
+  #   [
+  #     {
+  #       "key" : "username",
   #       "list" : ["peeyush", "apeeyush"]
   #     },
-  #     "time" : {
+  #     {
+  #       "key" : "time",
   #       "start_time" : "2014-02-25",
   #       "end_time" : "2014-10-29"
   #     },
-  #     "color" : {
-  #       "type" : "remove",                               //Optional (For filter out)
-  #       "list" : [ {"color":"green"}]      
+  #     {
+  #       "key" : "color"
+  #       "remove" : true,                                  //Optional (For filter out)
+  #       "list" : ["green"]
   #     }
-  #  logs.filter(body)
-  def self.filter(filter)
+  #   ]
+  #   logs.filter(body)
+  def self.filter(filter_list)
     logs = self
     logs_columns = Log.column_lists
     string_columns = logs_columns["string_columns"]
     time_columns = logs_columns["time_columns"]
     hstore_columns = logs_columns["hstore_columns"]
-    filter.each do |key, value|
+    filter_list.each do |filter|
+      key = filter["key"]
       if string_columns.include? key
-        if value["type"] == "remove"
-          logs = logs.where.not({ key => value["list"]})
+        if filter["remove"] == true
+          logs = logs.where.not({ key => filter["list"]})
         else
-          logs = logs.where({ key => value["list"]})
+          logs = logs.where({ key => filter["list"]})
         end
       elsif time_columns.include? key
-        if value["start_time"].present? && !value["end_time"].present?
-          logs = logs.where("#{key} >= :start_time",{start_time: value["start_time"]})
-        elsif value["end_time"].present? && !value["start_time"].present?
-          logs = logs.where("#{key} <= :end_time",{end_time: value["end_time"]})
-        elsif value["end_time"].present? && value["start_time"].present?
-          logs = logs.where("#{key} >= :start_time AND #{key} <= :end_time",{start_time: value["start_time"], end_time: value["end_time"]})
+        if filter["start_time"].present? && !filter["end_time"].present?
+          logs = logs.where("#{key} >= :start_time",{start_time: filter["start_time"]})
+        elsif filter["end_time"].present? && !filter["start_time"].present?
+          logs = logs.where("#{key} <= :end_time",{end_time: filter["end_time"]})
+        elsif filter["end_time"].present? && filter["start_time"].present?
+          logs = logs.where("#{key} >= :start_time AND #{key} <= :end_time",{start_time: filter["start_time"], end_time: filter["end_time"]})
         end
       else
-        if value["type"] == "remove"
-          logs = logs.where("#{hstore_columns} -> :key NOT IN ( :list )", :key => key, :list => value["list"])
+        if filter["remove"] == true
+          logs = logs.where("#{hstore_columns} -> :key NOT IN ( :list )", :key => key, :list => filter["list"])
         else
-          logs = logs.where("#{hstore_columns} -> :key IN ( :list )", :key => key, :list => value["list"])
+          logs = logs.where("#{hstore_columns} -> :key IN ( :list )", :key => key, :list => filter["list"])
         end
       end
     end

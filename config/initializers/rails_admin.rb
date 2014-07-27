@@ -41,7 +41,6 @@ RailsAdmin.config do |config|
       field :confirmed_at
     end
     edit do
-      field :approved
       field :applications
     end
   end
