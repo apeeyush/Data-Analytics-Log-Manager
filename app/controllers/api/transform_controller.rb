@@ -63,12 +63,12 @@ module Api
             m = pattern.length
             for i in 0..(n-m)
               j=0
-              while j<m && logs[i+j].satisfies_conditions(pattern[j]) do
+              while j<m && child_logs[i+j].satisfies_conditions(pattern[j]) do
                 j = j+1
               end
               if j==m
                 index = result["clone"].to_i
-                dup_log = logs[i+index].dup
+                dup_log = child_logs[i+index].dup
                 result["update_log"].each do |key, value|
                   dup_log.update_value(key, value)
                 end
