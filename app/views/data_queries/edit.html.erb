@@ -1,6 +1,11 @@
-<h1>Editing data_query</h1>
+<div id="container">
+<h2>Editing Data Query</h2>
 
 <%= render 'form' %>
 
-<%= link_to 'Show', @data_query %> |
-<%= link_to 'Back', data_queries_path %>
+<div class="col-sm-offset-3 col-sm-9">
+  <%= link_to 'Show Query', @data_query, class: "btn btn-link" %><br>
+  <%= link_to 'Back', data_queries_path, class: "btn btn-link" %>
+</div>
+
+</div>

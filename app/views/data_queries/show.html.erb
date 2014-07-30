@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Content:</strong>
-  <%= @data_query.content %>
-</p>
+  <h3>Content:</h3>
+  <br>
+  <p><%= @data_query.content %></p>
 
-<%= link_to 'Edit', edit_data_query_path(@data_query) %> |
-<%= link_to 'Back', data_queries_path %>
+
+<%= link_to 'Edit', edit_data_query_path(@data_query), class: "btn btn-link" %><br>
+<%= link_to 'Back', data_queries_path, class: "btn btn-link" %>
