@@ -1,9 +1,11 @@
 require 'json'
+include ERB::Util
 module Api
 
   class SyntheticDataController < ApplicationController
 
     before_action :authenticate_user!
+    require_dependency 'add_synthetic_data'
 
     def index
       request_body = JSON.parse(request.body.read)
@@ -11,8 +13,7 @@ module Api
         @groups = Hash.new
         logs = Log.access_filter(current_user)
         parent = request_body["group"]
-        pattern = request_body["synthetic_data"]["rule"]["pattern"]
-        result = request_body["synthetic_data"]["result"]
+        synthetic_data = request_body["synthetic_data"]
         parents_list = []
         logs.select(parent).group(parent).order(parent).each do |log|
           @groups[log[parent]] = Hash.new
@@ -28,27 +29,15 @@ module Api
         @child_keys = logs.keys_list
         @child_keys = @child_keys - @parent_keys
 
-        parents_list.each do |parent_name|
-          child_logs = logs.where(parent => parent_name).order(time: :asc)
-          n = child_logs.count()
-          m = pattern.length
-          for i in 0..(n-m)
-            j=0
-            while j<m && child_logs[i+j].satisfies_conditions(pattern[j]) do
-              j = j+1
+        if synthetic_data != nil
+          computed_logs = AddSyntheticData.compute(logs, parent, synthetic_data, parents_list, @child_keys)
+          computed_logs.each do |computed_log|
+            parent_name = computed_log[parent]
+            child = []
+            @child_keys.each do |child_key|
+              child << computed_log.value(child_key)
             end
-            if j==m
-              index = result["clone"].to_i
-              dup_log = child_logs[i+index].dup
-              result["update_log"].each do |key, value|
-                dup_log.update_value(key, value)
-              end
-              child = []
-              @child_keys.each do |child_key|
-                child << dup_log.value(child_key)
-              end
-              @groups[parent_name]["child_values"] << child
-            end
+            @groups[parent_name]["child_values"] << child
           end
         end
       end

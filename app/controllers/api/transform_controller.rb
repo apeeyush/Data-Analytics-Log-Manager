@@ -7,6 +7,7 @@ module Api
     before_action :authenticate_user!
     require_dependency 'transform_data.rb'
     require_dependency 'add_measure.rb'
+    require_dependency 'add_synthetic_data'
 
     def index
 
@@ -51,36 +52,17 @@ module Api
         end
 
         if synthetic_data != nil
-          if synthetic_data["rule"] != nil && synthetic_data["rule"]["pattern"] != nil
-            pattern = synthetic_data["rule"]["pattern"]
-          end
-          if synthetic_data["result"] != nil
-            result = synthetic_data["result"]
-          end
-          parents_list.each do |parent_name|
-            child_logs = logs.where(parent => parent_name).order(:time)
-            n = child_logs.count()
-            m = pattern.length
-            for i in 0..(n-m)
-              j=0
-              while j<m && child_logs[i+j].satisfies_conditions(pattern[j]) do
-                j = j+1
-              end
-              if j==m
-                index = result["clone"].to_i
-                dup_log = child_logs[i+index].dup
-                result["update_log"].each do |key, value|
-                  dup_log.update_value(key, value)
-                end
-                child = []
-                @child_keys.each do |child_key|
-                  child << dup_log.value(child_key)
-                end
-                @groups[parent_name]["child_values"] << child
-              end
+          computed_logs = AddSyntheticData.compute(logs, parent, synthetic_data, parents_list, @child_keys)
+          computed_logs.each do |computed_log|
+            parent_name = computed_log[parent]
+            child = []
+            @child_keys.each do |child_key|
+              child << computed_log.value(child_key)
             end
+            @groups[parent_name]["child_values"] << child
           end
         end
+
       end
 
       if measures.present? && !measures.empty?
