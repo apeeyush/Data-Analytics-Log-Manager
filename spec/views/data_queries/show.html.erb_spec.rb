@@ -1,4 +1,4 @@
-require 'rails_helper'
+require 'spec_helper'
 
 RSpec.describe "data_queries/show", :type => :view do
   before(:each) do
@@ -8,9 +8,4 @@ RSpec.describe "data_queries/show", :type => :view do
     ))
   end
 
-  it "renders attributes in <p>" do
-    render
-    expect(rendered).to match(//)
-    expect(rendered).to match(//)
-  end
 end

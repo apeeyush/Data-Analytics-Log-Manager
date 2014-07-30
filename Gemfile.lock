@@ -1,8 +1,8 @@
 GIT
   remote: git://github.com/rweng/jquery-datatables-rails.git
-  revision: a411069f14714890085ea68c6f0814158515beaa
+  revision: ee838ffc755e7c205a416870efb4f27400eb2c53
   specs:
-    jquery-datatables-rails (2.1.10.0.2)
+    jquery-datatables-rails (2.1.10.0.3)
       jquery-rails
       sass-rails
 
@@ -45,7 +45,7 @@ GEM
     bootstrap-sass (3.1.1.1)
       sass (~> 3.2)
     builder (3.2.2)
-    capybara (2.3.0)
+    capybara (2.4.1)
       mime-types (>= 1.16)
       nokogiri (>= 1.3.3)
       rack (>= 1.0.0)
@@ -55,10 +55,10 @@ GEM
     coffee-rails (4.0.1)
       coffee-script (>= 2.2.0)
       railties (>= 4.0.0, < 5.0)
-    coffee-script (2.2.0)
+    coffee-script (2.3.0)
       coffee-script-source
       execjs
-    coffee-script-source (1.7.0)
+    coffee-script-source (1.7.1)
     debug_inspector (0.0.2)
     devise (3.2.4)
       bcrypt (~> 3.0)
@@ -79,8 +79,8 @@ GEM
     haml (4.0.5)
       tilt
     hike (1.2.3)
-    i18n (0.6.9)
-    jbuilder (2.1.1)
+    i18n (0.6.11)
+    jbuilder (2.1.3)
       activesupport (>= 3.0.0, < 5)
       multi_json (~> 1.2)
     jquery-rails (3.1.1)
@@ -100,10 +100,10 @@ GEM
       treetop (~> 1.4.8)
     mime-types (1.25.1)
     mini_portile (0.6.0)
-    minitest (5.3.5)
+    minitest (5.4.0)
     multi_json (1.10.1)
     nested_form (0.3.2)
-    nokogiri (1.6.2.1)
+    nokogiri (1.6.3.1)
       mini_portile (= 0.6.0)
     orm_adapter (0.5.0)
     pg (0.17.1)
@@ -156,14 +156,14 @@ GEM
       activemodel (>= 3.0)
       activesupport (>= 3.0)
       rspec-mocks (>= 2.99, < 4.0)
-    rspec-core (3.0.2)
+    rspec-core (3.0.3)
       rspec-support (~> 3.0.0)
-    rspec-expectations (3.0.2)
+    rspec-expectations (3.0.3)
       diff-lcs (>= 1.2.0, < 2.0)
       rspec-support (~> 3.0.0)
-    rspec-mocks (3.0.2)
+    rspec-mocks (3.0.3)
       rspec-support (~> 3.0.0)
-    rspec-rails (3.0.1)
+    rspec-rails (3.0.2)
       actionpack (>= 3.0)
       activesupport (>= 3.0)
       railties (>= 3.0)
@@ -171,7 +171,7 @@ GEM
       rspec-expectations (~> 3.0.0)
       rspec-mocks (~> 3.0.0)
       rspec-support (~> 3.0.0)
-    rspec-support (3.0.2)
+    rspec-support (3.0.3)
     safe_yaml (1.0.3)
     sass (3.2.19)
     sass-rails (4.0.3)
@@ -205,7 +205,7 @@ GEM
       coffee-rails
     tzinfo (1.2.1)
       thread_safe (~> 0.1)
-    uglifier (2.5.1)
+    uglifier (2.5.3)
       execjs (>= 0.3.0)
       json (>= 1.8.0)
     warden (1.2.3)
