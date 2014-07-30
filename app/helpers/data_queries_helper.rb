@@ -1,0 +1,2 @@
+module DataQueriesHelper
+end

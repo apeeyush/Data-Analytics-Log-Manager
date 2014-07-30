@@ -1,0 +1,25 @@
+<h2>Listing Data Queries</h2>
+
+<table>
+  <thead>
+    <tr>
+      <th>Content</th>
+      <th colspan="3"></th>
+    </tr>
+  </thead>
+
+  <tbody>
+    <% @data_queries.each do |data_query| %>
+      <tr>
+        <td><%= data_query.content %></td>
+        <td><%= link_to 'Show', data_query %></td>
+        <td><%= link_to 'Edit', edit_data_query_path(data_query) %></td>
+        <td><%= link_to 'Destroy', data_query, method: :delete, data: { confirm: 'Are you sure?' } %></td>
+      </tr>
+    <% end %>
+  </tbody>
+</table>
+
+<br>
+
+<%= link_to 'New Data query', new_data_query_path %>
