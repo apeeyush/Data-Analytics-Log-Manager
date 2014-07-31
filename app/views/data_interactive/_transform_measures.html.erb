@@ -16,21 +16,23 @@
 {
   "my_smart_count_1" : {
     "Count" : {
-      "filter" : {
-        "event" : {
-          "type" : "remove",
+      "filter" : [
+        {
+          "key" : "event",
+          "remove" : true,
           "list" : ["Bred dragons"]
         }
-      }
+      ]
     }
   },
   "session_username" : {
     "AddValue" : {
-      "filter" : {
-        "event" : {
+      "filter" : [
+        {
+          "key" : "event"
           "list" : ["User logged in"]
         }
-      },
+      ],
       "key" : "username"
     }
   }
