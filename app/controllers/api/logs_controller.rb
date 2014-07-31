@@ -58,7 +58,7 @@ module Api
         end
         new_log[:activity] = log_data["activity"]
         new_log[:event] = log_data["event"]
-        new_log[:time] = DateTime.strptime("#{log_data["time"].to_i/1000}",'%s').in_time_zone("Eastern Time (US & Canada)").to_s
+        new_log[:time] = DateTime.strptime("#{log_data["time"].to_i}",'%s').to_s
         new_log[:parameters] = log_data["parameters"]
         new_log[:extras] = Hash.new
         log_data.each do |key, value|
