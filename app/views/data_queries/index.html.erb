@@ -3,6 +3,7 @@
 <table class="table table-bordered table-hover">
   <thead>
     <tr>
+      <th>Name</th>
       <th>Query Content</th>
       <th>Show</th>
       <th>Edit</th>
@@ -13,6 +14,7 @@
   <tbody>
     <% @data_queries.each do |data_query| %>
       <tr>
+        <td><%= data_query.name %></td>
         <td><%= data_query.content %></td>
         <td><%= link_to 'Show', data_query, class: "btn btn-link" %></td>
         <td><%= link_to 'Edit', edit_data_query_path(data_query), class: "btn btn-link" %></td>

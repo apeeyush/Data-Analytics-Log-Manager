@@ -71,6 +71,6 @@ class DataQueriesController < ApplicationController
 
     # Never trust parameters from the scary internet, only allow the white list through.
     def data_query_params
-      params.require(:data_query).permit(:content)
+      params.require(:data_query).permit(:content, :name)
     end
 end
