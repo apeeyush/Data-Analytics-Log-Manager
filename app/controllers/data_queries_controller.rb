@@ -66,7 +66,7 @@ class DataQueriesController < ApplicationController
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_data_query
-      @data_query = DataQuery.find(params[:id])
+      @data_query = current_user.data_queries.find(params[:id])
     end
 
     # Never trust parameters from the scary internet, only allow the white list through.
