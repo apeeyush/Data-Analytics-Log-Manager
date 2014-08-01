@@ -18,6 +18,7 @@
 //= require dataTables/jquery.dataTables
 //= require bootstrap
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
+//= require knockout
 
 // Used to put data having a parent-child relationship to CODAP via Data Interactive API
 // Expects a hash in data with two keys

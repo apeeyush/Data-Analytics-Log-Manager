@@ -25,7 +25,8 @@ gem 'simple_form'
 gem 'rails_admin'
 # jquery-datatables gem for rails. Provides all the basic DataTables files, and a few extras.
 gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-rails.git'
-
+# The Knockout.js JavaScript library ready for the Rails asset pipeline.
+gem 'knockoutjs-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
