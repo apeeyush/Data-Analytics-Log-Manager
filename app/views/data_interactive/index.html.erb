@@ -6,25 +6,59 @@
   <li><a href="#filter_having_keys" data-toggle="tab">Filter Having Keys</a></li>
   <li><a href="#group" data-toggle="tab">Group</a></li>
   <li><a href="#measures" data-toggle="tab">Measures</a></li>
+  <li><a href="#json_data" data-toggle="tab">JSON Query</a></li>
 </ul>
 
 <form id="transformation_form" role="form">
 
 <div class="tab-content">
+
   <div id="filter" class="tab-pane active current">
-    <%= render 'transform_filter' %>
+
+    <table>
+      <tr>
+          <th>Key</th>
+          <th>List</th>
+          <th>Remove</th>
+          <th></th>
+      </tr>
+      <tbody data-bind='foreach: filter'>
+        <!-- ko if: filter_type == 'string' -->
+          <tr>
+              <td><input data-bind='value: key'></input></td>
+              <td><input data-bind='value: list'></input></td>
+              <td><input type='checkbox' data-bind='checked: remove'></input></td>
+              <td><a href='#' data-bind='click: $root.removeFilterInstance'>Delete</a></td>
+          </tr>
+        <!-- /ko -->
+        <!-- ko if: filter_type == 'time' -->
+          <tr>
+              <td><input data-bind='value: key'></input></td>
+              <td><input data-bind='value: start_time'></input></td>
+              <td><input data-bind='value: end_time'></input></td>
+              <td><a href='#' data-bind='click: $root.removeFilterInstance'>Delete</a></td>
+          </tr>
+        <!-- /ko -->
+      </tbody>
+    </table>
+    <button data-bind='click: $root.addStringFilterInstanceToFilter'>Add String Filter</button>
+    <button data-bind='click: $root.addTimeFilterInstanceToFilter'>Add Time Filter</button>
   </div>
 
   <div id="filter_having_keys" class="tab-pane next">
-    <%= render 'transform_filter_having_keys' %>
+    <textarea data-bind="value: filter_having_keys" rows="4"></textarea><br>
   </div>
 
   <div id="group" class="tab-pane next">
-    <%= render 'transform_group' %>
+    <select data-bind="options: availableGroups"></select><br>
   </div>
 
   <div id="measures" class="tab-pane next">
-    <%= render 'transform_measures' %>  
+    <!-- TODO -->
+  </div>
+
+  <div id="json_data" class="tab-pane next">
+    <textarea data-bind="value: JSON.stringify(JSON.parse(ko.toJSON($root)), null, 4)" rows="15" cols="50"></textarea>
   </div>
 
 </div>
