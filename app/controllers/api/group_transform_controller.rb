@@ -7,6 +7,7 @@ module Api
     before_action :authenticate_user!
     require_dependency 'transform_data.rb'
     require_dependency 'add_measure.rb'
+    require_dependency 'add_synthetic_data'
 
     def index
 
@@ -14,7 +15,8 @@ module Api
       filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?
       filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"])) if json_escape(params["filter_having_keys"]).present?
       child_filter = JSON.parse(json_escape(params["child_filter"])) if json_escape(params["child_filter"]).present?
-      group = params["group"]    
+      group = params["group"]
+      synthetic_data = JSON.parse(json_escape(params["synthetic_data"])) if json_escape(params["synthetic_data"]).present?
       measures = JSON.parse(json_escape(params["measures"])) if json_escape(params["measures"]).present?
 
       # Apply filters on logs
@@ -36,6 +38,7 @@ module Api
           @groups[log[parent]] = Hash.new
           @groups[log[parent]]["parent_values"] = []
           @groups[log[parent]]["parent_values"] << log[parent]
+          @groups[log[parent]]["child_values"] = []
           parents_list << log[parent]
         end
         # @parent_keys used to store keys (column names) for Parent Table
@@ -55,6 +58,18 @@ module Api
         child_data_groups.each do |parent_name, logs|
           child_array_collection = TransformData.transform_child_data(logs, parent_name, @child_keys)
           @groups[parent_name]["child_values"] = child_array_collection
+        end
+
+        if synthetic_data != nil
+          computed_logs = AddSyntheticData.compute(logs, parent, synthetic_data, parents_list, @child_keys)
+          computed_logs.each do |computed_log|
+            parent_name = computed_log[parent]
+            child = []
+            @child_keys.each do |child_key|
+              child << computed_log.value(child_key)
+            end
+            @groups[parent_name]["child_values"] << child
+          end
         end
       end
 

@@ -5,6 +5,7 @@
   <li class="active"><a href="#filter" data-toggle="tab">Filter</a></li>
   <li><a href="#filter_having_keys" data-toggle="tab">Filter Having Keys</a></li>
   <li><a href="#group" data-toggle="tab">Group</a></li>
+  <li><a href="#synthetic_data" data-toggle="tab">Synthetic Data</a></li>
   <li><a href="#measures" data-toggle="tab">Measures</a></li>
 </ul>
 
@@ -21,6 +22,10 @@
 
   <div id="group" class="tab-pane next">
     <%= render 'transform_group' %>
+  </div>
+
+  <div id="synthetic_data" class="tab-pane next">
+    <%= render 'transform_synthetic_data' %>
   </div>
 
   <div id="measures" class="tab-pane next">
