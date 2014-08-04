@@ -44,25 +44,9 @@ Rails.application.routes.draw do
     # To import some IS data in log manager
     post 'is', to: 'is#index'
 
-    # To filter data and send just filtered data to applications
-    post 'filter', to: 'filter#index'
-
-    # To group data and send grouped data (having parent-child relationship) to applications
-    post 'group', to: 'group#index'
-
-    # Used to combine individual components and perform overall transformation
-    post 'transform', to: 'transform#index'
-
-    # Used to perform aggregation analytics
-    post 'measures', to: 'measures#index'
-
-    # Used to add Synthetic Data to child table
-    post 'synthetic_data', to: 'synthetic_data#index'
-
     # Used for receiving form data from DataInteractive UI and apply appropriate transformation
     post 'group_transform', to: 'group_transform#index'
     post 'table_transform', to: 'table_transform#index'
-
 
     # CODAP API component
     post 'auth/login'
