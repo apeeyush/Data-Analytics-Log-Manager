@@ -73,6 +73,8 @@
 
   <ul class="link-list" role="directory">
     
+    <li ><a href="#method-i-about">#about</a>
+    
     <li ><a href="#method-i-explore">#explore</a>
     
     <li ><a href="#method-i-get_explore_data">#get_explore_data</a>
@@ -113,6 +115,38 @@
        </header>
 
     
+      <div id="method-i-about" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">about</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="about-source">
+            <pre><span class="ruby-comment"># File app/controllers/pages_controller.rb, line 8</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">about</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
       <div id="method-i-explore" class="method-detail ">
         
         <div class="method-heading">
@@ -132,7 +166,7 @@
 
           
           <div class="method-source-code" id="explore-source">
-            <pre><span class="ruby-comment"># File app/controllers/pages_controller.rb, line 8</span>
+            <pre><span class="ruby-comment"># File app/controllers/pages_controller.rb, line 11</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">explore</span>
   <span class="ruby-ivar">@application_list</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">access_filter</span>(<span class="ruby-identifier">current_user</span>).<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:application</span>)
   <span class="ruby-ivar">@activity_list</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">access_filter</span>(<span class="ruby-identifier">current_user</span>).<span class="ruby-identifier">uniq</span>.<span class="ruby-identifier">pluck</span>(<span class="ruby-value">:activity</span>)
@@ -166,7 +200,7 @@
 
           
           <div class="method-source-code" id="get_explore_data-source">
-            <pre><span class="ruby-comment"># File app/controllers/pages_controller.rb, line 13</span>
+            <pre><span class="ruby-comment"># File app/controllers/pages_controller.rb, line 16</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">get_explore_data</span>
   <span class="ruby-identifier">application</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:explore</span>][<span class="ruby-value">:application</span>]
   <span class="ruby-identifier">activity</span> = <span class="ruby-identifier">params</span>[<span class="ruby-value">:explore</span>][<span class="ruby-value">:activity</span>]

@@ -54,6 +54,25 @@
   </div>
 
   
+<div class="nav-section">
+  <h3>Table of Contents</h3>
+
+  <ul class="link-list" role="directory">
+    <li><a href="#label-Data+Analytics+Log+Manager">Data Analytics Log Manager</a>
+    <li><a href="#label-Motivation">Motivation</a>
+    <li><a href="#label-Project+Setup">Project Setup</a>
+    <li><a href="#label-Install+the+following%3A">Install the following:</a>
+    <li><a href="#label-Clone+the+repository%3A">Clone the repository:</a>
+    <li><a href="#label-Run+the+following+commands%3A">Run the following commands:</a>
+    <li><a href="#label-Setup+the+database%3A">Setup the database:</a>
+    <li><a href="#label-Run+migrations+on+database%3A">Run migrations on database:</a>
+    <li><a href="#label-Run+application+on+localhost%3A">Run application on localhost:</a>
+    <li><a href="#label-To+run+rails+console%3A">To run rails console:</a>
+    <li><a href="#label-Configure+Mailer+%28Optional%29%3A">Configure Mailer (Optional):</a>
+    <li><a href="#label-Contributing">Contributing</a>
+  </ul>
+</div>
+
 
   <div id="project-metadata">
     <div id="fileindex-section" class="nav-section">
@@ -71,30 +90,46 @@
 
 <main role="main" aria-label="Page README.rdoc">
 
-<p>Data Analytics <a href="Log.html">Log</a> Manager</p>
+<h1 id="label-Data+Analytics+Log+Manager">Data Analytics <a href="Log.html">Log</a> Manager<span><a href="#label-Data+Analytics+Log+Manager">&para;</a> <a href="#documentation">&uarr;</a></span></h1>
 
-<h6 id="label-"><span><a href="#label-">&para;</a> <a href="#documentation">&uarr;</a></span></h6>
+<p><a href="https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager"><img
+src="https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master"
+alt="Build Status" /></a> <a
+href="https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager"><img
+src="https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager.png"
+alt="Code Climate" /></a></p>
 
-<p>[![Build Status](<a
-href="https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master)](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager">travis-ci.org/apeeyush/Data-Analytics-Log-Manager.svg?branch=master)](https://travis-ci.org/apeeyush/Data-Analytics-Log-Manager</a>)
-[![Code Climate](<a
-href="https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager.png)](https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager">codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager.png)](https://codeclimate.com/github/apeeyush/Data-Analytics-Log-Manager</a>)</p>
+<p>Data Analytics <a href="Log.html">Log</a> Manager helps collect log data
+and provides tools to analyze this data.</p>
 
-<p>Data Analytics <a href="Log.html">Log</a> Manager provides an API for
-receiving log data from multiple applications and storing them in a
-database. The data can then be transformed to create a parent-child
-relationship. It is also possible to add synthetic/computed data before
-visualizing it on [CODAP](<a
-href="https://github.com/concord-consortium/codap">github.com/concord-consortium/codap</a>).
-More information about the project is available on [wiki](<a
+<p>It provides a lot of flexibility on the type of log data. A single log
+entry can contain multiple arbitrary key value pairs (Let&#39;s say
+`“application” =&gt; “Test App”`, `“event” =&gt; “Clicked on Wiki”` and so
+on). The analytics tools are powerful as well as easy to use. We aim to
+make complex analytics easy for not only programmers but also other users
+such as researchers, managers, designers etc. who may not have prior
+exposure to programming.</p>
+
+<p>Data Analytics <a href="Log.html">Log</a> Manager provides the following:</p>
+<ol><li>
+<p>An API for receiving log data from multiple applications and storing them
+in a database (currently PostgreSQL).</p>
+</li><li>
+<p>Tools to analyse this data. It is possible to filter the data, create a
+parent-child relationship (by let&#39;s say grouping the data by username
+and visualizing logs for various usernames as child tables), add
+synthetic/computed data (let&#39;s say the number of times the user
+performed a particular action) etc.</p>
+</li></ol>
+
+<p>More information about the project is available on [wiki](<a
 href="https://github.com/apeeyush/Data-Analytics-Log-Manager/wiki">github.com/apeeyush/Data-Analytics-Log-Manager/wiki</a>).</p>
 
 <p>You may find it useful if you have an application for which you would like
 to visualize how your users are using it and find patterns hidden in the
-data. And what&#39;s more, it&#39;s all real time.</p>
+data.</p>
 
-<p>Motivation</p>
-<hr>
+<h2 id="label-Motivation">Motivation<span><a href="#label-Motivation">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
 <p>Existing Web Analytics tools, like Google Analytics, do not provide logging
 data at the individual-user data, and so are not usable for certain kinds
@@ -104,26 +139,63 @@ Also, many other HTML5 projects would like to do analytics on event-based
 user data. The application will act as a shared tool for logging the data,
 transforming it and using CODAP for visualization.</p>
 
-<p>Project Setup</p>
-<hr>
+<h2 id="label-Project+Setup">Project Setup<span><a href="#label-Project+Setup">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
 
-<p>Install Rails 4.1 and make sure that you are running PostgreSQL 9.2 or
-higher on your system. Next clone the repository. Run `bundle install` from
-terminal after changing directory to the project directory.</p>
+<h3 id="label-Install+the+following%3A">Install the following:<span><a href="#label-Install+the+following%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+<ol><li>
+<p>Rails 4.1+</p>
+</li><li>
+<p>PostgreSQL 9.2+</p>
+</li></ol>
+
+<h3 id="label-Clone+the+repository%3A">Clone the repository:<span><a href="#label-Clone+the+repository%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre>git clone https://github.com/apeeyush/Data-Analytics-Log-Manager.git</pre>
+
+<h3 id="label-Run+the+following+commands%3A">Run the following commands:<span><a href="#label-Run+the+following+commands%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre>cd Data-Analytics-Log-Manager/
+bundle install</pre>
+
+<h3 id="label-Setup+the+database%3A">Setup the database:<span><a href="#label-Setup+the+database%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
 
 <p>Setup the `config/database.yml` file to allow the Rails application to
-connect to PostgreSQL. Either update the `username` and `password` with
-your existing user&#39;s value or create a new user in PostgreSQL having
-`username`:`log_manager` and `password`:`log_manager`. Now, create database
+connect to PostgreSQL.</p>
+
+<p>Either update the `username` and `password` with your existing user&#39;s
+value or create a new user in PostgreSQL having `username`:`log_manager`
+and `password`:`log_manager`. Now, create database
 `log_manager_development` and grant this user all privileges on
 `log_manager_development` database or make it a superuser.</p>
 
-<p>Run `rake db:migrate` to apply migrations and after that you can start the
-rails server by using `rails server`. The rails console can be accessed
-using `rails console`.</p>
+<h3 id="label-Run+migrations+on+database%3A">Run migrations on database:<span><a href="#label-Run+migrations+on+database%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
 
-<p>Contributing</p>
-<hr>
+<pre>rake db:migrate</pre>
+
+<h3 id="label-Run+application+on+localhost%3A">Run application on localhost:<span><a href="#label-Run+application+on+localhost%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<pre>rails server</pre>
+
+<h4 id="label-To+run+rails+console%3A">To run rails console:<span><a href="#label-To+run+rails+console%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h4>
+
+<pre>rails console</pre>
+
+<h3 id="label-Configure+Mailer+%28Optional%29%3A">Configure Mailer (Optional):<span><a href="#label-Configure+Mailer+%28Optional%29%3A">&para;</a> <a href="#documentation">&uarr;</a></span></h3>
+
+<p>To allow the rails application to send mails, update the
+/config/environments/development.rb or set environment variables `EMAIL`
+and `PASSWORD`. For more information, refer to [this](<a
+href="http://stackoverflow.com/a/13296207/2352321">stackoverflow.com/a/13296207/2352321</a>).</p>
+
+<h2 id="label-Contributing">Contributing<span><a href="#label-Contributing">&para;</a> <a href="#documentation">&uarr;</a></span></h2>
+
+<p>See the [Getting Started Guide for Developers](<a
+href="https://github.com/apeeyush/Data-Analytics-Log-Manager/wiki/Getting-Started-Guide-for-Developers">github.com/apeeyush/Data-Analytics-Log-Manager/wiki/Getting-Started-Guide-for-Developers</a>)
+for more information about the technical working of Data Analytics <a
+href="Log.html">Log</a> Manager.</p>
+
+<p>The style guide for the project is available [here](<a
+href="https://github.com/apeeyush/Data-Analytics-Log-Manager/wiki/Style-Guide">github.com/apeeyush/Data-Analytics-Log-Manager/wiki/Style-Guide</a>).</p>
 
 <p>Feel free to fork the repository and hack on it! Implemented some feature?
 Well, just send a pull request. Facing problems setting things up or

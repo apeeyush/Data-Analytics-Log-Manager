@@ -206,7 +206,7 @@ column_type</p>
         
         <div class="method-heading">
           <span class="method-name">filter</span><span
-            class="method-args">(filter)</span>
+            class="method-args">(filter_list)</span>
           
           <span class="method-click-advice">click to toggle source</span>
           
@@ -219,50 +219,56 @@ column_type</p>
 
 <p>Example JSON Body:</p>
 
-<pre>   &quot;username&quot; : {
-     &quot;list&quot; : [&quot;peeyush&quot;, &quot;apeeyush&quot;]
-   },
-   &quot;time&quot; : {
-     &quot;start_time&quot; : &quot;2014-02-25&quot;,
-     &quot;end_time&quot; : &quot;2014-10-29&quot;
-   },
-   &quot;color&quot; : {
-     &quot;type&quot; : &quot;remove&quot;,                               //Optional (For filter out)
-     &quot;list&quot; : [ {&quot;color&quot;:&quot;green&quot;}]      
-   }
+<pre>[
+  {
+    &quot;key&quot; : &quot;username&quot;,
+    &quot;list&quot; : [&quot;peeyush&quot;, &quot;apeeyush&quot;]
+  },
+  {
+    &quot;key&quot; : &quot;time&quot;,
+    &quot;start_time&quot; : &quot;2014-02-25&quot;,
+    &quot;end_time&quot; : &quot;2014-10-29&quot;
+  },
+  {
+    &quot;key&quot; : &quot;color&quot;
+    &quot;remove&quot; : true,                                  //Optional (For filter out)
+    &quot;list&quot; : [&quot;green&quot;]
+  }
+]
 logs.filter(body)</pre>
           
           
 
           
           <div class="method-source-code" id="filter-source">
-            <pre><span class="ruby-comment"># File app/models/log.rb, line 103</span>
-<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">filter</span>)
+            <pre><span class="ruby-comment"># File app/models/log.rb, line 108</span>
+<span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">filter_list</span>)
   <span class="ruby-identifier">logs</span> = <span class="ruby-keyword">self</span>
   <span class="ruby-identifier">logs_columns</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">column_lists</span>
   <span class="ruby-identifier">string_columns</span> = <span class="ruby-identifier">logs_columns</span>[<span class="ruby-string">&quot;string_columns&quot;</span>]
   <span class="ruby-identifier">time_columns</span> = <span class="ruby-identifier">logs_columns</span>[<span class="ruby-string">&quot;time_columns&quot;</span>]
   <span class="ruby-identifier">hstore_columns</span> = <span class="ruby-identifier">logs_columns</span>[<span class="ruby-string">&quot;hstore_columns&quot;</span>]
-  <span class="ruby-identifier">filter</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+  <span class="ruby-identifier">filter_list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">filter</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">key</span> = <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;key&quot;</span>]
     <span class="ruby-keyword">if</span> <span class="ruby-identifier">string_columns</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">key</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;type&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;remove&quot;</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>.<span class="ruby-identifier">not</span>({ <span class="ruby-identifier">key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;list&quot;</span>]})
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;remove&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>.<span class="ruby-identifier">not</span>({ <span class="ruby-identifier">key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;list&quot;</span>]})
       <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>({ <span class="ruby-identifier">key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;list&quot;</span>]})
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>({ <span class="ruby-identifier">key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;list&quot;</span>]})
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">time_columns</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">key</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;start_time&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;end_time&quot;</span>].<span class="ruby-identifier">present?</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{key} &gt;= :start_time&quot;</span>,{<span class="ruby-identifier">start_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;start_time&quot;</span>]})
-      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;end_time&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;start_time&quot;</span>].<span class="ruby-identifier">present?</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{key} &lt;= :end_time&quot;</span>,{<span class="ruby-identifier">end_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;end_time&quot;</span>]})
-      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;end_time&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;start_time&quot;</span>].<span class="ruby-identifier">present?</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{key} &gt;= :start_time AND #{key} &lt;= :end_time&quot;</span>,{<span class="ruby-identifier">start_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;start_time&quot;</span>], <span class="ruby-identifier">end_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;end_time&quot;</span>]})
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;start_time&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;end_time&quot;</span>].<span class="ruby-identifier">present?</span>
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{key} &gt;= :start_time&quot;</span>,{<span class="ruby-identifier">start_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;start_time&quot;</span>]})
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;end_time&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-operator">!</span><span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;start_time&quot;</span>].<span class="ruby-identifier">present?</span>
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{key} &lt;= :end_time&quot;</span>,{<span class="ruby-identifier">end_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;end_time&quot;</span>]})
+      <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;end_time&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;start_time&quot;</span>].<span class="ruby-identifier">present?</span>
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{key} &gt;= :start_time AND #{key} &lt;= :end_time&quot;</span>,{<span class="ruby-identifier">start_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;start_time&quot;</span>], <span class="ruby-identifier">end_time</span><span class="ruby-operator">:</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;end_time&quot;</span>]})
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">else</span>
-      <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;type&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;remove&quot;</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{hstore_columns} -&gt; :key NOT IN ( :list )&quot;</span>, <span class="ruby-value">:key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-value">:list</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;list&quot;</span>])
+      <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;remove&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{hstore_columns} -&gt; :key NOT IN ( :list )&quot;</span>, <span class="ruby-value">:key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-value">:list</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;list&quot;</span>])
       <span class="ruby-keyword">else</span>
-        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{hstore_columns} -&gt; :key IN ( :list )&quot;</span>, <span class="ruby-value">:key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-value">:list</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;list&quot;</span>])
+        <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">where</span>(<span class="ruby-node">&quot;#{hstore_columns} -&gt; :key IN ( :list )&quot;</span>, <span class="ruby-value">:key</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">key</span>, <span class="ruby-value">:list</span> =<span class="ruby-operator">&gt;</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;list&quot;</span>])
       <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
@@ -303,7 +309,7 @@ logs.filter(body)</pre>
 
           
           <div class="method-source-code" id="filter_having_keys-source">
-            <pre><span class="ruby-comment"># File app/models/log.rb, line 141</span>
+            <pre><span class="ruby-comment"># File app/models/log.rb, line 147</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">filter_having_keys</span>(<span class="ruby-identifier">filter</span>)
   <span class="ruby-identifier">logs</span> = <span class="ruby-keyword">self</span>
   <span class="ruby-identifier">logs_columns</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">column_lists</span>
@@ -359,7 +365,7 @@ logs.filter(body)</pre>
 
           
           <div class="method-source-code" id="keys_list-source">
-            <pre><span class="ruby-comment"># File app/models/log.rb, line 168</span>
+            <pre><span class="ruby-comment"># File app/models/log.rb, line 174</span>
 <span class="ruby-keyword">def</span> <span class="ruby-keyword">self</span>.<span class="ruby-identifier">keys_list</span>
   <span class="ruby-identifier">list</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">column_names</span> <span class="ruby-operator">-</span> <span class="ruby-node">%w{id parameters extras}</span>
   <span class="ruby-identifier">all</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">log</span><span class="ruby-operator">|</span>
@@ -406,7 +412,7 @@ logs.filter(body)</pre>
 
           
           <div class="method-source-code" id="satisfies_conditions-source">
-            <pre><span class="ruby-comment"># File app/models/log.rb, line 178</span>
+            <pre><span class="ruby-comment"># File app/models/log.rb, line 184</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">satisfies_conditions</span>(<span class="ruby-identifier">conditions</span>)
   <span class="ruby-identifier">conditions</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
     <span class="ruby-keyword">return</span> <span class="ruby-keyword">false</span> <span class="ruby-keyword">if</span> <span class="ruby-identifier">value</span>(<span class="ruby-identifier">key</span>) <span class="ruby-operator">!=</span> <span class="ruby-identifier">value</span>

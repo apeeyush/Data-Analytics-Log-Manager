@@ -31,7 +31,18 @@
     <a href="README_rdoc.html">README</a>
 
     <ul>
-      <li><a href="README_rdoc.html#label-"></a>
+      <li><a href="README_rdoc.html#label-Data+Analytics+Log+Manager">Data Analytics Log Manager</a>
+      <li><a href="README_rdoc.html#label-Motivation">Motivation</a>
+      <li><a href="README_rdoc.html#label-Project+Setup">Project Setup</a>
+      <li><a href="README_rdoc.html#label-Install+the+following%3A">Install the following:</a>
+      <li><a href="README_rdoc.html#label-Clone+the+repository%3A">Clone the repository:</a>
+      <li><a href="README_rdoc.html#label-Run+the+following+commands%3A">Run the following commands:</a>
+      <li><a href="README_rdoc.html#label-Setup+the+database%3A">Setup the database:</a>
+      <li><a href="README_rdoc.html#label-Run+migrations+on+database%3A">Run migrations on database:</a>
+      <li><a href="README_rdoc.html#label-Run+application+on+localhost%3A">Run application on localhost:</a>
+      <li><a href="README_rdoc.html#label-To+run+rails+console%3A">To run rails console:</a>
+      <li><a href="README_rdoc.html#label-Configure+Mailer+%28Optional%29%3A">Configure Mailer (Optional):</a>
+      <li><a href="README_rdoc.html#label-Contributing">Contributing</a>
     </ul>
   </li>
   
@@ -42,15 +53,15 @@
   <li class="module">
     <a href="AddMeasure.html">AddMeasure</a>
   </li>
+  <li class="module">
+    <a href="AddSyntheticData.html">AddSyntheticData</a>
+  </li>
   <li class="class">
     <a href="Admin.html">Admin</a>
 
     <ul>
       <li><a href="Admin.html#label-Schema+Information">Schema Information</a>
     </ul>
-  </li>
-  <li class="class">
-    <a href="AnalyticsController.html">AnalyticsController</a>
   </li>
   <li class="module">
     <a href="AnalyticsHelper.html">AnalyticsHelper</a>
@@ -65,12 +76,6 @@
     <a href="Api/DocumentController.html">Api::DocumentController</a>
   </li>
   <li class="class">
-    <a href="Api/FilterController.html">Api::FilterController</a>
-  </li>
-  <li class="class">
-    <a href="Api/GroupController.html">Api::GroupController</a>
-  </li>
-  <li class="class">
     <a href="Api/GroupTransformController.html">Api::GroupTransformController</a>
   </li>
   <li class="class">
@@ -80,16 +85,7 @@
     <a href="Api/LogsController.html">Api::LogsController</a>
   </li>
   <li class="class">
-    <a href="Api/MeasuresController.html">Api::MeasuresController</a>
-  </li>
-  <li class="class">
-    <a href="Api/SyntheticDataController.html">Api::SyntheticDataController</a>
-  </li>
-  <li class="class">
     <a href="Api/TableTransformController.html">Api::TableTransformController</a>
-  </li>
-  <li class="class">
-    <a href="Api/TransformController.html">Api::TransformController</a>
   </li>
   <li class="class">
     <a href="Application.html">Application</a>
@@ -109,6 +105,15 @@
   </li>
   <li class="module">
     <a href="DataInteractiveHelper.html">DataInteractiveHelper</a>
+  </li>
+  <li class="class">
+    <a href="DataQueriesController.html">DataQueriesController</a>
+  </li>
+  <li class="module">
+    <a href="DataQueriesHelper.html">DataQueriesHelper</a>
+  </li>
+  <li class="class">
+    <a href="DataQuery.html">DataQuery</a>
   </li>
   <li class="class">
     <a href="Document.html">Document</a>
@@ -184,6 +189,11 @@
     <span class="container">Log</span>
 
   <li class="method">
+    <a href="AddSyntheticData.html#method-c-compute">::compute</a>
+    &mdash;
+    <span class="container">AddSyntheticData</span>
+
+  <li class="method">
     <a href="Log.html#method-c-filter">::filter</a>
     &mdash;
     <span class="container">Log</span>
@@ -209,9 +219,9 @@
     <span class="container">TransformData</span>
 
   <li class="method">
-    <a href="User.html#method-i-active_for_authentication-3F">#active_for_authentication?</a>
+    <a href="PagesController.html#method-i-about">#about</a>
     &mdash;
-    <span class="container">User</span>
+    <span class="container">PagesController</span>
 
   <li class="method">
     <a href="Api/DocumentController.html#method-i-all">#all</a>
@@ -239,19 +249,34 @@
     <span class="container">ApplicationController</span>
 
   <li class="method">
-    <a href="DocumentsController.html#method-i-create">#create</a>
-    &mdash;
-    <span class="container">DocumentsController</span>
-
-  <li class="method">
     <a href="Api/LogsController.html#method-i-create">#create</a>
     &mdash;
     <span class="container">Api::LogsController</span>
 
   <li class="method">
+    <a href="DataQueriesController.html#method-i-create">#create</a>
+    &mdash;
+    <span class="container">DataQueriesController</span>
+
+  <li class="method">
+    <a href="DocumentsController.html#method-i-create">#create</a>
+    &mdash;
+    <span class="container">DocumentsController</span>
+
+  <li class="method">
     <a href="DocumentsController.html#method-i-destroy">#destroy</a>
     &mdash;
     <span class="container">DocumentsController</span>
+
+  <li class="method">
+    <a href="DataQueriesController.html#method-i-destroy">#destroy</a>
+    &mdash;
+    <span class="container">DataQueriesController</span>
+
+  <li class="method">
+    <a href="DataQueriesController.html#method-i-edit">#edit</a>
+    &mdash;
+    <span class="container">DataQueriesController</span>
 
   <li class="method">
     <a href="DocumentsController.html#method-i-edit">#edit</a>
@@ -269,59 +294,9 @@
     <span class="container">PagesController</span>
 
   <li class="method">
-    <a href="AnalyticsController.html#method-i-filter">#filter</a>
-    &mdash;
-    <span class="container">AnalyticsController</span>
-
-  <li class="method">
     <a href="PagesController.html#method-i-get_explore_data">#get_explore_data</a>
     &mdash;
     <span class="container">PagesController</span>
-
-  <li class="method">
-    <a href="AnalyticsController.html#method-i-group">#group</a>
-    &mdash;
-    <span class="container">AnalyticsController</span>
-
-  <li class="method">
-    <a href="User.html#method-i-inactive_message">#inactive_message</a>
-    &mdash;
-    <span class="container">User</span>
-
-  <li class="method">
-    <a href="Api/GroupTransformController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">Api::GroupTransformController</span>
-
-  <li class="method">
-    <a href="Api/TableTransformController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">Api::TableTransformController</span>
-
-  <li class="method">
-    <a href="Api/SyntheticDataController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">Api::SyntheticDataController</span>
-
-  <li class="method">
-    <a href="Api/IsController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">Api::IsController</span>
-
-  <li class="method">
-    <a href="DocumentsController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">DocumentsController</span>
-
-  <li class="method">
-    <a href="Api/GroupController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">Api::GroupController</span>
-
-  <li class="method">
-    <a href="Api/FilterController.html#method-i-index">#index</a>
-    &mdash;
-    <span class="container">Api::FilterController</span>
 
   <li class="method">
     <a href="LogsController.html#method-i-index">#index</a>
@@ -329,9 +304,19 @@
     <span class="container">LogsController</span>
 
   <li class="method">
-    <a href="Api/TransformController.html#method-i-index">#index</a>
+    <a href="Api/GroupTransformController.html#method-i-index">#index</a>
     &mdash;
-    <span class="container">Api::TransformController</span>
+    <span class="container">Api::GroupTransformController</span>
+
+  <li class="method">
+    <a href="DataQueriesController.html#method-i-index">#index</a>
+    &mdash;
+    <span class="container">DataQueriesController</span>
+
+  <li class="method">
+    <a href="Api/IsController.html#method-i-index">#index</a>
+    &mdash;
+    <span class="container">Api::IsController</span>
 
   <li class="method">
     <a href="DataInteractiveController.html#method-i-index">#index</a>
@@ -339,14 +324,14 @@
     <span class="container">DataInteractiveController</span>
 
   <li class="method">
-    <a href="Api/MeasuresController.html#method-i-index">#index</a>
+    <a href="DocumentsController.html#method-i-index">#index</a>
     &mdash;
-    <span class="container">Api::MeasuresController</span>
+    <span class="container">DocumentsController</span>
 
   <li class="method">
-    <a href="AnalyticsController.html#method-i-index">#index</a>
+    <a href="Api/TableTransformController.html#method-i-index">#index</a>
     &mdash;
-    <span class="container">AnalyticsController</span>
+    <span class="container">Api::TableTransformController</span>
 
   <li class="method">
     <a href="Api/AuthController.html#method-i-invalid_login_attempt">#invalid_login_attempt</a>
@@ -364,14 +349,14 @@
     <span class="container">PagesController</span>
 
   <li class="method">
-    <a href="AnalyticsController.html#method-i-measures">#measures</a>
-    &mdash;
-    <span class="container">AnalyticsController</span>
-
-  <li class="method">
     <a href="DocumentsController.html#method-i-new">#new</a>
     &mdash;
     <span class="container">DocumentsController</span>
+
+  <li class="method">
+    <a href="DataQueriesController.html#method-i-new">#new</a>
+    &mdash;
+    <span class="container">DataQueriesController</span>
 
   <li class="method">
     <a href="Api/DocumentController.html#method-i-open">#open</a>
@@ -394,19 +379,19 @@
     <span class="container">Api::DocumentController</span>
 
   <li class="method">
+    <a href="DataQueriesController.html#method-i-show">#show</a>
+    &mdash;
+    <span class="container">DataQueriesController</span>
+
+  <li class="method">
     <a href="DocumentsController.html#method-i-show">#show</a>
     &mdash;
     <span class="container">DocumentsController</span>
 
   <li class="method">
-    <a href="AnalyticsController.html#method-i-synthetic_data">#synthetic_data</a>
+    <a href="DataQueriesController.html#method-i-update">#update</a>
     &mdash;
-    <span class="container">AnalyticsController</span>
-
-  <li class="method">
-    <a href="AnalyticsController.html#method-i-transformation">#transformation</a>
-    &mdash;
-    <span class="container">AnalyticsController</span>
+    <span class="container">DataQueriesController</span>
 
   <li class="method">
     <a href="DocumentsController.html#method-i-update">#update</a>

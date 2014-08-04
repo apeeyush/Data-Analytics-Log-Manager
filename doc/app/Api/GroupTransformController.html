@@ -128,14 +128,15 @@
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/api/group_transform_controller.rb, line 11</span>
+            <pre><span class="ruby-comment"># File app/controllers/api/group_transform_controller.rb, line 12</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
 
   <span class="ruby-comment"># Parse input to generate JSON blobs for various components</span>
   <span class="ruby-identifier">filter</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter&quot;</span>]).<span class="ruby-identifier">present?</span>
   <span class="ruby-identifier">filter_having_keys</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>]).<span class="ruby-identifier">present?</span>
   <span class="ruby-identifier">child_filter</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;child_filter&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;child_filter&quot;</span>]).<span class="ruby-identifier">present?</span>
-  <span class="ruby-identifier">group</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;group&quot;</span>]    
+  <span class="ruby-identifier">group</span> = <span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;group&quot;</span>]
+  <span class="ruby-identifier">synthetic_data</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;synthetic_data&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;synthetic_data&quot;</span>]).<span class="ruby-identifier">present?</span>
   <span class="ruby-identifier">measures</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;measures&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;measures&quot;</span>]).<span class="ruby-identifier">present?</span>
 
   <span class="ruby-comment"># Apply filters on logs</span>
@@ -157,6 +158,7 @@
       <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-identifier">parent</span>]] = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
       <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-identifier">parent</span>]][<span class="ruby-string">&quot;parent_values&quot;</span>] = []
       <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-identifier">parent</span>]][<span class="ruby-string">&quot;parent_values&quot;</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">log</span>[<span class="ruby-identifier">parent</span>]
+      <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-identifier">parent</span>]][<span class="ruby-string">&quot;child_values&quot;</span>] = []
       <span class="ruby-identifier">parents_list</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">log</span>[<span class="ruby-identifier">parent</span>]
     <span class="ruby-keyword">end</span>
     <span class="ruby-comment"># @parent_keys used to store keys (column names) for Parent Table</span>
@@ -176,6 +178,18 @@
     <span class="ruby-identifier">child_data_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">parent_name</span>, <span class="ruby-identifier">logs</span><span class="ruby-operator">|</span>
       <span class="ruby-identifier">child_array_collection</span> = <span class="ruby-constant">TransformData</span>.<span class="ruby-identifier">transform_child_data</span>(<span class="ruby-identifier">logs</span>, <span class="ruby-identifier">parent_name</span>, <span class="ruby-ivar">@child_keys</span>)
       <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">parent_name</span>][<span class="ruby-string">&quot;child_values&quot;</span>] = <span class="ruby-identifier">child_array_collection</span>
+    <span class="ruby-keyword">end</span>
+
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">synthetic_data</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>
+      <span class="ruby-identifier">computed_logs</span> = <span class="ruby-constant">AddSyntheticData</span>.<span class="ruby-identifier">compute</span>(<span class="ruby-identifier">logs</span>, <span class="ruby-identifier">parent</span>, <span class="ruby-identifier">synthetic_data</span>, <span class="ruby-identifier">parents_list</span>, <span class="ruby-ivar">@child_keys</span>)
+      <span class="ruby-identifier">computed_logs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">computed_log</span><span class="ruby-operator">|</span>
+        <span class="ruby-identifier">parent_name</span> = <span class="ruby-identifier">computed_log</span>[<span class="ruby-identifier">parent</span>]
+        <span class="ruby-identifier">child</span> = []
+        <span class="ruby-ivar">@child_keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">child_key</span><span class="ruby-operator">|</span>
+          <span class="ruby-identifier">child</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">computed_log</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">child_key</span>)
+        <span class="ruby-keyword">end</span>
+        <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">parent_name</span>][<span class="ruby-string">&quot;child_values&quot;</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">child</span>
+      <span class="ruby-keyword">end</span>
     <span class="ruby-keyword">end</span>
   <span class="ruby-keyword">end</span>
 
