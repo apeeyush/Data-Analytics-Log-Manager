@@ -7,6 +7,7 @@ module Api
     before_action :authenticate_user!
     require_dependency 'transform_data.rb'
     require_dependency 'add_measure.rb'
+    require_dependency 'add_synthetic_data'
 
     def index
 
@@ -55,6 +56,18 @@ module Api
         child_data_groups.each do |parent_name, logs|
           child_array_collection = TransformData.transform_child_data(logs, parent_name, @child_keys)
           @groups[parent_name]["child_values"] = child_array_collection
+        end
+
+        if synthetic_data != nil
+          computed_logs = AddSyntheticData.compute(logs, parent, synthetic_data, parents_list, @child_keys)
+          computed_logs.each do |computed_log|
+            parent_name = computed_log[parent]
+            child = []
+            @child_keys.each do |child_key|
+              child << computed_log.value(child_key)
+            end
+            @groups[parent_name]["child_values"] << child
+          end
         end
       end
 

@@ -23,3 +23,12 @@ table {
   table-layout: fixed;
   word-wrap: break-word;
 }
+
+.bordered {
+  border-color:#999;
+  border-style:solid;
+  border-width:1px;
+  border-radius:5px;
+}
+
+.top-buffer { margin-top:20px; }
