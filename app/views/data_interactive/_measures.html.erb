@@ -1,7 +1,6 @@
-<div class="row top-buffer">
 <form class="form-horizontal">
   <div data-bind='foreach: measures'>
-    <div class="row bordered top-buffer" style="padding-left: 20px; padding-right: 20px; padding-top: 20px; padding-bottom: 10px;">
+    <div class="row bordered-bold top-buffer padding-around">
       <form class="form-horizontal">
         <!-- ko if: measure_type == 'count' -->
         <div class="form-group">
@@ -65,4 +64,3 @@
   <button class="btn btn-primary" data-bind='click: $root.addSumMeasure'>Add Sum Measure</button>
   <button class="btn btn-primary" data-bind='click: $root.addValueMeasure'>Add Value Measure</button>
 </form>
-</div>
