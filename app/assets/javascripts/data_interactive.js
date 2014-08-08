@@ -3,7 +3,10 @@ $(function() {
   $("#js-submit-query").click(function(){
     var btn = $(this);
     btn.button('loading');
-    if ( $("#js-group-data").val().length === 0) {
+    var query = $("#json-textarea").val();
+    console.log($('#transformation_form').serialize());
+    var parsed_query = JSON.parse(query);
+    if ( parsed_query.group.length === 0) {
       $.ajax({
         type: "POST",
         url: "/api/table_transform",
@@ -37,6 +40,7 @@ $(function() {
 
   function enableTab(id) {
     var el = document.getElementById(id);
+    if (el !== null) {
     el.onkeydown = function(e) {
         if (e.keyCode === 9) { // tab was pressed
 
@@ -56,6 +60,7 @@ $(function() {
 
         }
     };
+    }
   }
   enableTab('json-textarea');
 
