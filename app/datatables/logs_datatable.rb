@@ -26,7 +26,7 @@ private
         log.application,
         log.activity,
         log.event,
-        log.time.in_time_zone(time_zone).strftime("%Y-%m-%d, %I:%M:%S %p, %Z"),
+        (log.time.in_time_zone(time_zone).strftime("%Y-%m-%d, %I:%M:%S %p, %Z") if log.time.present?),
         log.parameters.to_s,
         log.extras.to_s,
         log.event_value
