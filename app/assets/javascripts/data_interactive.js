@@ -9,7 +9,7 @@ $(function() {
     if ( parsed_query.group.length === 0) {
       $.ajax({
         type: "POST",
-        url: "/api/table_transform",
+        url: "/table_transform",
         data: $('#transformation_form').serialize(),
         success: function(data) {
           doSingleTableAnalysis(data);
@@ -23,7 +23,7 @@ $(function() {
     } else {
       $.ajax({
         type: "POST",
-        url: "/api/group_transform",
+        url: "/group_transform",
         data: $('#transformation_form').serialize(),
         success: function(data) {
           doGroupAnalysis(data);

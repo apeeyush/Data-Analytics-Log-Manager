@@ -32,6 +32,10 @@ Rails.application.routes.draw do
   #   post "/api/auth/login", to: "devise/sessions#new"
   # end
 
+  # Used for receiving form data from DataInteractive UI and apply appropriate transformation
+  post 'group_transform', to: 'group_transform#index'
+  post 'table_transform', to: 'table_transform#index'
+
   namespace :api, defaults: {format: 'json'} do
 
     # To allow CORS request. The browser first sends an Options request which is matched to logs#options
@@ -43,10 +47,6 @@ Rails.application.routes.draw do
 
     # To import some IS data in log manager
     post 'is', to: 'is#index'
-
-    # Used for receiving form data from DataInteractive UI and apply appropriate transformation
-    post 'group_transform', to: 'group_transform#index'
-    post 'table_transform', to: 'table_transform#index'
 
     # CODAP API component
     post 'auth/login'
