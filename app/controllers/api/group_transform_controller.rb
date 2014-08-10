@@ -15,7 +15,7 @@ module Api
       # Apply filters on logs
       logs = Log.access_filter(current_user)
       logs = logs.filter(query["filter"]) if (query["filter"] != nil)
-      logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"] != nil)
+      logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
 
       if query["group"] != nil && %w{username activity application session event}.include?(query["group"])
         @groups = Hash.new
@@ -52,7 +52,8 @@ module Api
           @groups[parent_name]["child_values"] = child_array_collection
         end
 
-        if synthetic_data != nil
+        if query["synthetic_data"] != nil
+          synthetic_data = query["synthetic_data"]
           computed_logs = AddSyntheticData.compute(logs, parent, synthetic_data, parents_list, @child_keys)
           computed_logs.each do |computed_log|
             parent_name = computed_log[parent]
@@ -65,18 +66,18 @@ module Api
         end
       end
 
-      if measures.present? && !measures.empty?
-        measures.each do |measure_name, measure_info|
-          @parent_keys << measure_name
+      if query["measures"].present? && !query["measures"].empty?
+        query["measures"].each do |measure|
+          @parent_keys << measure["name"]
           # Aggregation measure : Filters and then does count(*)
-          if measure_info.keys[0] == "Count"
-            measures_hash = AddMeasure.calculate_count(measure_info["Count"], logs, parent, parents_list)
+          if measure["measure_type"] == "count"
+            measures_hash = AddMeasure.calculate_count(measure, logs, parent, parents_list)
           # Measure to add key's value to parent table
-          elsif measure_info.keys[0] == "AddValue"
-            measures_hash = AddMeasure.calculate_values(measure_info["AddValue"], logs, parent, parents_list)
+          elsif measure["measure_type"] == "value"
+            measures_hash = AddMeasure.calculate_values(measure, logs, parent, parents_list)
           # Measure to add sum of values for the specified key
-          elsif measure_info.keys[0] == "Sum"
-            measures_hash = AddMeasure.calculate_sum(measure_info["Sum"], logs, parent, parents_list)
+          elsif measure["measure_type"] == "sum"
+            measures_hash = AddMeasure.calculate_sum(measure, logs, parent, parents_list)
           end
           @groups.each do |parent_name, value|
             value["parent_values"] << measures_hash[parent_name]
