@@ -11,7 +11,7 @@ module Api
 
       logs = Log.access_filter(current_user)
       logs = logs.filter(query["filter"]) if (query["filter"] != nil)
-      new_logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
+      logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
 
       if logs != nil
         @logs = logs
