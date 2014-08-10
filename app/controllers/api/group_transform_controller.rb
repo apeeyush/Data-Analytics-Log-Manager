@@ -10,23 +10,16 @@ module Api
     require_dependency 'add_synthetic_data'
 
     def index
-
-      # Parse input to generate JSON blobs for various components
-      filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?
-      filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"])) if json_escape(params["filter_having_keys"]).present?
-      child_filter = JSON.parse(json_escape(params["child_filter"])) if json_escape(params["child_filter"]).present?
-      group = params["group"]
-      synthetic_data = JSON.parse(json_escape(params["synthetic_data"])) if json_escape(params["synthetic_data"]).present?
-      measures = JSON.parse(json_escape(params["measures"])) if json_escape(params["measures"]).present?
+      query = JSON.parse(json_escape(params["json-textarea"]))
 
       # Apply filters on logs
       logs = Log.access_filter(current_user)
-      logs = logs.filter(filter) if (filter != nil)
-      logs = logs.filter_having_keys(filter_having_keys) if (filter_having_keys != nil)
+      logs = logs.filter(query["filter"]) if (query["filter"] != nil)
+      logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"] != nil)
 
-      if group != nil && %w{username activity application session event}.include?(group)
+      if query["group"] != nil && %w{username activity application session event}.include?(query["group"])
         @groups = Hash.new
-        parent = group
+        parent = query["group"]
         parents_list = []
 
         # Initialises @groups
@@ -45,9 +38,9 @@ module Api
         @parent_keys = []
         @parent_keys << parent
         # @child_keys used to store keys (column names) for Child Table
-        if child_filter != nil
-          child_data_groups = logs.filter(child_filter).group_by { |t| t.send(parent.to_sym) }
-          @child_keys = logs.filter(child_filter).keys_list
+        if query["child_filter"] != nil
+          child_data_groups = logs.filter(query["child_filter"]).group_by { |t| t.send(parent.to_sym) }
+          @child_keys = logs.filter(query["child_filter"]).keys_list
         else
           child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
           @child_keys = logs.keys_list

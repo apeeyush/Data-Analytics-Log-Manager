@@ -5,35 +5,33 @@
   <li class="active"><a href="#filter" data-toggle="tab">Filter</a></li>
   <li><a href="#filter_having_keys" data-toggle="tab">Filter Having Keys</a></li>
   <li><a href="#group" data-toggle="tab">Group</a></li>
-  <li><a href="#synthetic_data" data-toggle="tab">Synthetic Data</a></li>
   <li><a href="#measures" data-toggle="tab">Measures</a></li>
+  <li><a href="#json_data" data-toggle="tab">JSON Query</a></li>
 </ul>
 
-<form id="transformation_form" role="form">
-
 <div class="tab-content">
+
   <div id="filter" class="tab-pane active current">
-    <%= render 'transform_filter' %>
+    <%= render 'filter' %>
   </div>
 
   <div id="filter_having_keys" class="tab-pane next">
-    <%= render 'transform_filter_having_keys' %>
+    <%= render 'filter_having_keys' %>
   </div>
 
   <div id="group" class="tab-pane next">
-    <%= render 'transform_group' %>
-  </div>
-
-  <div id="synthetic_data" class="tab-pane next">
-    <%= render 'transform_synthetic_data' %>
+    <%= render 'group' %>
   </div>
 
   <div id="measures" class="tab-pane next">
-    <%= render 'transform_measures' %>  
+    <%= render 'measures' %>
+  </div>
+
+  <div id="json_data" class="tab-pane next">
+    <%= render 'json_data' %>
   </div>
 
 </div>
 
-</form>
 <hr>
 </div>

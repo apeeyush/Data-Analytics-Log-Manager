@@ -7,12 +7,11 @@ module Api
     before_action :authenticate_user!
 
     def index
-      filter = JSON.parse(json_escape(params["filter"])) if json_escape(params["filter"]).present?
-      filter_having_keys = JSON.parse(json_escape(params["filter_having_keys"])) if json_escape(params["filter_having_keys"]).present?
+      query = JSON.parse(json_escape(params["json-textarea"]))
 
       logs = Log.access_filter(current_user)
-      logs = logs.filter(filter) if (filter != nil)
-      logs = logs.filter_having_keys(filter_having_keys) if (filter_having_keys != nil)
+      logs = logs.filter(query["filter"]) if (query["filter"] != nil)
+      new_logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
 
       if logs != nil
         @logs = logs

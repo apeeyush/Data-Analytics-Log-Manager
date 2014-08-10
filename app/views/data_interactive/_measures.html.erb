@@ -1,0 +1,66 @@
+<form class="form-horizontal">
+  <div data-bind='foreach: measures'>
+    <div class="row bordered-bold top-buffer padding-around">
+      <form class="form-horizontal">
+        <!-- ko if: measure_type == 'count' -->
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="name">Name</label>
+          <div class="col-sm-4">
+            <input class="form-control" data-bind="value: name"></input>
+          </div>
+        </div>
+        <%= render 'measures_filter'%>
+          <div class="form-group">
+            <div class="col-md-4 col-md-offset-2">
+              <button class="btn btn-danger" data-bind='click: $root.removeMeasureInstance'>Delete Measure</button>
+            </div>
+          </div>
+        <!-- /ko -->
+        <!-- ko if: measure_type == 'sum' -->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="name">Name</label>
+            <div class="col-sm-4">
+              <input class="form-control" data-bind="value: name"></input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="key">Key</label>
+            <div class="col-sm-4">
+              <input class="form-control" data-bind="value: key"></input>
+            </div>
+          </div>
+          <%= render 'measures_filter'%>
+          <div class="form-group">
+            <div class="col-md-4 col-md-offset-2">
+              <button class="btn btn-danger" data-bind='click: $root.removeMeasureInstance'>Delete Measure</button>
+            </div>
+          </div>
+        <!-- /ko -->
+        <!-- ko if: measure_type == 'value' -->
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="name">Name</label>
+            <div class="col-sm-4">
+              <input class="form-control" data-bind="value: name"></input>
+            </div>
+          </div>
+          <div class="form-group">
+            <label class="col-md-2 control-label" for="key">Key</label>
+            <div class="col-sm-4">
+              <input class="form-control" data-bind="value: key"></input>
+            </div>
+          </div>
+          <%= render 'measures_filter'%>
+          <div class="form-group">
+            <div class="col-md-4 col-md-offset-2">
+              <button class="btn btn-danger" data-bind='click: $root.removeMeasureInstance'>Delete Measure</button>
+            </div>
+          </div>
+        <!-- /ko -->
+      </form>
+    </div>
+  </div>
+  <br>
+  <button class="btn btn-primary" data-bind='click: $root.addCountMeasure'>Add Count Measure</button>
+  <button class="btn btn-primary" data-bind='click: $root.addSumMeasure'>Add Sum Measure</button>
+  <button class="btn btn-primary" data-bind='click: $root.addValueMeasure'>Add Value Measure</button>
+</form>

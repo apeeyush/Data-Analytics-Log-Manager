@@ -1,0 +1,62 @@
+<div data-bind='foreach: filter'>
+  <div class="row bordered top-buffer padding-around">
+    <form class="form-horizontal">
+      <!-- ko if: filter_type == 'string' -->
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="key">Key</label>
+          <div class="col-sm-4">
+            <input class="form-control" data-bind='value: key'></input>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="values">Values</label>
+          <div class="col-sm-4">
+            <div data-bind="foreach: list">
+              <input class="form-control" data-bind="value: $parent.list()[$index()]"></input>
+            </div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="remove">Remove Filtered</label>
+          <div class="col-md-4">
+            <input type='checkbox' data-bind='checked: remove'></input>
+          </div>
+        </div>
+        <div class="form-group">
+          <div class="col-md-4 col-md-offset-2">
+            <button type="button" class="btn btn-link" data-bind='click: $root.addListItemToFilter'>Add Value</button><br>
+            <button type="button" class="btn btn-link" data-bind='click: $root.deleteListItemFromFilter'>Delete Last Value</button>
+          </div>
+        </div>
+      <!-- /ko -->
+      <!-- ko if: filter_type == 'time' -->
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="key">Key</label>
+          <div class="col-sm-4">
+            <input class="form-control" data-bind='value: key'></input>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="start_time">Start Time</label>
+          <div class="col-sm-4">
+            <input class="form-control" data-bind='value: start_time'></input>
+          </div>
+        </div>
+        <div class="form-group">
+          <label class="col-md-2 control-label" for="end_time">End Time</label>
+          <div class="col-sm-4">
+            <input class="form-control" data-bind='value: end_time'></input>
+          </div>
+        </div>
+      <!-- /ko -->
+      <div class="form-group">
+        <div class="col-md-4 col-md-offset-2">
+          <button class="btn btn-danger" data-bind='click: $root.removeFilterInstance'>Delete Filter</button>
+        </div>
+      </div>
+    </form>
+  </div>
+</div>
+<br>
+<button class="btn btn-primary" data-bind='click: $root.addStringFilterInstanceToFilter'>Add String Filter</button>
+<button class="btn btn-primary" data-bind='click: $root.addTimeFilterInstanceToFilter'>Add Time Filter</button>

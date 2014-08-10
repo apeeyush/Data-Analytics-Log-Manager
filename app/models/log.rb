@@ -141,8 +141,8 @@ class Log < ActiveRecord::Base
   # Filters data having specified keys
   #
   # Example JSON Body:
-  #   "keys" : {
-  #     "list" : ["event","color"]
+  #   {
+  #     "keys_list" : ["event","color"]
   #   }
   def self.filter_having_keys(filter)
     logs = self
@@ -150,8 +150,8 @@ class Log < ActiveRecord::Base
     string_columns = logs_columns["string_columns"]
     time_columns = logs_columns["time_columns"]
     hstore_columns = logs_columns["hstore_columns"]
-    if filter["keys"].present? && filter["keys"]["list"].present?
-      list = filter["keys"]["list"]
+    if filter["keys_list"].present?
+      list = filter["keys_list"]
       additional_keys = []
       list.each do |key|
         if string_columns.include? key or time_columns.include? key
