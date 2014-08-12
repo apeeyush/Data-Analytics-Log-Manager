@@ -13,6 +13,7 @@ class GroupTransformController < ApplicationController
 
     # Apply filters on logs
     logs = Log.access_filter(current_user)
+    logger.debug(query["filter"])
     logs = logs.filter(query["filter"]) if (query["filter"] != nil)
     logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
 
@@ -36,20 +37,25 @@ class GroupTransformController < ApplicationController
       # @parent_keys used to store keys (column names) for Parent Table
       @parent_keys = []
       @parent_keys << parent
-      # @child_keys used to store keys (column names) for Child Table
-      if query["child_filter"] != nil
-        child_data_groups = logs.filter(query["child_filter"]).group_by { |t| t.send(parent.to_sym) }
-        @child_keys = logs.filter(query["child_filter"]).keys_list
-      else
-        child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
-        @child_keys = logs.keys_list
-      end
-      # Keys that appear in parent table should not appear in child table
-      @child_keys = @child_keys - @parent_keys
-      # Enter child data in @groups
-      child_data_groups.each do |parent_name, logs|
-        child_array_collection = TransformData.transform_child_data(logs, parent_name, @child_keys)
-        @groups[parent_name]["child_values"] = child_array_collection
+      
+      if query["child_query"] != nil
+        if query["child_query"]["add_child_data"] == true
+          # @child_keys used to store keys (column names) for Child Table
+          if !query["child_query"]["filter"].empty?
+            child_data_groups = logs.filter(query["child_query"]["filter"]).group_by { |t| t.send(parent.to_sym) }
+            @child_keys = logs.filter(query["child_query"]["filter"]).keys_list
+          else
+            child_data_groups = logs.group_by { |t| t.send(parent.to_sym) }
+            @child_keys = logs.keys_list
+          end
+          # Keys that appear in parent table should not appear in child table
+          @child_keys = @child_keys - @parent_keys
+          # Enter child data in @groups
+          child_data_groups.each do |parent_name, logs|
+            child_array_collection = TransformData.transform_child_data(logs, parent_name, @child_keys)
+            @groups[parent_name]["child_values"] = child_array_collection
+          end
+        end
       end
 
       if query["synthetic_data"] != nil
