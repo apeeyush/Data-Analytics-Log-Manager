@@ -5,6 +5,7 @@
   <li class="active"><a href="#filter" data-toggle="tab">Filter</a></li>
   <li><a href="#filter_having_keys" data-toggle="tab">Filter Having Keys</a></li>
   <li><a href="#group" data-toggle="tab">Group</a></li>
+  <li><a href="#child_query" data-toggle="tab">Child Query</a></li>
   <li><a href="#measures" data-toggle="tab">Measures</a></li>
   <li><a href="#json_data" data-toggle="tab">JSON Query</a></li>
 </ul>
@@ -21,6 +22,10 @@
 
   <div id="group" class="tab-pane next">
     <%= render 'group' %>
+  </div>
+
+  <div id="child_query" class="tab-pane next">
+  <%= render 'child_query' %>
   </div>
 
   <div id="measures" class="tab-pane next">

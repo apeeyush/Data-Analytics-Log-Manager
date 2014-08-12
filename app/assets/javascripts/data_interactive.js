@@ -1,5 +1,6 @@
 $(function() {
 
+  // Used to send Data Query from Data Interactive (CODAP)
   $("#js-submit-query").click(function(){
     var btn = $(this);
     btn.button('loading');
@@ -38,6 +39,7 @@ $(function() {
   });
 
 
+  // Used to enable the use of TAB in textarea
   function enableTab(id) {
     var el = document.getElementById(id);
     if (el !== null) {
@@ -66,12 +68,14 @@ $(function() {
 
 });
 
+
+// KnockoutJS Data Binding
 $(document).ready(function() {
 
 var string_filter_instance = function() {
     var self = this;
-    self.key = ko.observable('string_key');
-    self.list = ko.observableArray([ko.observable('asdf')]);
+    self.key = ko.observable('');
+    self.list = ko.observableArray([ko.observable('')]);
     self.remove = ko.observable(false);
     self.filter_type = 'string';
 
@@ -83,11 +87,10 @@ var string_filter_instance = function() {
 
 var time_filter_instance = function() {
     var self = this;
-    self.key = ko.observable('time_key');
-    self.start_time = ko.observable('start_time');
-    self.end_time = ko.observable('end_time');
+    self.key = ko.observable('');
+    self.start_time = ko.observable('');
+    self.end_time = ko.observable('');
     self.filter_type = 'time';
-
 }
 
 var count_measure = function() {
@@ -127,14 +130,19 @@ var value_measure = function() {
 
 }
 
-
 function QueryViewModel() {
     //Data
     var self = this;
     this.filter = ko.observableArray();
-    this.filter_having_keys = ko.observable({keys_list: ko.observableArray()});
+    this.filter_having_keys = ko.observable({
+      keys_list: ko.observableArray()
+    });
     this.group = ko.observable();
     this.measures = ko.observableArray();
+    this.child_query = ko.observable({
+      filter: ko.observableArray(),
+      add_child_data: ko.observable(false)
+    });
 
     this.availableGroups = ko.observableArray(['','username','session','event','application','activity']);
 
@@ -149,7 +157,7 @@ function QueryViewModel() {
       self.filter.remove(filter_instance);
     }
     self.addListItemToFilter = function(filter) {
-      filter.list.push(ko.observable('asdf'));
+      filter.list.push(ko.observable(''));
     }
     self.deleteListItemFromFilter = function(filter){
       filter.list.pop();
@@ -184,8 +192,17 @@ function QueryViewModel() {
       measure.filter.push(new time_filter_instance);
     }
 
+    self.removeFilterInstanceFromChildData = function(filter_as){
+      self.child_query().filter.remove(filter_as)
+    }
+    self.addStringFilterInstanceToChildQuery = function() {
+      self.child_query().filter.push(new string_filter_instance);
+    }
+    self.addTimeFilterInstanceToChildQuery = function() {
+      self.child_query().filter.push(new time_filter_instance);
+    }
+
 }
 
 ko.applyBindings(new QueryViewModel());
 });
-
