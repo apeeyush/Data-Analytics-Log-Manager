@@ -22,6 +22,22 @@ class DataQueriesController < ApplicationController
   def edit
   end
 
+  def save
+    @data_query = DataQuery.new()
+    @data_query.content = JSON.parse(json_escape(params["json-textarea"]))
+    @data_query.name = params["query-name"]
+    @data_query.user = current_user
+    respond_to do |format|
+      if @data_query.save
+        format.html { redirect_to @data_query, notice: 'Data query was successfully created.' }
+        format.json { render :show, status: :created, location: @data_query }
+      else
+        format.html { render :new }
+        format.json { render json: @data_query.errors, status: :unprocessable_entity }
+      end
+    end
+  end
+
   # POST /data_queries
   # POST /data_queries.json
   def create

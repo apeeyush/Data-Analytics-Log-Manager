@@ -1,6 +1,7 @@
 Rails.application.routes.draw do
 
   resources :data_queries
+  post 'data_queries/save'
 
   devise_for :admins, :skip => [:registrations]
   mount RailsAdmin::Engine => '/admin', as: 'rails_admin'

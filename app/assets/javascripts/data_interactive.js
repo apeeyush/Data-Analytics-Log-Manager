@@ -5,7 +5,6 @@ $(function() {
     var btn = $(this);
     btn.button('loading');
     var query = $("#json-textarea").val();
-    console.log($('#transformation_form').serialize());
     var parsed_query = JSON.parse(query);
     if ( parsed_query.group.length === 0) {
       $.ajax({
@@ -38,7 +37,6 @@ $(function() {
     }
   });
 
-
   // Used to enable the use of TAB in textarea
   function enableTab(id) {
     var el = document.getElementById(id);
@@ -65,6 +63,24 @@ $(function() {
     }
   }
   enableTab('json-textarea');
+
+  // Used to save Data Query from Data Interactive (CODAP)
+  $("#js-save-query").click(function(){
+    var query = $("#json-textarea").val();
+    var parsed_query = JSON.parse(query);
+    $.ajax({
+      type: "POST",
+      url: "/data_queries/save",
+      data: $('#transformation_form').serialize(),
+      success: function(data) {
+        alert('data saved successfully')
+      },
+      error: function() {
+        alert("An error occured!");
+      }
+    });
+  });
+
 
 });
 
