@@ -1,7 +1,37 @@
 <div id="container">
 <h2>Editing Data Query</h2>
 
-<%= render 'form' %>
+<script type="text/javascript">
+  $( document ).ready(function() {
+  var data_query = JSON.stringify(JSON.parse("<%=j @data_query.content.to_json.html_safe %>"),null,2);
+  document.getElementById("data_query_content").innerHTML = data_query;
+  });
+</script>
+
+<%= simple_form_for(@data_query, html: { role: "form", class: 'form-horizontal'}) do |f| %>
+  <%= f.error_notification %>
+
+  <div class="form-group">
+    <%= f.label :name, 'Name', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :name, class: "form-control"  %>
+    </div>
+  </div>
+
+  <div class="form-group">
+    <%= f.label :content, 'Content', class: 'col-sm-3 control-label' %>
+    <div class="col-sm-9">
+      <%= f.input_field :content, as: :text, class: "form-control", :rows => 20 %>
+    </div>
+  </div>
+
+  <div class="form-actions">
+    <div class="col-sm-offset-3 col-sm-9">
+      <%= f.button :submit, class: "btn btn-default" %>
+    </div>
+  </div>
+
+<% end %>
 
 <div class="col-sm-offset-3 col-sm-9">
   <%= link_to 'Show Query', @data_query, class: "btn btn-link" %><br>

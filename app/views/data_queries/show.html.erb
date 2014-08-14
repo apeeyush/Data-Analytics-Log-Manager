@@ -6,8 +6,14 @@
 
   <h3>Content:</h3>
   <br>
-  <p><%= @data_query.content %></p>
-
+  <script type="text/javascript">
+  $( document ).ready(function() {
+    var data_query = JSON.stringify(JSON.parse("<%=j @data_query.content.to_json.html_safe %>"),null,2);
+    document.getElementById("json_query").innerHTML = data_query;
+  });
+  </script>
+  <pre id="json_query">
+  </pre>
 
 <%= link_to 'Edit', edit_data_query_path(@data_query), class: "btn btn-link" %><br>
 <%= link_to 'Back', data_queries_path, class: "btn btn-link" %>
