@@ -41,14 +41,15 @@ function doGroupAnalysis(data) {
   for (var i = 0; i < parent_keys.length; i++) {
     kParentAttributeList.push({ name : parent_keys[i] });
   }
-  for (var i = 0; i < child_keys.length; i++) {
-    kChildAttributeList.push({ name : child_keys[i] });
+  if (child_keys){
+    for (var i = 0; i < child_keys.length; i++) {
+      kChildAttributeList.push({ name : child_keys[i] });
+    }
   }
 
   window.parent.DG.doCommand({
     action: 'reset'
   });
-
   window.parent.DG.doCommand({
     action: 'initGame',
     args: {
