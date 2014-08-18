@@ -48,7 +48,6 @@ module Api
         logs_columns = Log.column_lists
         string_columns = logs_columns["string_columns"]
         string_columns.each do |string_column|
-          logger.debug("I am in")
           new_log[string_column] = log_data[string_column]
         end
         time_columns = logs_columns["time_columns"]
@@ -56,11 +55,7 @@ module Api
           new_log[time_column] = DateTime.strptime("#{log_data[time_column].to_i}",'%s').to_s
         end
         if new_log["application"].to_s == ''
-          if request.referer.to_s == ''
-            new_log[:application] = "Unknown"
-          else
-            new_log[:application] = "Unknown: " + request.referer
-          end
+          new_log[:application] = "Unknown: " + request.referer.to_s
         end
         new_log[:parameters] = log_data["parameters"]
         new_log[:extras] = Hash.new
