@@ -45,24 +45,27 @@ module Api
       #   If unsuccessful : false, unsuccessful save attempt log details
       def create_new_log (log_data)
         new_log = Log.new()
-        new_log[:session] = log_data["session"]
-        new_log[:username] = log_data["username"]
-        if log_data["application"].to_s == ''
+        logs_columns = Log.column_lists
+        string_columns = logs_columns["string_columns"]
+        string_columns.each do |string_column|
+          logger.debug("I am in")
+          new_log[string_column] = log_data[string_column]
+        end
+        time_columns = logs_columns["time_columns"]
+        time_columns.each do |time_column|
+          new_log[time_column] = DateTime.strptime("#{log_data[time_column].to_i}",'%s').to_s
+        end
+        if new_log["application"].to_s == ''
           if request.referer.to_s == ''
             new_log[:application] = "Unknown"
           else
             new_log[:application] = "Unknown: " + request.referer
           end
-        else
-          new_log[:application] = log_data["application"]
         end
-        new_log[:activity] = log_data["activity"]
-        new_log[:event] = log_data["event"]
-        new_log[:time] = DateTime.strptime("#{log_data["time"].to_i}",'%s').to_s
         new_log[:parameters] = log_data["parameters"]
         new_log[:extras] = Hash.new
         log_data.each do |key, value|
-          if key != "session" && key != "username" && key != "application" && key != "activity" && key != "event" && key != "time" && key != "parameters"
+          if !(string_columns.include? key) && !(time_columns.include? key) && key != "parameters"
             new_log[:extras][key] = value
           end
         end
