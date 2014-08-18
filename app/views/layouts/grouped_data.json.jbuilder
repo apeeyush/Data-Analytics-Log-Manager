@@ -1,6 +1,6 @@
 # template:
-# @parent_keys
-# @child_keys
+# @parent_table_keys
+# @child_table_keys
 #
 # @groups:
 # Hash:
@@ -14,8 +14,8 @@
 #   }, ......
 # }
 json.template do
-  json.parent_keys @parent_keys
-  json.child_keys @child_keys
+  json.parent_keys @parent_table_keys
+  json.child_keys @child_table_keys
 end
 json.groups @groups do |parent_name, data|
   parent_collection = data["parent_values"]
