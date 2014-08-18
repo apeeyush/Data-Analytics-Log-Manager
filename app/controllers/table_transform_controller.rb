@@ -9,7 +9,7 @@ class TableTransformController < ApplicationController
     query = JSON.parse(json_escape(params["json-textarea"]))
 
     logs = Log.access_filter(current_user)
-    logs = logs.filter(query["filter"]) if (query["filter"] != nil)
+    logs = logs.filter(query["filter"]) if (query["filter"].present?)
     logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
 
     if logs != nil
