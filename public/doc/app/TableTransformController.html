@@ -4,21 +4,21 @@
 <head>
 <meta charset="utf-8">
 
-<title>class Api::TableTransformController - Rails Application Documentation</title>
+<title>class TableTransformController - Rails Application Documentation</title>
 
-<link href="../fonts.css" rel="stylesheet">
-<link href="../rdoc.css" rel="stylesheet">
+<link href="./fonts.css" rel="stylesheet">
+<link href="./rdoc.css" rel="stylesheet">
 
 <script type="text/javascript">
-  var rdoc_rel_prefix = "../";
+  var rdoc_rel_prefix = "./";
 </script>
 
-<script src="../js/jquery.js"></script>
-<script src="../js/navigation.js"></script>
-<script src="../js/search_index.js"></script>
-<script src="../js/search.js"></script>
-<script src="../js/searcher.js"></script>
-<script src="../js/darkfish.js"></script>
+<script src="./js/jquery.js"></script>
+<script src="./js/navigation.js"></script>
+<script src="./js/search_index.js"></script>
+<script src="./js/search.js"></script>
+<script src="./js/searcher.js"></script>
+<script src="./js/darkfish.js"></script>
 
 
 <body id="top" role="document" class="class">
@@ -26,13 +26,13 @@
   <div id="project-navigation">
     <div id="home-section" role="region" title="Quick navigation" class="nav-section">
   <h2>
-    <a href="../index.html" rel="home">Home</a>
+    <a href="./index.html" rel="home">Home</a>
   </h2>
 
   <div id="table-of-contents-navigation">
-    <a href="../table_of_contents.html#pages">Pages</a>
-    <a href="../table_of_contents.html#classes">Classes</a>
-    <a href="../table_of_contents.html#methods">Methods</a>
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
   </div>
 </div>
 
@@ -61,7 +61,7 @@
   <h3>Parent</h3>
 
   
-  <p class="link"><a href="../ApplicationController.html">ApplicationController</a>
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
   
 </div>
 
@@ -81,9 +81,9 @@
   </div>
 </nav>
 
-<main role="main" aria-labelledby="class-Api::TableTransformController">
-  <h1 id="class-Api::TableTransformController" class="class">
-    class Api::TableTransformController
+<main role="main" aria-labelledby="class-TableTransformController">
+  <h1 id="class-TableTransformController" class="class">
+    class TableTransformController
   </h1>
 
   <section class="description">
@@ -128,14 +128,13 @@
 
           
           <div class="method-source-code" id="index-source">
-            <pre><span class="ruby-comment"># File app/controllers/api/table_transform_controller.rb, line 9</span>
+            <pre><span class="ruby-comment"># File app/controllers/table_transform_controller.rb, line 8</span>
 <span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
-  <span class="ruby-identifier">filter</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter&quot;</span>]).<span class="ruby-identifier">present?</span>
-  <span class="ruby-identifier">filter_having_keys</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>])) <span class="ruby-keyword">if</span> <span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>]).<span class="ruby-identifier">present?</span>
+  <span class="ruby-identifier">query</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;json-textarea&quot;</span>]))
 
   <span class="ruby-identifier">logs</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">access_filter</span>(<span class="ruby-identifier">current_user</span>)
-  <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">filter</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">filter</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>)
-  <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">filter_having_keys</span>(<span class="ruby-identifier">filter_having_keys</span>) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">filter_having_keys</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-identifier">query</span>[<span class="ruby-string">&quot;filter&quot;</span>]) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">query</span>[<span class="ruby-string">&quot;filter&quot;</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-identifier">logs</span> = <span class="ruby-identifier">logs</span>.<span class="ruby-identifier">filter_having_keys</span>(<span class="ruby-identifier">query</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>]) <span class="ruby-keyword">if</span> (<span class="ruby-identifier">query</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">query</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>][<span class="ruby-string">&quot;keys_list&quot;</span>].<span class="ruby-identifier">present?</span>)
 
   <span class="ruby-keyword">if</span> <span class="ruby-identifier">logs</span> <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>
     <span class="ruby-ivar">@logs</span> = <span class="ruby-identifier">logs</span>

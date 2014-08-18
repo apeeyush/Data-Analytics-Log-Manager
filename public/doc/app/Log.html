@@ -301,8 +301,8 @@ logs.filter(body)</pre>
 
 <p>Example JSON Body:</p>
 
-<pre>&quot;keys&quot; : {
-  &quot;list&quot; : [&quot;event&quot;,&quot;color&quot;]
+<pre>{
+  &quot;keys_list&quot; : [&quot;event&quot;,&quot;color&quot;]
 }</pre>
           
           
@@ -316,8 +316,8 @@ logs.filter(body)</pre>
   <span class="ruby-identifier">string_columns</span> = <span class="ruby-identifier">logs_columns</span>[<span class="ruby-string">&quot;string_columns&quot;</span>]
   <span class="ruby-identifier">time_columns</span> = <span class="ruby-identifier">logs_columns</span>[<span class="ruby-string">&quot;time_columns&quot;</span>]
   <span class="ruby-identifier">hstore_columns</span> = <span class="ruby-identifier">logs_columns</span>[<span class="ruby-string">&quot;hstore_columns&quot;</span>]
-  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;keys&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;keys&quot;</span>][<span class="ruby-string">&quot;list&quot;</span>].<span class="ruby-identifier">present?</span>
-    <span class="ruby-identifier">list</span> = <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;keys&quot;</span>][<span class="ruby-string">&quot;list&quot;</span>]
+  <span class="ruby-keyword">if</span> <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;keys_list&quot;</span>].<span class="ruby-identifier">present?</span>
+    <span class="ruby-identifier">list</span> = <span class="ruby-identifier">filter</span>[<span class="ruby-string">&quot;keys_list&quot;</span>]
     <span class="ruby-identifier">additional_keys</span> = []
     <span class="ruby-identifier">list</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">key</span><span class="ruby-operator">|</span>
       <span class="ruby-keyword">if</span> <span class="ruby-identifier">string_columns</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">key</span> <span class="ruby-keyword">or</span> <span class="ruby-identifier">time_columns</span>.<span class="ruby-identifier">include?</span> <span class="ruby-identifier">key</span>
