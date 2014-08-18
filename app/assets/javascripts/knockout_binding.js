@@ -10,9 +10,8 @@ var string_filter_instance = function() {
 
     removeListInstance = function(list_instance){
       self.list.remove(list_instance);
-    }
-
-}
+    };
+};
 
 var time_filter_instance = function() {
     var self = this;
@@ -20,7 +19,7 @@ var time_filter_instance = function() {
     self.start_time = ko.observable('');
     self.end_time = ko.observable('');
     self.filter_type = 'time';
-}
+};
 
 var count_measure = function() {
     var self = this;
@@ -29,35 +28,33 @@ var count_measure = function() {
     self.measure_type = 'count';
 
     self.removeFilterInstanceFromMeasure = function(filter_instance) {
-      console.log(filter_instance)
       self.filter.remove(filter_instance);
-    }
-}
+    };
+};
 
 var sum_measure = function() {
     var self = this;
     self.name = ko.observable('sum_measure');
     self.filter = ko.observableArray();
-    self.key = ko.observable('key')
+    self.key = ko.observable('key');
     self.measure_type = 'sum';
 
     self.removeFilterInstanceFromMeasure = function(filter_instance) {
       self.filter.remove(filter_instance);
-    }
-}
+    };
+};
 
 var value_measure = function() {
     var self = this;
     self.name = ko.observable('value_measure');
     self.filter = ko.observableArray();
-    self.key = ko.observable('key')
+    self.key = ko.observable('key');
     self.measure_type = 'value';
 
     self.removeFilterInstanceFromMeasure = function(filter_instance) {
       self.filter.remove(filter_instance);
-    }
-
-}
+    };
+};
 
 function QueryViewModel() {
     //Data
@@ -78,58 +75,58 @@ function QueryViewModel() {
     // Filter Operations
     self.addStringFilterInstanceToFilter = function() {
       self.filter.push(new string_filter_instance);
-    }
+    };
     self.addTimeFilterInstanceToFilter = function() {
       self.filter.push(new time_filter_instance);
-    }
+    };
     self.removeFilterInstance = function(filter_instance) {
       self.filter.remove(filter_instance);
-    }
+    };
     self.addListItemToFilter = function(filter) {
       filter.list.push(ko.observable(''));
-    }
+    };
     self.deleteListItemFromFilter = function(filter){
       filter.list.pop();
-    }
+    };
 
     // Filter Having Keys operations
     self.addKeyToFilterHavingKeys = function() {
       self.filter_having_keys().keys_list.push(new ko.observable(''));
-    }
+    };
     self.deleteKeyFromFilterHavingKeys = function() {
       self.filter_having_keys().keys_list.pop();
-    }
+    };
 
     // Measure add/delete functions
     self.addCountMeasure = function() {
       self.measures.push(new count_measure);
-    }
+    };
     self.addSumMeasure = function() {
       self.measures.push(new sum_measure);
-    }
+    };
     self.addValueMeasure = function() {
       self.measures.push(new value_measure);
-    }
+    };
     self.removeMeasureInstance = function(measure_instance){
       self.measures.remove(measure_instance);
-    }
+    };
     // Add Filter to Measure
     self.addStringFilterInstanceToMeasure = function(measure) {
       measure.filter.push(new string_filter_instance);
-    }
+    };
     self.addTimeFilterInstanceToMeasure = function(measure) {
       measure.filter.push(new time_filter_instance);
-    }
+    };
 
     self.removeFilterInstanceFromChildData = function(filter_as){
       self.child_query().filter.remove(filter_as)
-    }
+    };
     self.addStringFilterInstanceToChildQuery = function() {
       self.child_query().filter.push(new string_filter_instance);
-    }
+    };
     self.addTimeFilterInstanceToChildQuery = function() {
       self.child_query().filter.push(new time_filter_instance);
-    }
+    };
 
 }
 
