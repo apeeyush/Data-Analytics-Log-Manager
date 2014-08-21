@@ -70,7 +70,7 @@ function QueryViewModel() {
       add_child_data: ko.observable(false)
     });
 
-    this.availableGroups = ko.observableArray(['','username','session','event','application','activity']);
+    this.recommendedGroups = ko.observableArray(['','username','session','event','application','activity']);
 
     // Filter Operations
     self.addStringFilterInstanceToFilter = function() {
