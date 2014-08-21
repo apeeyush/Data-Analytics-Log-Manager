@@ -85,8 +85,8 @@ function QueryViewModel() {
     self.addListItemToFilter = function(filter) {
       filter.list.push(ko.observable(''));
     };
-    self.deleteListItemFromFilter = function(filter){
-      filter.list.pop();
+    self.deleteListItemFromFilter = function(filter, index){
+      filter.list.remove(filter.list()[index]);
     };
 
     // Filter Having Keys operations
