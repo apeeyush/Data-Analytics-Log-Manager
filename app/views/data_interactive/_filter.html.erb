@@ -60,3 +60,16 @@
 <br>
 <button class="btn btn-primary" data-bind='click: $root.addStringFilterInstanceToFilter'>Add String Filter</button>
 <button class="btn btn-primary" data-bind='click: $root.addTimeFilterInstanceToFilter'>Add Time Filter</button>
+
+<div class="row top-buffer padding-around">
+  For the following keys, filter out events that don't have values:
+  <form class="form">
+    <div class="form-group">
+      <div data-bind="foreach: filter_having_keys().keys_list">
+        <input class="form-control" data-bind="value: $parent.filter_having_keys().keys_list()[$index()]"></input><br>
+      </div>
+    </div>
+    <button class="btn btn-primary" data-bind='click: $root.addKeyToFilterHavingKeys'>Add Key</button>
+    <button class="btn btn-danger" data-bind='click: $root.deleteKeyFromFilterHavingKeys'>Delete Last Key</button>
+  </form>
+</div>
