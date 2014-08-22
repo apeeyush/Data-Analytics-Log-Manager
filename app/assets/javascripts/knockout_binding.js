@@ -93,8 +93,8 @@ function QueryViewModel() {
     self.addKeyToFilterHavingKeys = function() {
       self.filter_having_keys().keys_list.push(new ko.observable(''));
     };
-    self.deleteKeyFromFilterHavingKeys = function() {
-      self.filter_having_keys().keys_list.pop();
+    self.deleteKeyFromFilterHavingKeys = function(index) {
+      self.filter_having_keys().keys_list.remove(self.filter_having_keys().keys_list()[index]);
     };
 
     // Measure add/delete functions

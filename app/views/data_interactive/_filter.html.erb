@@ -66,10 +66,9 @@
   <form class="form">
     <div class="form-group">
       <div data-bind="foreach: filter_having_keys().keys_list">
-        <input class="form-control" data-bind="value: $parent.filter_having_keys().keys_list()[$index()]"></input><br>
+        <input class="form-control input-short" data-bind="value: $parent.filter_having_keys().keys_list()[$index()]"></input><button type="button" class="btn btn-link remove-item" data-bind='click: $root.deleteKeyFromFilterHavingKeys.bind($data, $index())'>-</button>
       </div>
     </div>
     <button class="btn btn-primary" data-bind='click: $root.addKeyToFilterHavingKeys'>Add Key</button>
-    <button class="btn btn-danger" data-bind='click: $root.deleteKeyFromFilterHavingKeys'>Delete Last Key</button>
   </form>
 </div>
