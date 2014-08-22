@@ -6,7 +6,7 @@ $(function() {
     btn.button('loading');
     var query = $("#json-textarea").val();
     var parsed_query = JSON.parse(query);
-    if ( parsed_query.group.length === 0) {
+    if ( parsed_query.group === undefined || parsed_query.group.length === 0) {
       $.ajax({
         type: "POST",
         url: "/table_transform",

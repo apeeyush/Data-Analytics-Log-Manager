@@ -71,15 +71,17 @@ function QueryViewModel() {
     });
 
     // this is async, but we don't need it immediately
-    availableKeys = [];
-    $.ajax({
-      type: "POST",
-      url: "/pages/get_explore_data",
-      data: {explore: {application: "", activity: ""}},
-      success: function(data) {
-        availableKeys = data.keys;
-      }
-    });
+    // The current "get_explore_data" essentially does a linear scan and using it directly may not be a good
+    // idea once log data is > 50,000 logs.
+    // availableKeys = [];
+    // $.ajax({
+    //   type: "POST",
+    //   url: "/pages/get_explore_data",
+    //   data: {explore: {application: "", activity: ""}},
+    //   success: function(data) {
+    //     availableKeys = data.keys;
+    //   }
+    // });
 
     // allow group pulldown to use either recommended groups or all available keys
     recommendedGroups = ['username','session','event','application','activity'];
