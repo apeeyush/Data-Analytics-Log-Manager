@@ -70,7 +70,28 @@ function QueryViewModel() {
       add_child_data: ko.observable(false)
     });
 
-    this.availableGroups = ko.observableArray(['','username','session','event','application','activity']);
+    // this is async, but we don't need it immediately
+    availableKeys = [];
+    $.ajax({
+      type: "POST",
+      url: "/pages/get_explore_data",
+      data: {explore: {application: "", activity: ""}},
+      success: function(data) {
+        availableKeys = data.keys;
+      }
+    });
+
+    // allow group pulldown to use either recommended groups or all available keys
+    recommendedGroups = ['username','session','event','application','activity'];
+    this.groupList = ko.observableArray(recommendedGroups);
+    this.showRecommendedGroups = ko.observable(true);
+    this.showRecommendedGroups.subscribe(function(val) {
+      if (val) {
+        this.groupList(recommendedGroups);
+      } else {
+        this.groupList(availableKeys);
+      }
+    }, this);
 
     // Filter Operations
     self.addStringFilterInstanceToFilter = function() {
@@ -85,16 +106,16 @@ function QueryViewModel() {
     self.addListItemToFilter = function(filter) {
       filter.list.push(ko.observable(''));
     };
-    self.deleteListItemFromFilter = function(filter){
-      filter.list.pop();
+    self.deleteListItemFromFilter = function(filter, index){
+      filter.list.remove(filter.list()[index]);
     };
 
     // Filter Having Keys operations
     self.addKeyToFilterHavingKeys = function() {
       self.filter_having_keys().keys_list.push(new ko.observable(''));
     };
-    self.deleteKeyFromFilterHavingKeys = function() {
-      self.filter_having_keys().keys_list.pop();
+    self.deleteKeyFromFilterHavingKeys = function(index) {
+      self.filter_having_keys().keys_list.remove(self.filter_having_keys().keys_list()[index]);
     };
 
     // Measure add/delete functions
@@ -127,7 +148,6 @@ function QueryViewModel() {
     self.addTimeFilterInstanceToChildQuery = function() {
       self.child_query().filter.push(new time_filter_instance);
     };
-
 }
 
 ko.applyBindings(new QueryViewModel());

@@ -12,20 +12,20 @@
           <label class="col-md-2 control-label" for="values">Values</label>
           <div class="col-sm-4">
             <div data-bind="foreach: list">
-              <input class="form-control" data-bind="value: $parent.list()[$index()]"></input>
+              <input class="form-control input-short" data-bind="value: $parent.list()[$index()]"></input>
+              <button type="button" class="btn btn-link remove-item" data-bind='click: $root.deleteListItemFromFilter.bind($data, $parent, $index())'>-</button>
             </div>
           </div>
         </div>
         <div class="form-group">
-          <label class="col-md-2 control-label" for="remove">Remove Filtered</label>
-          <div class="col-md-4">
-            <input type='checkbox' data-bind='checked: remove'></input>
+          <div class="col-md-4 col-md-offset-2">
+            <button type="button" class="btn btn-link" data-bind='click: $root.addListItemToFilter'><span class="add-item">+</span>Add Value</button>
           </div>
         </div>
         <div class="form-group">
-          <div class="col-md-4 col-md-offset-2">
-            <button type="button" class="btn btn-link" data-bind='click: $root.addListItemToFilter'>Add Value</button><br>
-            <button type="button" class="btn btn-link" data-bind='click: $root.deleteListItemFromFilter'>Delete Last Value</button>
+          <div class="col-md-offset-2">
+            <input type='checkbox' data-bind='checked: remove'></input>
+            <label class="control-label" for="remove">Remove events that match this</label>
           </div>
         </div>
       <!-- /ko -->
@@ -60,3 +60,15 @@
 <br>
 <button class="btn btn-primary" data-bind='click: $root.addStringFilterInstanceToFilter'>Add String Filter</button>
 <button class="btn btn-primary" data-bind='click: $root.addTimeFilterInstanceToFilter'>Add Time Filter</button>
+
+<div class="row top-buffer padding-around">
+  For the following keys, filter out events that don't have values:
+  <form class="form">
+    <div class="form-group">
+      <div data-bind="foreach: filter_having_keys().keys_list">
+        <input class="form-control input-short" data-bind="value: $parent.filter_having_keys().keys_list()[$index()]"></input><button type="button" class="btn btn-link remove-item" data-bind='click: $root.deleteKeyFromFilterHavingKeys.bind($data, $index())'>-</button>
+      </div>
+    </div>
+    <button class="btn btn-primary" data-bind='click: $root.addKeyToFilterHavingKeys'>Add Key</button>
+  </form>
+</div>
