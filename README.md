@@ -20,7 +20,7 @@ You may find it useful if you have an application for which you would like to vi
 
 Motivation
 --------
-Existing Web Analytics tools, like Google Analytics, do not provide logging data at the individual-user data, and so are not usable for certain kinds of analytics. Many of The Concord Consortium's projects would like to capture detailed logs of actions students take in browser-based activities. Also, many other HTML5 projects would like to do analytics on event-based user data. The application will act as a shared tool for logging the data, transforming it and using CODAP for visualization.
+Existing Web Analytics tools, like Google Analytics, do not provide logging data at the individual-user data, and so are not usable for certain kinds of analytics. Many of the projects would like to capture detailed logs of actions users take in browser-based activities. The application will act as a shared tool for logging the data, transforming it and using [CODAP](https://github.com/concord-consortium/codap) for visualization.
 
 Project Setup
 --------
@@ -79,3 +79,12 @@ The style guide for the project is available [here](https://github.com/apeeyush/
 Feel free to fork the repository and hack on it! Implemented some feature? Well, just send a pull request. Facing problems setting things up or thought of a feature that may be useful for everybody? Contact us or open github issues for questions, bugs, feature requests etc.
 
 Not sure how to start? Email us and let us know you're interested, and what you can do, and we'll figure out something you can help with.
+
+License
+--------
+Data Analytics Log Manager is released under the [MIT License](http://opensource.org/licenses/MIT).
+
+Attribution
+--------
+Data Analytics Log Manager started as a Google Summer of Code Project. The project was done by [Peeyush Agarwal](https://github.com/apeeyush) and [The Concord Consortium](http://concord.org/) was the mentoring organization.
+
