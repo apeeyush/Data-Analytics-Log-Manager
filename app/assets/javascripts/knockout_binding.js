@@ -82,18 +82,19 @@ function QueryViewModel() {
     //     availableKeys = data.keys;
     //   }
     // });
-
     // allow group pulldown to use either recommended groups or all available keys
-    recommendedGroups = ['username','session','event','application','activity'];
-    this.groupList = ko.observableArray(recommendedGroups);
-    this.showRecommendedGroups = ko.observable(true);
-    this.showRecommendedGroups.subscribe(function(val) {
-      if (val) {
-        this.groupList(recommendedGroups);
-      } else {
-        this.groupList(availableKeys);
-      }
-    }, this);
+    // recommendedGroups = ['username','session','event','application','activity'];
+    // this.groupList = ko.observableArray(recommendedGroups);
+    // this.showRecommendedGroups = ko.observable(true);
+    // this.showRecommendedGroups.subscribe(function(val) {
+    //   if (val) {
+    //     this.groupList(recommendedGroups);
+    //   } else {
+    //     this.groupList(availableKeys);
+    //   }
+    // }, this);
+
+    this.availableGroups = ko.observableArray(['username','session','event','application','activity']);
 
     // Filter Operations
     self.addStringFilterInstanceToFilter = function() {

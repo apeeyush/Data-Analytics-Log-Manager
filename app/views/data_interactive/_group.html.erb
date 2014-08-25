@@ -3,11 +3,7 @@
     <div class="form-group">
       <label class="col-md-2 control-label" for="group">Group by</label>
       <div class="col-md-4">
-      <select class="form-control" id="group" data-bind="options: groupList, optionsCaption: '', value: group"></select><br>
-      <div class="col-md-offset-1">
-        <input type='checkbox' data-bind='checked: showRecommendedGroups'></input>
-        <label class="control-label" for="remove">Show only most common group keys</label>
-      </div>
+        <select class="form-control" id="group" data-bind="options: availableGroups, optionsCaption: '', value: group"></select><br>
     </div>
     </div>
   </form>
