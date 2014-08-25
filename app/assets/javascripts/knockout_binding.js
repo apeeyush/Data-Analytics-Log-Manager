@@ -151,6 +151,12 @@ function QueryViewModel() {
     self.addTimeFilterInstanceToChildQuery = function() {
       self.child_query().filter.push(new time_filter_instance);
     };
+
+    self.toJSON = function() {
+      var copy = ko.toJS(this);         //easy way to get a clean copy
+      delete copy.availableGroups;      //remove an extra property
+      return copy;                      //return the copy to be serialized
+    };
 }
 
 ko.applyBindings(new QueryViewModel());

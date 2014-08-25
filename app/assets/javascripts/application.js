@@ -19,3 +19,4 @@
 //= require bootstrap
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require knockout
+//= require knockout.mapping
