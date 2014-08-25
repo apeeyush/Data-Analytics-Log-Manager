@@ -5,6 +5,7 @@
     <label class="col-md-2 control-label" for="child-data-remove">Add Child Data</label>
     <div class="col-md-4">
       <input type='checkbox' data-bind='checked: child_query().add_child_data'></input>
+      <span class="help-block">Uncheck it if you don't want any data in child table after grouping.</span>
     </div>
   </div>
   <div data-bind='foreach: child_query().filter'>

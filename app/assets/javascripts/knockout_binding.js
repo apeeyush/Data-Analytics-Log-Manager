@@ -67,7 +67,7 @@ function QueryViewModel() {
     this.measures = ko.observableArray();
     this.child_query = ko.observable({
       filter: ko.observableArray(),
-      add_child_data: ko.observable(false)
+      add_child_data: ko.observable(true)
     });
 
     // this is async, but we don't need it immediately
