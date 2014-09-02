@@ -2,6 +2,7 @@ jQuery(function() {
   var table;
   table = $('#logs').dataTable({
     "sPaginationType": "bootstrap",
+    "pagingType": "full_numbers",
     "columns": [
     null,
     null,
