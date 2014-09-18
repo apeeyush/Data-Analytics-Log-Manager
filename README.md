@@ -58,16 +58,21 @@ To run rails console:
  
 ### Configure Mailer:
 
-A user can use Log Manager only after confirming the account. Hence, configuring mailer is required to test it successfully. To allow the rails application to send mails, update the `/config/environments/development.rb` or set environment variables `EMAIL` and `PASSWORD`.
+A user can use Log Manager only after confirming the account. By default, in development emails will be placed in files in tmp/mails.
 
-One way to set it up in development environment it to add a file `config/initializers/app_env_vars.rb`. It's content should be:
+If you would like to configure a more complex setup, set the following environment variables (see config/initializers/actionmailer.rb):
 
-    ENV['EMAIL'] = 'replace_with_your_email'
-    ENV['PASSWORD'] = 'replace_with_your_password'
+    # Required
+    ENV["MAILER_DOMAIN_NAME"]     # your server's domain name
+    ENV["MAILER_SMTP_HOST"]       # the SMTP host to send mail through
+    ENV["MAILER_SMTP_USER_NAME"]  # the SMTP username you want to use
+    ENV["MAILER_SMTP_PASSWORD"]   # the SMTP password you want to use
 
-It has been added to `.gitignore` so your password will not be committed accidentally.
-
-For more information, refer to [this](http://stackoverflow.com/a/13296207/2352321).
+    #Optional
+    ENV["MAILER_DELIVERY_METHOD"]             # defaults to :file, for production set it to "smtp"
+    ENV["MAILER_SMTP_PORT"]                   # defaults to 587
+    ENV["MAILER_SMTP_AUTHENTICATION_METHOD"]  # defaults to :login
+    ENV["MAILER_SMTP_STARTTLS_AUTO"]          # defaults to true
 
 Contributing
 --------
