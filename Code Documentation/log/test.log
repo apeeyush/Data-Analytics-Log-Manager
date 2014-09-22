@@ -1,0 +1,294 @@
+  [1m[36mActiveRecord::SchemaMigration Load (9.6ms)[0m  [1mSELECT "schema_migrations".* FROM "schema_migrations"[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.0ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Started GET "/documents" for 127.0.0.1 at 2014-08-22 15:03:37 +0530
+Processing by DocumentsController#index as HTML
+  [1m[36mDocument Load (27.1ms)[0m  [1mSELECT "documents".* FROM "documents"[0m
+  Rendered documents/index.html.erb within layouts/application (30.3ms)
+  Rendered shared/_flash_messages.html.erb (0.5ms)
+Completed 200 OK in 8308ms (Views: 8266.0ms | ActiveRecord: 27.1ms)
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+Started GET "/data_queries" for 127.0.0.1 at 2014-08-22 15:03:46 +0530
+Processing by DataQueriesController#index as HTML
+Completed 401 Unauthorized in 6ms
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.1ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.8ms)[0m  SELECT COUNT(*) FROM "data_queries"
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.1ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Processing by DataInteractiveController#index as HTML
+Completed 401 Unauthorized in 1ms
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (173.6ms)[0m  INSERT INTO "logs" ("activity", "application", "created_at", "event", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["activity", "myActivity"], ["application", "myApplication"], ["created_at", "2014-08-22 09:33:46.664241"], ["event", "myEvent"], ["updated_at", "2014-08-22 09:33:46.664241"], ["username", "myUser"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "logs" ("activity", "application", "created_at", "event", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["activity", "myActivity"], ["application", "myApplication"], ["created_at", "2014-08-22 09:33:46.850029"], ["event", "myEvent"], ["updated_at", "2014-08-22 09:33:46.850029"], ["username", "myUser"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "logs" ("activity", "application", "created_at", "event", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"  [["activity", "myActivity"], ["application", "myApplication"], ["created_at", "2014-08-22 09:33:46.853527"], ["event", "myEvent"], ["updated_at", "2014-08-22 09:33:46.853527"], ["username", "myUser"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.1ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "logs" ("activity", "application", "created_at", "event", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["activity", "myActivity"], ["application", "myApplication"], ["created_at", "2014-08-22 09:33:46.856367"], ["event", "myEvent"], ["updated_at", "2014-08-22 09:33:46.856367"], ["username", "myUser"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36mLog Load (13.8ms)[0m  [1mSELECT "logs".* FROM "logs"  WHERE "logs"."application" = 'myApplication'[0m
+  [1m[35m (0.4ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.6ms)[0m  [1mINSERT INTO "logs" ("activity", "application", "created_at", "event", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6) RETURNING "id"[0m  [["activity", "myActivity"], ["application", "myApplication"], ["created_at", "2014-08-22 09:33:46.896170"], ["event", "myEvent"], ["updated_at", "2014-08-22 09:33:46.896170"], ["username", "myUser"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  Rendered documents/_form.html.erb (33.1ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Started POST "/api/logs" for 127.0.0.1 at 2014-08-22 15:03:47 +0530
+Processing by Api::LogsController#create as JSON
+  Parameters: {"_json"=>[{"session"=>"session1", "username"=>"user1", "application"=>"Application1", "activity"=>"Activity1", "event"=>"Event1", "time"=>"1392862093110", "parameters"=>{"parameter1"=>"value1", "parameter2"=>"value2"}, "extra_key"=>"extra_value"}, {"session"=>"session2", "username"=>"user2", "application"=>"Application2", "activity"=>"Activity2", "event"=>"Event2", "time"=>"1392862093110", "parameters"=>{"parameter1"=>"value1", "parameter2"=>"value2"}, "extra_key1"=>"extra_value1"}], "log"=>{}}
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "logs" ("activity", "application", "created_at", "event", "extras", "parameters", "session", "time", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["activity", "Activity1"], ["application", "Application1"], ["created_at", "1970-01-01 00:00:00.000000"], ["event", "Event1"], ["extras", "\"extra_key\"=>\"extra_value\""], ["parameters", "\"parameter1\"=>\"value1\",\"parameter2\"=>\"value2\""], ["session", "session1"], ["time", "46108-01-17 00:58:30.000000"], ["updated_at", "1970-01-01 00:00:00.000000"], ["username", "user1"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.5ms)[0m  [1mINSERT INTO "logs" ("activity", "application", "created_at", "event", "extras", "parameters", "session", "time", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"[0m  [["activity", "Activity2"], ["application", "Application2"], ["created_at", "1970-01-01 00:00:00.000000"], ["event", "Event2"], ["extras", "\"extra_key1\"=>\"extra_value1\""], ["parameters", "\"parameter1\"=>\"value1\",\"parameter2\"=>\"value2\""], ["session", "session2"], ["time", "46108-01-17 00:58:30.000000"], ["updated_at", "1970-01-01 00:00:00.000000"], ["username", "user2"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Completed 201 Created in 24ms (Views: 0.6ms | ActiveRecord: 1.9ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Processing by DocumentsController#new as HTML
+Completed 200 OK in 9ms (Views: 7.9ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (60.2ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.081737"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.081737"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#index as HTML
+Completed 200 OK in 3ms (Views: 2.3ms | ActiveRecord: 0.0ms)
+  [1m[35mDocument Load (0.4ms)[0m  SELECT "documents".* FROM "documents"
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.2ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.157588"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.157588"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#edit as HTML
+  Parameters: {"id"=>"171"}
+  [1m[35mDocument Load (0.5ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 171]]
+Completed 200 OK in 7ms (Views: 2.8ms | ActiveRecord: 0.5ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.172490"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.172490"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#update as HTML
+  Parameters: {"document"=>{"name"=>"MyString"}, "id"=>"172"}
+  [1m[35mDocument Load (0.5ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 172]]
+Completed 200 OK in 3ms (Views: 0.8ms | ActiveRecord: 0.5ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.225915"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.225915"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#update as HTML
+  Parameters: {"document"=>{"name"=>"MyString"}, "id"=>"173"}
+  [1m[35mDocument Load (0.4ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 173]]
+  [1m[36m (0.1ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents/173
+Completed 302 Found in 3ms (ActiveRecord: 0.7ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.237927"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.237927"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#update as HTML
+  Parameters: {"document"=>{"name"=>"MyString"}, "id"=>"174"}
+  [1m[35mDocument Load (0.4ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 174]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents/174
+Completed 302 Found in 4ms (ActiveRecord: 0.8ms)
+  [1m[36m (0.2ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.252713"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.252713"]]
+  [1m[36m (0.1ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#update as HTML
+  Parameters: {"document"=>{"name"=>"invalid value"}, "id"=>"175"}
+  [1m[35mDocument Load (0.5ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 175]]
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+Completed 200 OK in 5ms (Views: 1.9ms | ActiveRecord: 1.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.3ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.266703"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.266703"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#update as HTML
+  Parameters: {"document"=>{"name"=>"invalid value"}, "id"=>"176"}
+  [1m[35mDocument Load (0.5ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 176]]
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK TO SAVEPOINT active_record_1
+Completed 200 OK in 7ms (Views: 1.8ms | ActiveRecord: 1.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.283813"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.283813"]]
+  [1m[36m (0.3ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+  [1m[35m (0.5ms)[0m  SELECT COUNT(*) FROM "documents"
+Processing by DocumentsController#destroy as HTML
+  Parameters: {"id"=>"177"}
+  [1m[36mDocument Load (0.3ms)[0m  [1mSELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1[0m  [["id", 177]]
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mDELETE FROM "documents" WHERE "documents"."id" = $1[0m  [["id", 177]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents
+Completed 302 Found in 6ms (ActiveRecord: 1.3ms)
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "documents"[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2014-08-22 09:33:47.302663"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.302663"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Processing by DocumentsController#destroy as HTML
+  Parameters: {"id"=>"178"}
+  [1m[36mDocument Load (0.3ms)[0m  [1mSELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1[0m  [["id", 178]]
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mDELETE FROM "documents" WHERE "documents"."id" = $1[0m  [["id", 178]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents
+Completed 302 Found in 5ms (ActiveRecord: 1.2ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.5ms)[0m  [1mSELECT COUNT(*) FROM "documents"[0m
+Processing by DocumentsController#create as HTML
+  Parameters: {"document"=>{"name"=>"MyString"}}
+  [1m[35m (0.3ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2014-08-22 09:33:47.323615"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.323615"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents/179
+Completed 302 Found in 6ms (ActiveRecord: 0.9ms)
+  [1m[36m (0.4ms)[0m  [1mSELECT COUNT(*) FROM "documents"[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+Processing by DocumentsController#create as HTML
+  Parameters: {"document"=>{"name"=>"MyString"}}
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2014-08-22 09:33:47.336959"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.336959"]]
+  [1m[35m (0.2ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents/180
+Completed 302 Found in 6ms (ActiveRecord: 0.9ms)
+  [1m[36mDocument Load (0.8ms)[0m  [1mSELECT  "documents".* FROM "documents"   ORDER BY "documents"."id" DESC LIMIT 1[0m
+  [1m[35m (0.3ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+Processing by DocumentsController#create as HTML
+  Parameters: {"document"=>{"name"=>"MyString"}}
+  [1m[35m (0.2ms)[0m  SAVEPOINT active_record_1
+  [1m[36mSQL (0.4ms)[0m  [1mINSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"[0m  [["created_at", "2014-08-22 09:33:47.351625"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.351625"]]
+  [1m[35m (0.3ms)[0m  RELEASE SAVEPOINT active_record_1
+Redirected to http://test.host/documents/181
+Completed 302 Found in 6ms (ActiveRecord: 0.9ms)
+  [1m[36m (0.4ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+Processing by DocumentsController#create as HTML
+  Parameters: {"document"=>{"name"=>"invalid value"}}
+Completed 200 OK in 5ms (Views: 2.2ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Processing by DocumentsController#create as HTML
+  Parameters: {"document"=>{"name"=>"invalid value"}}
+Completed 200 OK in 4ms (Views: 1.8ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.4ms)[0m  INSERT INTO "documents" ("created_at", "name", "updated_at") VALUES ($1, $2, $3) RETURNING "id"  [["created_at", "2014-08-22 09:33:47.401067"], ["name", "MyString"], ["updated_at", "2014-08-22 09:33:47.401067"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Processing by DocumentsController#show as HTML
+  Parameters: {"id"=>"182"}
+  [1m[35mDocument Load (0.3ms)[0m  SELECT  "documents".* FROM "documents"  WHERE "documents"."id" = $1 LIMIT 1  [["id", 182]]
+Completed 200 OK in 5ms (Views: 3.0ms | ActiveRecord: 0.3ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.3ms)[0m  BEGIN
+  Rendered documents/_form.html.erb (3.5ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Processing by PagesController#main as HTML
+Completed 200 OK in 3ms (Views: 2.5ms | ActiveRecord: 0.0ms)
+  [1m[36m (0.3ms)[0m  [1mROLLBACK[0m
+  [1m[35m (0.2ms)[0m  BEGIN
+Started POST "/api/logs" for 127.0.0.1 at 2014-08-22 15:03:47 +0530
+Processing by Api::LogsController#create as JSON
+  Parameters: {"session"=>"12345", "username"=>"user1", "application"=>"Application1", "activity"=>"Activity1", "event"=>"Event1", "time"=>"1392862093110", "parameters"=>{"parameter1"=>"value1", "parameter2"=>"value2"}, "extra_key"=>"extra_value", "log"=>{"session"=>"12345", "username"=>"user1", "application"=>"Application1", "activity"=>"Activity1", "event"=>"Event1", "time"=>"1392862093110", "parameters"=>{"parameter1"=>"value1", "parameter2"=>"value2"}}}
+  [1m[36m (0.2ms)[0m  [1mSAVEPOINT active_record_1[0m
+  [1m[35mSQL (0.5ms)[0m  INSERT INTO "logs" ("activity", "application", "created_at", "event", "extras", "parameters", "session", "time", "updated_at", "username") VALUES ($1, $2, $3, $4, $5, $6, $7, $8, $9, $10) RETURNING "id"  [["activity", "Activity1"], ["application", "Application1"], ["created_at", "1970-01-01 00:00:00.000000"], ["event", "Event1"], ["extras", "\"extra_key\"=>\"extra_value\""], ["parameters", "\"parameter1\"=>\"value1\",\"parameter2\"=>\"value2\""], ["session", "12345"], ["time", "46108-01-17 00:58:30.000000"], ["updated_at", "1970-01-01 00:00:00.000000"], ["username", "user1"]]
+  [1m[36m (0.2ms)[0m  [1mRELEASE SAVEPOINT active_record_1[0m
+Completed 201 Created in 4ms (Views: 0.3ms | ActiveRecord: 0.8ms)
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.3ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.2ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+  [1m[35m (0.1ms)[0m  ROLLBACK
+  [1m[36m (0.2ms)[0m  [1mBEGIN[0m
+Started GET "/logs" for 127.0.0.1 at 2014-08-22 15:03:47 +0530
+Processing by LogsController#index as HTML
+Completed 401 Unauthorized in 1ms
+  [1m[35m (0.2ms)[0m  ROLLBACK

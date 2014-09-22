@@ -1,0 +1,422 @@
+<!DOCTYPE html>
+
+<html>
+<head>
+<meta charset="utf-8">
+
+<title>class GroupTransformController - Rails Application Documentation</title>
+
+<link href="./fonts.css" rel="stylesheet">
+<link href="./rdoc.css" rel="stylesheet">
+
+<script type="text/javascript">
+  var rdoc_rel_prefix = "./";
+</script>
+
+<script src="./js/jquery.js"></script>
+<script src="./js/navigation.js"></script>
+<script src="./js/search_index.js"></script>
+<script src="./js/search.js"></script>
+<script src="./js/searcher.js"></script>
+<script src="./js/darkfish.js"></script>
+
+
+<body id="top" role="document" class="class">
+<nav role="navigation">
+  <div id="project-navigation">
+    <div id="home-section" role="region" title="Quick navigation" class="nav-section">
+  <h2>
+    <a href="./index.html" rel="home">Home</a>
+  </h2>
+
+  <div id="table-of-contents-navigation">
+    <a href="./table_of_contents.html#pages">Pages</a>
+    <a href="./table_of_contents.html#classes">Classes</a>
+    <a href="./table_of_contents.html#methods">Methods</a>
+  </div>
+</div>
+
+    <div id="search-section" role="search" class="project-section initially-hidden">
+  <form action="#" method="get" accept-charset="utf-8">
+    <div id="search-field-wrapper">
+      <input id="search-field" role="combobox" aria-label="Search"
+             aria-autocomplete="list" aria-controls="search-results"
+             type="text" name="search" placeholder="Search" spellcheck="false"
+             title="Type to search, Up and Down to navigate, Enter to load">
+    </div>
+
+    <ul id="search-results" aria-label="Search Results"
+        aria-busy="false" aria-expanded="false"
+        aria-atomic="false" class="initially-hidden"></ul>
+  </form>
+</div>
+
+  </div>
+
+  
+
+  <div id="class-metadata">
+    
+    <div id="parent-class-section" class="nav-section">
+  <h3>Parent</h3>
+
+  
+  <p class="link"><a href="ApplicationController.html">ApplicationController</a>
+  
+</div>
+
+    
+    
+    <!-- Method Quickref -->
+<div id="method-list-section" class="nav-section">
+  <h3>Methods</h3>
+
+  <ul class="link-list" role="directory">
+    
+    <li ><a href="#method-i-add_child_data_to_groups">#add_child_data_to_groups</a>
+    
+    <li ><a href="#method-i-add_measures_data_to_groups">#add_measures_data_to_groups</a>
+    
+    <li ><a href="#method-i-add_synthetic_data_to_groups">#add_synthetic_data_to_groups</a>
+    
+    <li ><a href="#method-i-index">#index</a>
+    
+    <li ><a href="#method-i-initialize_group_transform">#initialize_group_transform</a>
+    
+    <li ><a href="#method-i-initialize_transform">#initialize_transform</a>
+    
+  </ul>
+</div>
+
+  </div>
+</nav>
+
+<main role="main" aria-labelledby="class-GroupTransformController">
+  <h1 id="class-GroupTransformController" class="class">
+    class GroupTransformController
+  </h1>
+
+  <section class="description">
+    
+  </section>
+
+  
+  
+  
+  <section id="5Buntitled-5D" class="documentation-section">
+    
+
+    
+
+    
+
+    
+
+    
+     <section id="public-instance-5Buntitled-5D-method-details" class="method-section">
+       <header>
+         <h3>Public Instance Methods</h3>
+       </header>
+
+    
+      <div id="method-i-add_child_data_to_groups" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_child_data_to_groups</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Loads child data in @groups after applying child query filters</p>
+          
+          
+
+          
+          <div class="method-source-code" id="add_child_data_to_groups-source">
+            <pre><span class="ruby-comment"># File app/controllers/group_transform_controller.rb, line 73</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_child_data_to_groups</span>
+  <span class="ruby-comment"># @child_table_keys used to store keys (column names) for Child Table</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-operator">!</span><span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;child_query&quot;</span>][<span class="ruby-string">&quot;filter&quot;</span>].<span class="ruby-identifier">empty?</span>
+    <span class="ruby-identifier">child_data_groups</span> = <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;child_query&quot;</span>][<span class="ruby-string">&quot;filter&quot;</span>]).<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">send</span>(<span class="ruby-ivar">@parent_column</span>.<span class="ruby-identifier">to_sym</span>) }
+    <span class="ruby-ivar">@child_table_keys</span> = <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;child_query&quot;</span>][<span class="ruby-string">&quot;filter&quot;</span>]).<span class="ruby-identifier">keys_list</span>
+  <span class="ruby-keyword">else</span>
+    <span class="ruby-identifier">child_data_groups</span> = <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">group_by</span> { <span class="ruby-operator">|</span><span class="ruby-identifier">t</span><span class="ruby-operator">|</span> <span class="ruby-identifier">t</span>.<span class="ruby-identifier">send</span>(<span class="ruby-ivar">@parent_column</span>.<span class="ruby-identifier">to_sym</span>) }
+    <span class="ruby-ivar">@child_table_keys</span> = <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">keys_list</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-comment"># Keys that appear in parent table should not appear in child table</span>
+  <span class="ruby-ivar">@child_table_keys</span> = <span class="ruby-ivar">@child_table_keys</span> <span class="ruby-operator">-</span> <span class="ruby-ivar">@parent_table_keys</span>
+  <span class="ruby-comment"># Enter child data in @groups</span>
+  <span class="ruby-identifier">child_data_groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">parent_name</span>, <span class="ruby-identifier">logs</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">child_array_collection</span> = <span class="ruby-constant">TransformData</span>.<span class="ruby-identifier">transform_child_data</span>(<span class="ruby-identifier">logs</span>, <span class="ruby-identifier">parent_name</span>, <span class="ruby-ivar">@child_table_keys</span>)
+    <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">parent_name</span>][<span class="ruby-string">&quot;child_values&quot;</span>] = <span class="ruby-identifier">child_array_collection</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-add_measures_data_to_groups" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_measures_data_to_groups</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Based on query measures value, it calculates the required values and stores
+it in @groups</p>
+          
+          
+
+          
+          <div class="method-source-code" id="add_measures_data_to_groups-source">
+            <pre><span class="ruby-comment"># File app/controllers/group_transform_controller.rb, line 106</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_measures_data_to_groups</span>
+  <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;measures&quot;</span>].<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">measure</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@parent_table_keys</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">measure</span>[<span class="ruby-string">&quot;name&quot;</span>]
+    <span class="ruby-comment"># Aggregation measure : Filters and then does count(*)</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-identifier">measure</span>[<span class="ruby-string">&quot;measure_type&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;count&quot;</span>
+      <span class="ruby-identifier">measures_hash</span> = <span class="ruby-constant">AddMeasure</span>.<span class="ruby-identifier">calculate_count</span>(<span class="ruby-identifier">measure</span>, <span class="ruby-ivar">@logs</span>, <span class="ruby-ivar">@parent_column</span>, <span class="ruby-ivar">@parents_list</span>)
+    <span class="ruby-comment"># Measure to add key&#39;s value to parent table</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">measure</span>[<span class="ruby-string">&quot;measure_type&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;value&quot;</span>
+      <span class="ruby-identifier">measures_hash</span> = <span class="ruby-constant">AddMeasure</span>.<span class="ruby-identifier">calculate_values</span>(<span class="ruby-identifier">measure</span>, <span class="ruby-ivar">@logs</span>, <span class="ruby-ivar">@parent_column</span>, <span class="ruby-ivar">@parents_list</span>)
+    <span class="ruby-comment"># Measure to add sum of values for the specified key</span>
+    <span class="ruby-keyword">elsif</span> <span class="ruby-identifier">measure</span>[<span class="ruby-string">&quot;measure_type&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-string">&quot;sum&quot;</span>
+      <span class="ruby-identifier">measures_hash</span> = <span class="ruby-constant">AddMeasure</span>.<span class="ruby-identifier">calculate_sum</span>(<span class="ruby-identifier">measure</span>, <span class="ruby-ivar">@logs</span>, <span class="ruby-ivar">@parent_column</span>, <span class="ruby-ivar">@parents_list</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@groups</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">parent_name</span>, <span class="ruby-identifier">value</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">value</span>[<span class="ruby-string">&quot;parent_values&quot;</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">measures_hash</span>[<span class="ruby-identifier">parent_name</span>]
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-add_synthetic_data_to_groups" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">add_synthetic_data_to_groups</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Based on query synthetic_data value, it calculates the required
+synthetic_data and stores it in @groups</p>
+          
+          
+
+          
+          <div class="method-source-code" id="add_synthetic_data_to_groups-source">
+            <pre><span class="ruby-comment"># File app/controllers/group_transform_controller.rb, line 92</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">add_synthetic_data_to_groups</span>
+  <span class="ruby-identifier">synthetic_data</span> = <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;synthetic_data&quot;</span>]
+  <span class="ruby-identifier">computed_logs</span> = <span class="ruby-constant">AddSyntheticData</span>.<span class="ruby-identifier">compute</span>(<span class="ruby-ivar">@logs</span>, <span class="ruby-ivar">@parent_column</span>, <span class="ruby-identifier">synthetic_data</span>, <span class="ruby-ivar">@parents_list</span>, <span class="ruby-ivar">@child_table_keys</span>)
+  <span class="ruby-identifier">computed_logs</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">computed_log</span><span class="ruby-operator">|</span>
+    <span class="ruby-identifier">parent_name</span> = <span class="ruby-identifier">computed_log</span>[<span class="ruby-ivar">@parent_column</span>]
+    <span class="ruby-identifier">child</span> = []
+    <span class="ruby-ivar">@child_table_keys</span>.<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">child_key</span><span class="ruby-operator">|</span>
+      <span class="ruby-identifier">child</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">computed_log</span>.<span class="ruby-identifier">value</span>(<span class="ruby-identifier">child_key</span>)
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">parent_name</span>][<span class="ruby-string">&quot;child_values&quot;</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">child</span>
+  <span class="ruby-keyword">end</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-index" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">index</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          
+          
+          
+
+          
+          <div class="method-source-code" id="index-source">
+            <pre><span class="ruby-comment"># File app/controllers/group_transform_controller.rb, line 12</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">index</span>
+  <span class="ruby-keyword">if</span> <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;group&quot;</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-node">%w{username activity application session event}</span>.<span class="ruby-identifier">include?</span>(<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;group&quot;</span>])
+    <span class="ruby-identifier">initialize_group_transform</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;child_query&quot;</span>].<span class="ruby-identifier">present?</span>
+      <span class="ruby-keyword">if</span> <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;child_query&quot;</span>][<span class="ruby-string">&quot;add_child_data&quot;</span>] <span class="ruby-operator">==</span> <span class="ruby-keyword">true</span>
+        <span class="ruby-identifier">add_child_data_to_groups</span>
+      <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;synthetic_data&quot;</span>].<span class="ruby-identifier">present?</span>
+      <span class="ruby-identifier">add_synthetic_data_to_groups</span>
+    <span class="ruby-keyword">end</span>
+    <span class="ruby-keyword">if</span> <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;measures&quot;</span>].<span class="ruby-identifier">present?</span>
+      <span class="ruby-identifier">add_measures_data_to_groups</span>
+    <span class="ruby-keyword">end</span>
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-identifier">render</span> <span class="ruby-string">&quot;layouts/grouped_data.json.jbuilder&quot;</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-initialize_group_transform" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">initialize_group_transform</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Initialises the variables required for Group Transform Variables
+Initialized : @groups, @parents_list, @parent_table_keys, @parent_column</p>
+
+<p>@groups</p>
+
+<pre class="ruby"><span class="ruby-constant">It</span> <span class="ruby-identifier">is</span> <span class="ruby-identifier">a</span> <span class="ruby-identifier">hash</span> <span class="ruby-identifier">with</span> <span class="ruby-identifier">the</span> <span class="ruby-identifier">following</span> <span class="ruby-identifier">format</span><span class="ruby-operator">:</span>
+  <span class="ruby-string">&quot;parent_name&quot;</span> =<span class="ruby-operator">&gt;</span>
+    <span class="ruby-string">&quot;parent_values&quot;</span> =<span class="ruby-operator">&gt;</span> [<span class="ruby-constant">List</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">parent</span> <span class="ruby-identifier">table</span> <span class="ruby-identifier">values</span>]
+    <span class="ruby-string">&quot;child_values&quot;</span> =<span class="ruby-operator">&gt;</span> [[<span class="ruby-constant">List</span> <span class="ruby-identifier">of</span> <span class="ruby-identifier">child</span> <span class="ruby-identifier">table</span> <span class="ruby-identifier">values</span>],[],[],[]<span class="ruby-operator">...</span>.]
+</pre>
+
+<p>@parents_list:</p>
+
+<pre>Stores a list of parents</pre>
+
+<p>@parent_table_keys:</p>
+
+<pre>Stores keys (column_names) for Parent Table</pre>
+
+<p>@parent_column</p>
+
+<pre>Contains the name of parent column i.e. the column using which, the data will be grouped</pre>
+          
+          
+
+          
+          <div class="method-source-code" id="initialize_group_transform-source">
+            <pre><span class="ruby-comment"># File app/controllers/group_transform_controller.rb, line 57</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize_group_transform</span>
+  <span class="ruby-ivar">@parents_list</span> = []
+  <span class="ruby-ivar">@groups</span> = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+  <span class="ruby-ivar">@parent_column</span> = <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;group&quot;</span>]
+  <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">select</span>(<span class="ruby-ivar">@parent_column</span>).<span class="ruby-identifier">group</span>(<span class="ruby-ivar">@parent_column</span>).<span class="ruby-identifier">order</span>(<span class="ruby-ivar">@parent_column</span>).<span class="ruby-identifier">each</span> <span class="ruby-keyword">do</span> <span class="ruby-operator">|</span><span class="ruby-identifier">log</span><span class="ruby-operator">|</span>
+    <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-ivar">@parent_column</span>]] = <span class="ruby-constant">Hash</span>.<span class="ruby-identifier">new</span>
+    <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-ivar">@parent_column</span>]][<span class="ruby-string">&quot;parent_values&quot;</span>] = []
+    <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-ivar">@parent_column</span>]][<span class="ruby-string">&quot;parent_values&quot;</span>] <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">log</span>[<span class="ruby-ivar">@parent_column</span>]
+    <span class="ruby-ivar">@groups</span>[<span class="ruby-identifier">log</span>[<span class="ruby-ivar">@parent_column</span>]][<span class="ruby-string">&quot;child_values&quot;</span>] = []
+    <span class="ruby-ivar">@parents_list</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-identifier">log</span>[<span class="ruby-ivar">@parent_column</span>]
+  <span class="ruby-keyword">end</span>
+  <span class="ruby-ivar">@parent_table_keys</span> = []
+  <span class="ruby-ivar">@parent_table_keys</span> <span class="ruby-operator">&lt;&lt;</span> <span class="ruby-ivar">@parent_column</span>
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+      <div id="method-i-initialize_transform" class="method-detail ">
+        
+        <div class="method-heading">
+          <span class="method-name">initialize_transform</span><span
+            class="method-args">()</span>
+          
+          <span class="method-click-advice">click to toggle source</span>
+          
+        </div>
+        
+
+        <div class="method-description">
+          
+          <p>Used to initialize the transformation process Extracts query from request
+params and applies initial filters on <a href="Log.html">Log</a></p>
+          
+          
+
+          
+          <div class="method-source-code" id="initialize_transform-source">
+            <pre><span class="ruby-comment"># File app/controllers/group_transform_controller.rb, line 32</span>
+<span class="ruby-keyword">def</span> <span class="ruby-identifier">initialize_transform</span>
+  <span class="ruby-ivar">@query</span> = <span class="ruby-constant">JSON</span>.<span class="ruby-identifier">parse</span>(<span class="ruby-identifier">json_escape</span>(<span class="ruby-identifier">params</span>[<span class="ruby-string">&quot;json-textarea&quot;</span>]))
+  <span class="ruby-comment"># Apply filters on logs</span>
+  <span class="ruby-ivar">@logs</span> = <span class="ruby-constant">Log</span>.<span class="ruby-identifier">access_filter</span>(<span class="ruby-identifier">current_user</span>)
+  <span class="ruby-ivar">@logs</span> = <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">filter</span>(<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;filter&quot;</span>]) <span class="ruby-keyword">if</span> (<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;filter&quot;</span>] <span class="ruby-operator">!=</span> <span class="ruby-keyword">nil</span>)
+  <span class="ruby-ivar">@logs</span> = <span class="ruby-ivar">@logs</span>.<span class="ruby-identifier">filter_having_keys</span>(<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>]) <span class="ruby-keyword">if</span> (<span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>].<span class="ruby-identifier">present?</span> <span class="ruby-operator">&amp;&amp;</span> <span class="ruby-ivar">@query</span>[<span class="ruby-string">&quot;filter_having_keys&quot;</span>][<span class="ruby-string">&quot;keys_list&quot;</span>].<span class="ruby-identifier">present?</span>)
+<span class="ruby-keyword">end</span></pre>
+          </div>
+          
+        </div>
+
+        
+
+        
+      </div>
+
+    
+    </section>
+  
+  </section>
+</main>
+
+
+<footer id="validator-badges" role="contentinfo">
+  <p><a href="http://validator.w3.org/check/referer">Validate</a>
+  <p>Generated by <a href="http://rdoc.rubyforge.org">RDoc</a> 4.1.1.
+  <p>Based on <a href="http://deveiate.org/projects/Darkfish-Rdoc/">Darkfish</a> by <a href="http://deveiate.org">Michael Granger</a>.
+</footer>
+
