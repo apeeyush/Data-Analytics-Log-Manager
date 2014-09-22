@@ -3,7 +3,7 @@ title: Data Analytics Log Manager
 email: peeyushagarwal1994@gmail.com
 description: > # this means to ignore newlines until "baseurl:"
   A web based data analytics tool with data logging api and intuitive analysis interface.
-baseurl: "" # the subpath of your site, e.g. /blog/
+baseurl: "/Data-Analytics-Log-Manager" # the subpath of your site, e.g. /blog/
 url: "http://yourdomain.com" # the base hostname & protocol for your site
 #twitter_username: jekyllrb
 github_username:  apeeyush/Data-Analytics-Log-Manager

@@ -10,8 +10,8 @@
     <meta name="description" content="A web based data analytics tool with data logging api and intuitive analysis interface.
 ">
 
-    <link rel="stylesheet" href="/css/main.css">
-    <link rel="canonical" href="http://yourdomain.com/documentation/">
+    <link rel="stylesheet" href="/Data-Analytics-Log-Manager/css/main.css">
+    <link rel="canonical" href="http://yourdomain.com/Data-Analytics-Log-Manager/documentation/">
 </head>
 
 
@@ -21,7 +21,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="/">Data Analytics Log Manager</a>
+    <a class="site-title" href="">Data Analytics Log Manager</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -33,9 +33,9 @@
       </a>
 
       <div class="trigger">
-          <a class="page-link" href="/about">About</a>
-          <a class="page-link" href="/documentation">Documentation</a>
-          <a class="page-link" href="/gallery">Gallery</a>
+          <a class="page-link" href="/Data-Analytics-Log-Manager/about">About</a>
+          <a class="page-link" href="/Data-Analytics-Log-Manager/documentation">Documentation</a>
+          <a class="page-link" href="/Data-Analytics-Log-Manager/gallery">Gallery</a>
       </div>
 
     </nav>
@@ -67,7 +67,7 @@
 
 <h3 id="sending-log-data-">Sending Log Data :</h3>
 
-<p>A description of the API for sending Log Data to Log Manager is available <a href="/documentation/api">here</a>.</p>
+<p>A description of the API for sending Log Data to Log Manager is available <a href="api">here</a>.</p>
 
 <h3 id="analysing-logs-">Analysing Logs :</h3>
 
@@ -77,37 +77,37 @@
   <li><strong>Filter:</strong></li>
 </ul>
 
-<p>There may be millions of logs stored in the Database but you may be interested in analyzing only a subset of them. This first component enables you to select this subset of interest by specifying filters. A description of the same is available <a href="/documentation/filter">here</a>.</p>
+<p>There may be millions of logs stored in the Database but you may be interested in analyzing only a subset of them. This first component enables you to select this subset of interest by specifying filters. A description of the same is available <a href="filter">here</a>.</p>
 
 <ul>
   <li><strong>Group:</strong></li>
 </ul>
 
-<p>Let’s say you have logs with a username/session key which you use to identify the particular user or session the log corresponds to. The Group component allows you to group the logs by a key (username/session etc.) such that a parent-child relationship is created where the parent table contains the group properties (such as the key’s value[username], Count of a particular event for that username etc.) and the child tables contains the logs corresponding to the groups (For example logs corresponding to “anon_user” username will form a child table). A description of the same is available <a href="/documentation/group">here</a>.</p>
+<p>Let’s say you have logs with a username/session key which you use to identify the particular user or session the log corresponds to. The Group component allows you to group the logs by a key (username/session etc.) such that a parent-child relationship is created where the parent table contains the group properties (such as the key’s value[username], Count of a particular event for that username etc.) and the child tables contains the logs corresponding to the groups (For example logs corresponding to “anon_user” username will form a child table). A description of the same is available <a href="group">here</a>.</p>
 
 <ul>
   <li><strong>Filter Child Data:</strong></li>
 </ul>
 
-<p>Let’s say we don’t want to see all logs corresponding to the group in the child table. We may be interested in just “Completed challenge”. This can be done using filter child data component. A description of the same is available <a href="/documentation/filter-child-data">here</a>.</p>
+<p>Let’s say we don’t want to see all logs corresponding to the group in the child table. We may be interested in just “Completed challenge”. This can be done using filter child data component. A description of the same is available <a href="filter-child-data">here</a>.</p>
 
 <ul>
   <li><strong>Measures:</strong></li>
 </ul>
 
-<p>Let’s say we want to add some measures (such as number of times the user performed event “Bred dragons”) after the data has been grouped. This can be done using the measures component. A description of the same is available <a href="/documentation/measures">here</a>.</p>
+<p>Let’s say we want to add some measures (such as number of times the user performed event “Bred dragons”) after the data has been grouped. This can be done using the measures component. A description of the same is available <a href="measures">here</a>.</p>
 
 <h3 id="contributing">Contributing:</h3>
 
 <p><strong>Project Setup</strong></p>
 
-<p>To setup the project in your development environment, follow the instructions outlined <a href="/documentation/setup-instructions">here</a>.</p>
+<p>To setup the project in your development environment, follow the instructions outlined <a href="setup-instructions">here</a>.</p>
 
 <p><strong>Getting Started</strong></p>
 
-<p>See the <a href="/documentation/getting-started-dev">Getting Started Guide for Developers</a> for more information about the technical working of Data Analytics Log Manager.</p>
+<p>See the <a href="getting-started-dev">Getting Started Guide for Developers</a> for more information about the technical working of Data Analytics Log Manager.</p>
 
-<p>The style guide for the project is available <a href="/documentation/style-guide">here</a>.</p>
+<p>The style guide for the project is available <a href="style-guide">here</a>.</p>
 
 <p>Feel free to fork the repository and hack on it! Implemented some feature? Well, just send a pull request. Facing problems setting things up or thought of a feature that may be useful for everybody? Contact us or open github issues for questions, bugs, feature requests etc.</p>
 

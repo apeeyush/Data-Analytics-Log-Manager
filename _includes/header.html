@@ -2,7 +2,7 @@
 
   <div class="wrapper">
 
-    <a class="site-title" href="{{ site.baseurl }}/">{{ site.title }}</a>
+    <a class="site-title" href="">{{ site.title }}</a>
 
     <nav class="site-nav">
       <a href="#" class="menu-icon">
@@ -14,9 +14,9 @@
       </a>
 
       <div class="trigger">
-          <a class="page-link" href="/about">About</a>
-          <a class="page-link" href="/documentation">Documentation</a>
-          <a class="page-link" href="/gallery">Gallery</a>
+          <a class="page-link" href="{{ "/about" | prepend: site.baseurl }}">About</a>
+          <a class="page-link" href="{{ "/documentation" | prepend: site.baseurl }}">Documentation</a>
+          <a class="page-link" href="{{ "/gallery" | prepend: site.baseurl }}">Gallery</a>
       </div>
 
     </nav>

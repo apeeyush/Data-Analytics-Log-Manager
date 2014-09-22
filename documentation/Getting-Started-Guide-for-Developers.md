@@ -37,4 +37,4 @@ The application has two tables : `admins` and `users`. Devise is used for authen
 
 ### Working with CODAP
 
-The CODAP build code is included in the public folder. If you would like to update it, follow the instructions outlined [here](/documentation/updating_CODAP).
+The CODAP build code is included in the public folder. If you would like to update it, follow the instructions outlined [here](../updating_CODAP).
