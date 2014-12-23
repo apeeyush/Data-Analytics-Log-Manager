@@ -7,6 +7,9 @@
 //     "parent_name" :
 //       "parent_values" : [List of parent values]
 //       "child_values"  : [Arrar of Array where each array is a list of child values]
+
+var codapPhone = new iframePhone.IframePhoneRpcEndpoint(function() {}, "codap-game", window.parent);
+
 function doGroupAnalysis(data) {
   var parent_keys = data.template.parent_keys;
   var child_keys = data.template.child_keys;
@@ -20,22 +23,24 @@ function doGroupAnalysis(data) {
     kParentAttributeList.push({ name : parent_keys[i] });
   }
   if (child_keys){
-    for (var i = 0; i < child_keys.length; i++) {
+    for (i = 0; i < child_keys.length; i++) {
       kChildAttributeList.push({ name : child_keys[i] });
     }
   }
 
-  window.parent.DG.doCommand({
+  codapPhone.call({
     action: 'reset'
   });
-  window.parent.DG.doCommand({
+
+  codapPhone.call({
     action: 'initGame',
     args: {
       name: "DataInteractive",
       dimensions: { width: 600, height: 400 },
     }
   });
-  window.parent.DG.doCommand({
+
+  codapPhone.call({
     action: 'createCollection',
     args: {
       name: kParentCollectionName,
@@ -44,7 +49,8 @@ function doGroupAnalysis(data) {
       log: false
     }
   });
-  window.parent.DG.doCommand({
+
+  codapPhone.call({
     action: 'createCollection',
     args: {
       name: kChildCollectionName,
@@ -53,25 +59,26 @@ function doGroupAnalysis(data) {
     }
   });
 
-  Object.keys(data["groups"]).forEach(function (key) {
-    var value = data["groups"][key];
-    var children = value["child_values"];
-    var parent_values = value["parent_values"];
-    result = window.parent.DG.doCommand( {
+  Object.keys(data.groups).forEach(function (key) {
+    var value = data.groups[key];
+    var children = value.child_values;
+    var parent_values = value.parent_values;
+    codapPhone.call({
       action: 'createCase',
       args: {
         collection: kParentCollectionName,
         values: parent_values
       }
-    });
-    var caseID = result["caseID"];
-    window.parent.DG.doCommand( {
-      action: 'createCases',
-      args: {
-        collection: kChildCollectionName,
-        parent: caseID,
-        values: children
-      }
+    }, function(result) {
+      var caseID = result.caseID;
+      codapPhone.call({
+        action: 'createCases',
+        args: {
+          collection: kChildCollectionName,
+          parent: caseID,
+          values: children
+        }
+      });
     });
   });
 }
@@ -87,11 +94,11 @@ function doGroupAnalysis(data) {
 function doSingleTableAnalysis(data){
   var kParentCollectionName = "Parent Table";
 
-  window.parent.DG.doCommand({
+  codapPhone.call({
     action: 'reset'
   });
 
-  window.parent.DG.doCommand({
+  codapPhone.call({
     action: "initGame",
     args: {
       name: "DataInteractive",
@@ -101,11 +108,13 @@ function doSingleTableAnalysis(data){
       }
     }
   });
+
   var attrs_obj = [];
-  for (var i=0; i<data["template"].length; i++){
-    attrs_obj.push({ name: data["template"][i] });
+  for (var i=0; i<data.template.length; i++){
+    attrs_obj.push({ name: data.template[i] });
   }
-  window.parent.DG.doCommand({
+
+  codapPhone.call({
     action: "createCollection",
     args: {
       name: kParentCollectionName,
@@ -113,11 +122,12 @@ function doSingleTableAnalysis(data){
       log: false
     }
   });
-  window.parent.DG.doCommand({
+
+  codapPhone.call({
     action: "createCases",
     args: {
       collection: kParentCollectionName,
-      values: data['values']
+      values: data.values
     }
   });
 }
