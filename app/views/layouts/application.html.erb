@@ -27,7 +27,7 @@
           <li class="<%= 'active' if params[:controller] == 'logs' && params[:action] == 'index' %>"><%= link_to "Logs",logs_path %></li>
           <li class="<%= 'active' if params[:controller] == 'pages' && params[:action] == 'explore' %>"><%= link_to "Explore",pages_explore_path %></li>
           <% if user_signed_in? %>
-            <li><a href="http://codap.concord.org/releases/latest/?moreGames=<%= ERB::Util.url_encode("[{\"name\": \"Data Interactive\", \"dimensions\": {\"width\": 600, \"height\": 400}, \"url\": \"#{url_for :controller => 'data_interactive', :action => 'index', :only_path => false}\"}]") %>">CODAP</a></li>
+            <li><a href="http://codap.concord.org/releases/latest/?moreGames=<%= ERB::Util.url_encode("[{\"name\": \"Data Interactive\", \"dimensions\": {\"width\": 600, \"height\": 400}, \"url\": \"#{url_for :controller => 'data_interactive', :action => 'index', :only_path => false}\"}]") %>" target="_blank">CODAP</a></li>
           <% end %>
         </ul>
         <ul class="nav navbar-nav navbar-right">
