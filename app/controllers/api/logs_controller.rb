@@ -52,7 +52,7 @@ module Api
         end
         time_columns = logs_columns["time_columns"]
         time_columns.each do |time_column|
-          new_log[time_column] = DateTime.strptime("#{log_data[time_column].to_i}",'%s').to_s
+          new_log[time_column] = Time.at(log_data[time_column].to_f / 1000).getutc
         end
         if new_log["application"].to_s == ''
           new_log[:application] = "Unknown: " + request.referer.to_s
