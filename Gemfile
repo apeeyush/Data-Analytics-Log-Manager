@@ -45,6 +45,9 @@ gem 'jquery-turbolinks'
 # A streaming JSON parsing and encoding library for Ruby (C bindings to yajl)
 gem 'yajl-ruby', require: 'yajl'
 
+# New Relic application monitoring
+gem 'newrelic_rpm'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 
