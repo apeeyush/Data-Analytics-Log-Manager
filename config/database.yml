@@ -89,3 +89,5 @@ production:
   database: log_manager_production
   username: log_manager
   password: <%= ENV['LOG_MANAGER_DATABASE_PASSWORD'] %>
+  url:  <%= ENV["DATABASE_URL"] %>
+  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>  
