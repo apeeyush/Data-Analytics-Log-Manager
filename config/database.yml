@@ -21,12 +21,23 @@ default: &default
   # http://guides.rubyonrails.org/configuring.html#database-pooling
   pool: 5
 
-development:
-  <<: *default
-  database: log_manager_development
-
+default_local: &default_local
+<%= if ENV['DOCKER_FIG'] then <<END
+  host: db
+  username: postgres
+  password:
+END
+else <<END
   username: log_manager
   password: log_manager
+END
+end
+%>
+
+development:
+  <<: *default
+  <<: *default_local
+  database: log_manager_development
 
   # The specified database role being used to connect to postgres.
   # To create additional roles in postgres see `$ createuser --help`.
@@ -60,10 +71,8 @@ development:
 # Do not set this db to the same as development or production.
 test:
   <<: *default
+  <<: *default_local
   database: log_manager_test
-
-  username: log_manager
-  password: log_manager
 
 # As with config/secrets.yml, you never want to store sensitive information,
 # like your database password, in your source code. If your source code is
@@ -90,4 +99,4 @@ production:
   username: log_manager
   password: <%= ENV['LOG_MANAGER_DATABASE_PASSWORD'] %>
   url:  <%= ENV["DATABASE_URL"] %>
-  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>  
+  pool: <%= ENV["DB_POOL"] || ENV['MAX_THREADS'] || 5 %>
