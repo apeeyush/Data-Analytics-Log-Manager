@@ -50,6 +50,9 @@ gem 'jquery-turbolinks'
 # A streaming JSON parsing and encoding library for Ruby (C bindings to yajl)
 gem 'yajl-ruby', require: 'yajl'
 
+# Easy management of CORS (Cross Origin Resource Sharing) responses
+gem 'rack-cors', '~> 0.3'
+
 # New Relic application monitoring
 gem 'newrelic_rpm'
 
