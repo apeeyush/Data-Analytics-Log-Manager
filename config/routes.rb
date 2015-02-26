@@ -40,8 +40,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
 
     # To allow CORS request. The browser first sends an Options request which is matched to logs#options
-    match 'logs', to: 'logs#options', via: [:options]
-    match 'is', to: 'logs#options', via: [:options]
+    match 'logs', to: 'logs#render204', via: [:options]
+    match 'is', to: 'logs#render204', via: [:options]
 
     # API to receive log(s) and store it in database
     post 'logs', to: 'logs#create'

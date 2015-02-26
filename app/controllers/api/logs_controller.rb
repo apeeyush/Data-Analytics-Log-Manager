@@ -3,12 +3,11 @@ module Api
 
   class LogsController < ApplicationController
 
-    after_action :cors_preflight_check
-    after_filter :cors_set_access_control_headers
+    skip_before_action :verify_authenticity_token
 
-    # Send empty text for options request
-    def options
-      render :text => '', :content_type => 'text/plain'
+    # For CORS preflight
+    def render204
+      head 204
     end
 
     # Receive Post request and store logs from request body
