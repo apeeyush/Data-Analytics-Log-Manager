@@ -56,12 +56,9 @@ module Api
         if new_log["application"].to_s == ''
           new_log[:application] = "Unknown: " + request.referer.to_s
         end
-        new_log[:parameters] = log_data["parameters"]
-        new_log[:extras] = Hash.new
-        log_data.each do |key, value|
-          if !(string_columns.include? key) && !(time_columns.include? key) && key != "parameters"
-            new_log[:extras][key] = value
-          end
+        new_log[:parameters] = log_data["parameters"] || {}
+        new_log[:extras] = log_data.reject do |key, value|
+          key == "parameters" || string_columns.include?(key) || time_columns.include?(key)
         end
         if new_log.save
           return true, new_log
