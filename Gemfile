@@ -7,8 +7,6 @@ ruby '2.1.5'
 gem 'rails', '4.1.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
-# Use the multithreaded/multiprocess Puma web server instead of WEBrick
-gem 'puma'
 # Use SCSS for stylesheets
 gem 'sass-rails', '~> 4.0.3'
 # Use Uglifier as compressor for JavaScript assets
@@ -89,6 +87,10 @@ group :test do
   gem 'capybara'
 end
 
-# Makes running Rails app easier. Based on the ideas behind 12factor.net
-# Required by Heroku to precompile assets in Rails 4
-gem 'rails_12factor', group: :production
+group :production do
+  # Makes running Rails app easier. Based on the ideas behind 12factor.net
+  # Required by Heroku to precompile assets in Rails 4
+  gem 'rails_12factor'
+  # Use the multithreaded/multiprocess Puma web server instead of WEBrick
+  gem 'puma'
+end
