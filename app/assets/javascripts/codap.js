@@ -129,5 +129,13 @@ function doSingleTableAnalysis(data){
       collection: kParentCollectionName,
       values: data.values
     }
+  }, function() {
+      codapPhone.call({
+      action: 'createComponent',
+      args: {
+        type: 'DG.TableView',
+        log: false
+      }
+    });
   });
 }
