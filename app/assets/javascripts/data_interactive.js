@@ -1,7 +1,7 @@
 $(function() {
 
   // Used to send Data Query from Data Interactive (CODAP)
-  $("#js-submit-query").click(function(){
+  $(".js-submit-query").click(function(){
     var btn = $(this);
     btn.button('loading');
     var query = $("#json-textarea").val();
