@@ -1,10 +1,16 @@
 // KnockoutJS Data Binding
 $(document).ready(function() {
 
-var string_filter_instance = function() {
+var string_filter_instance = function(key, list) {
+
+    key = key || '';
+    list = list || [''];
+
     var self = this;
-    self.key = ko.observable('');
-    self.list = ko.observableArray([ko.observable('')]);
+    self.key = ko.observable(key);
+    self.list = ko.observableArray(list.map(function(item) {
+      return ko.observable(item);
+    }));
     self.remove = ko.observable(false);
     self.filter_type = 'string';
 
@@ -159,5 +165,13 @@ function QueryViewModel() {
     };
 }
 
-ko.applyBindings(new QueryViewModel());
+var qvm = new QueryViewModel();
+
+if (window.prepopulatedData != null) {
+  (prepopulatedData.stringFilters || []).forEach(function(sf) {
+    qvm.filter.push(new string_filter_instance(sf.key, sf.values));
+  });
+}
+
+ko.applyBindings(qvm);
 });
