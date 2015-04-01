@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   post 'pages/get_explore_data'
 
   get 'data_interactive/index'
+  get 'di', to: 'data_interactive#index'
 
   # Temporary Login Solution for CODAP hosted simultaneously with Rails (in Public folder)
   post '/DataGames/api/auth/login', to: 'auth#index'
