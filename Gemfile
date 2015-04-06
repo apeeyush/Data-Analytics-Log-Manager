@@ -80,6 +80,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails'
+  gem 'byebug'
 end
 
 # Capybara helps test web applications by simulating how a real user would interact with app.
