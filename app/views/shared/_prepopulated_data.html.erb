@@ -1,0 +1,5 @@
+<% unless @prepopulated_data.nil? %>
+<script>
+  window.prepopulatedData = <%= raw json_escape(@prepopulated_data.to_json) %>;
+</script>
+<% end %>

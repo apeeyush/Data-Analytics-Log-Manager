@@ -22,8 +22,41 @@ Motivation
 --------
 Existing Web Analytics tools, like Google Analytics, do not provide logging data at the individual-user data, and so are not usable for certain kinds of analytics. Many of the projects would like to capture detailed logs of actions users take in browser-based activities. The application will act as a shared tool for logging the data, transforming it and using [CODAP](https://github.com/concord-consortium/codap) for visualization.
 
-Project Setup
+Project Setup, Docker option
 --------
+
+This project includes a Dockerfile and a Fig (now [Docker Compose](http://blog.docker.com/2015/02/announcing-docker-compose/)) configuration that allows you to use containers based on prebuilt Rails and Postgres images, rather than having to install software
+locally on your machine. (However, production deploys use Heroku rather than Docker images you build.)
+
+1. Install and run [Docker](http://docker.com). Mac users will need to install and run [boot2docker] (http://boot2docker.io/) as well. Mac users can install these via Homebrew.
+2. Install [fig](http://www.fig.sh/install.html). *Note: Docker Compose is an updated version of Fig, so the steps below should work much the same with Compose. However, these instructions were developed using Fig.*
+3. Run `fig build` in the root of this project. This will pull the required images, run `bundle install`, etc.
+4. To start the server and database containers, run `fig up` in the root of the project
+5. Initialize the database: `fig run web bin/rake db:create db:migrate`
+6. If you are using boot2docker, you will need to find the IP address of the server, like this: `boot2docker ip`
+7. Visit `http://localhost:3000/` (or `http://<boot2docker ip>:3000/`, if appropriate) to run the app
+
+The Fig configuration mounts the project folder as app root in the container. Thus, there is no special step to get your changes into the container (and running the app does not write to the `web` container's filesystem; logs and caches go into the mounted project folder, and database changes persist in the `db` container). Of course, you may need to `fig restart web` after making changes. However, gems are stored in the container, and there is a special step required when updating the Gemfile:
+
+#### How to `bundle install` in the Docker container without rebuilding
+
+The default Rails image ([`rails:onbuild`](https://github.com/docker-library/rails/blob/master/onbuild/Dockerfile)) freezes the bundle for deployment. If you try to change the `Gemfile` and run
+
+    fig run web bundle install
+
+to update `Gemfile.lock` and install the new gems into the `web` container, Bundler will tell you to try again with the `--no-deployment` flag. It's all a lie. Here's how to run `bundle install`:
+
+1. `fig run web /bin/bash -c "bundle config frozen 0 && bundle install && bundle config frozen 1"`
+2. `docker ps -a` and make a note of the name of the container that just stopped (each `fig run web` happens in a new container that "forks" the base `web` container)
+3. `docker commit dataanalyticslogmanager_web_run_1 dataanalyticslogmanager_web` (where `dataanalyticslogmanager_web_run_1` is assumed to be the name of the recently run container, and `dataanalyticslogmanager_web` the image it uses). This step is necessary so that the next time Fig starts the web container, it uses the saved state of the `fig run web` step.
+4. You can now `docker rm dataanalyticslogmanager_web_run_1`
+
+#### If Fig gets confused
+
+In order to get Fig to work correctly, I had to rename the project directory to `data_analytics_log_manager`; Fig got confused by the mixed case. This may have been fixed by now.
+
+Project Setup, local install (no Docker)
+------
 
 ### Install the following:
 1. Rails 4.1+
@@ -32,6 +65,7 @@ Project Setup
 ### Clone the repository:
 
     git clone https://github.com/apeeyush/Data-Analytics-Log-Manager.git
+    git submodule update --init --recursive
 
 ### Run the following commands:
 
@@ -58,16 +92,21 @@ To run rails console:
  
 ### Configure Mailer:
 
-A user can use Log Manager only after confirming the account. Hence, configuring mailer is required to test it successfully. To allow the rails application to send mails, update the `/config/environments/development.rb` or set environment variables `EMAIL` and `PASSWORD`.
+A user can use Log Manager only after confirming the account. By default, in development emails will be placed in files in tmp/mails.
 
-One way to set it up in development environment it to add a file `config/initializers/app_env_vars.rb`. It's content should be:
+If you would like to configure a more complex setup, set the following environment variables (see config/initializers/actionmailer.rb):
 
-    ENV['EMAIL'] = 'replace_with_your_email'
-    ENV['PASSWORD'] = 'replace_with_your_password'
+    # Required
+    ENV["MAILER_DOMAIN_NAME"]     # your server's domain name
+    ENV["MAILER_SMTP_HOST"]       # the SMTP host to send mail through
+    ENV["MAILER_SMTP_USER_NAME"]  # the SMTP username you want to use
+    ENV["MAILER_SMTP_PASSWORD"]   # the SMTP password you want to use
 
-It has been added to `.gitignore` so your password will not be committed accidentally.
-
-For more information, refer to [this](http://stackoverflow.com/a/13296207/2352321).
+    #Optional
+    ENV["MAILER_DELIVERY_METHOD"]             # defaults to :file, for production set it to "smtp"
+    ENV["MAILER_SMTP_PORT"]                   # defaults to 587
+    ENV["MAILER_SMTP_AUTHENTICATION_METHOD"]  # defaults to :login
+    ENV["MAILER_SMTP_STARTTLS_AUTO"]          # defaults to true
 
 Contributing
 --------

@@ -6,9 +6,6 @@ module Api
   # This may be deprecated in further versions and should not be used.
   class IsController < ApplicationController
 
-    after_action :cors_preflight_check
-    after_filter :cors_set_access_control_headers
-
     def index
       # If the request body contains a single log (request body is not an array)
       if ( !JSON.parse(request.body.read).is_a?(Array) )

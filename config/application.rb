@@ -27,11 +27,18 @@ module LogManager
     # config.i18n.load_path += Dir[Rails.root.join('my', 'locales', '*.{rb,yml}').to_s]
     # config.i18n.default_locale = :de
 
-    # Set 'Access-Control-Allow-Origin' header to allow ajax requests from other origins
-    config.action_dispatch.default_headers = {
-      'Access-Control-Allow-Origin' => '*',
-      'Access-Control-Request-Method' => '*'
-    }
+    config.middleware.insert_before Warden::Manager, Rack::Cors, :debug => true, :logger => (-> { Rails.logger }) do
+      allow do
+        origins '*'
+        resource '/api/logs',
+          headers: :any,
+          methods: [:post, :options],
+          credentials: false,
+          max_age: 1728000          
+      end
+    end
 
+    # We actually expect the Log Manager to be loaded into an iframe
+    config.action_dispatch.default_headers.delete 'X-Frame-Options'
   end
 end

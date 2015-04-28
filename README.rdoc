@@ -56,7 +56,7 @@ Either update the `username` and `password` with your existing user's value or c
  
 === Configure Mailer (Optional):
 
-To allow the rails application to send mails, update the /config/environments/development.rb or set environment variables `EMAIL` and `PASSWORD`. For more information, refer to [this](http://stackoverflow.com/a/13296207/2352321).
+To allow the rails application to send mails, set the following environment variables found in config/initializers/actionmailer.rb. By default, mail will get stored in files in tmp/mails/.
 
 
 == Contributing

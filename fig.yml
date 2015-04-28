@@ -1,0 +1,15 @@
+db:
+  image: "postgres:9.3"
+  expose:
+    - 5432
+web:
+  build: .
+  command: rails s
+  volumes:
+    - .:/usr/src/app
+  ports:
+    - "3000:3000"
+  links:
+    - db
+  environment:
+    DOCKER_FIG: true

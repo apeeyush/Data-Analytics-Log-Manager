@@ -1,5 +1,8 @@
 source 'https://rubygems.org'
 
+# Use a recent stable ruby
+ruby '2.1.5'
+
 # Bundle edge Rails instead: gem 'rails', github: 'rails/rails'
 gem 'rails', '4.1.4'
 # Use postgresql as the database for Active Record
@@ -29,6 +32,8 @@ gem 'jquery-datatables-rails', git: 'git://github.com/rweng/jquery-datatables-ra
 gem 'knockoutjs-rails'
 # Use jquery as the JavaScript library
 gem 'jquery-rails'
+# integrates Chosen (JS selectbox lib) with Rails
+gem 'chosen-rails'
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -44,6 +49,12 @@ gem 'jquery-turbolinks'
 
 # A streaming JSON parsing and encoding library for Ruby (C bindings to yajl)
 gem 'yajl-ruby', require: 'yajl'
+
+# Easy management of CORS (Cross Origin Resource Sharing) responses
+gem 'rack-cors', '~> 0.3'
+
+# New Relic application monitoring
+gem 'newrelic_rpm'
 
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
@@ -71,6 +82,7 @@ group :development, :test do
   gem 'rspec-rails'
   gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails'
+  gem 'byebug'
 end
 
 # Capybara helps test web applications by simulating how a real user would interact with app.
@@ -78,6 +90,10 @@ group :test do
   gem 'capybara'
 end
 
-# Makes running Rails app easier. Based on the ideas behind 12factor.net
-# Required by Heroku to precompile assets in Rails 4
-gem 'rails_12factor', group: :production
+group :production do
+  # Makes running Rails app easier. Based on the ideas behind 12factor.net
+  # Required by Heroku to precompile assets in Rails 4
+  gem 'rails_12factor'
+  # Use the multithreaded/multiprocess Puma web server instead of WEBrick
+  gem 'puma'
+end

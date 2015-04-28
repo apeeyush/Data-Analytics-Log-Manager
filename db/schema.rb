@@ -11,7 +11,7 @@
 #
 # It's strongly recommended that you check this file into your version control system.
 
-ActiveRecord::Schema.define(version: 20140731075753) do
+ActiveRecord::Schema.define(version: 20150324202456) do
 
   # These are extensions that must be enabled in order to support this database
   enable_extension "plpgsql"
@@ -70,8 +70,8 @@ ActiveRecord::Schema.define(version: 20140731075753) do
     t.string   "activity"
     t.string   "event"
     t.datetime "time"
-    t.hstore   "parameters"
-    t.hstore   "extras"
+    t.hstore   "parameters",  default: {}, null: false
+    t.hstore   "extras",      default: {}, null: false
     t.datetime "created_at"
     t.datetime "updated_at"
     t.string   "event_value"

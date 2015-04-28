@@ -25,6 +25,7 @@ Rails.application.routes.draw do
   post 'pages/get_explore_data'
 
   get 'data_interactive/index'
+  get 'di', to: 'data_interactive#index'
 
   # Temporary Login Solution for CODAP hosted simultaneously with Rails (in Public folder)
   post '/DataGames/api/auth/login', to: 'auth#index'
@@ -40,8 +41,8 @@ Rails.application.routes.draw do
   namespace :api, defaults: {format: 'json'} do
 
     # To allow CORS request. The browser first sends an Options request which is matched to logs#options
-    match 'logs', to: 'logs#options', via: [:options]
-    match 'is', to: 'logs#options', via: [:options]
+    match 'logs', to: 'logs#render204', via: [:options]
+    match 'is', to: 'logs#render204', via: [:options]
 
     # API to receive log(s) and store it in database
     post 'logs', to: 'logs#create'

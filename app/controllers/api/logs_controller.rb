@@ -3,12 +3,11 @@ module Api
 
   class LogsController < ApplicationController
 
-    after_action :cors_preflight_check
-    after_filter :cors_set_access_control_headers
+    skip_before_action :verify_authenticity_token
 
-    # Send empty text for options request
-    def options
-      render :text => '', :content_type => 'text/plain'
+    # For CORS preflight
+    def render204
+      head 204
     end
 
     # Receive Post request and store logs from request body
@@ -52,17 +51,14 @@ module Api
         end
         time_columns = logs_columns["time_columns"]
         time_columns.each do |time_column|
-          new_log[time_column] = DateTime.strptime("#{log_data[time_column].to_i}",'%s').to_s
+          new_log[time_column] = Time.at(log_data[time_column].to_f / 1000).getutc
         end
         if new_log["application"].to_s == ''
           new_log[:application] = "Unknown: " + request.referer.to_s
         end
-        new_log[:parameters] = log_data["parameters"]
-        new_log[:extras] = Hash.new
-        log_data.each do |key, value|
-          if !(string_columns.include? key) && !(time_columns.include? key) && key != "parameters"
-            new_log[:extras][key] = value
-          end
+        new_log[:parameters] = log_data["parameters"] || {}
+        new_log[:extras] = log_data.reject do |key, value|
+          key == "parameters" || string_columns.include?(key) || time_columns.include?(key)
         end
         if new_log.save
           return true, new_log

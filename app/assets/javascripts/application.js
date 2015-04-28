@@ -11,9 +11,11 @@
 // about supported directives.
 //
 //= require jquery
+//= require chosen-jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
+//= require iframe-phone
 //= require_tree .
 //= require dataTables/jquery.dataTables
 //= require bootstrap

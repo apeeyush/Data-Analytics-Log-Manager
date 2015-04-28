@@ -172,13 +172,13 @@ class Log < ActiveRecord::Base
   # Example:
   #   Log.keys_list
   def self.keys_list
+    ids = all.pluck(:id)
     list = Log.column_names - %w{id parameters extras}
-    all.each do |log|
-      log.parameters.present? ? list << log.parameters.keys : list << []
-      log.extras.present? ? list << log.extras.keys : list << []
+    if ids.size > 0
+      list << (Log.connection.execute("SELECT DISTINCT (each(parameters)).key FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
+      list << (Log.connection.execute("SELECT DISTINCT (each(extras)).key     FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
     end
-    list = list.flatten.uniq
-    return list
+    list.flatten.uniq
   end
 
   def satisfies_conditions(conditions)
