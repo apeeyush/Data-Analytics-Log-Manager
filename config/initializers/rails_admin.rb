@@ -45,4 +45,13 @@ RailsAdmin.config do |config|
     end
   end
 
+  config.model 'Document' do
+    list do
+      field :id
+      field :name
+      field :created_at
+      field :updated_at
+    end
+  end
+
 end
