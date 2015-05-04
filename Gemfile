@@ -8,7 +8,7 @@ gem 'rails', '4.1.4'
 # Use postgresql as the database for Active Record
 gem 'pg'
 # Use SCSS for stylesheets
-gem 'sass-rails', '~> 4.0.3'
+gem 'sass-rails', '5.0.1'
 # Use Uglifier as compressor for JavaScript assets
 gem 'uglifier', '>= 1.3.0'
 # Use CoffeeScript for .js.coffee assets and views
@@ -34,6 +34,7 @@ gem 'knockoutjs-rails'
 gem 'jquery-rails'
 # integrates Chosen (JS selectbox lib) with Rails
 gem 'chosen-rails'
+gem 'compass-rails', '2.0.2'  # Dependency for chosen-rails. Fix version as latest version incompatible with saas-rails
 # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
 gem 'turbolinks'
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
@@ -79,7 +80,7 @@ end
 # factory_girl is a fixtures replacement with a straightforward definition syntax, support for multiple build strategies, and support for multiple factories for the same class, including factory inheritance.
 # Load factory_girl_rails in development to get generator hooks
 group :development, :test do
-  gem 'rspec-rails'
+  gem 'rspec-rails', '~> 3.0'
   gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails'
   gem 'byebug'
