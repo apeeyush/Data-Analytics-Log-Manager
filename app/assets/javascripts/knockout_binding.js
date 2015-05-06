@@ -1,4 +1,5 @@
 // KnockoutJS Data Binding
+// Used by DataInteractive only but still included in application.js
 $(document).ready(function() {
 
 var string_filter_instance = function(key, list) {

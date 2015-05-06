@@ -7,6 +7,7 @@
 //     "parent_name" :
 //       "parent_values" : [List of parent values]
 //       "child_values"  : [Arrar of Array where each array is a list of child values]
+// Used by DataInteractive only but still included in application.js
 
 var codapPhone = new iframePhone.IframePhoneRpcEndpoint(function() {}, "codap-game", window.parent);
 

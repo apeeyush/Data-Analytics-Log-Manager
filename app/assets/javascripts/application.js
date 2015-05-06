@@ -10,15 +10,20 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//	The 'require_tree .' has been removed since there are some page specific javascripts
+//
 //= require jquery
 //= require chosen-jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
 //= require iframe-phone
-//= require_tree .
 //= require dataTables/jquery.dataTables
 //= require bootstrap
 //= require dataTables/bootstrap/3/jquery.dataTables.bootstrap
 //= require knockout
 //= require knockout.mapping
+//= require setup
+//= require codap
+//= require enable_tab
+//= require knockout_binding

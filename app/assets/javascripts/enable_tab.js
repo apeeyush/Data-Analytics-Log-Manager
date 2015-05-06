@@ -1,5 +1,6 @@
 // Used to enable the use of TAB in textarea
 // This is useful when editing the JSON Query directly as people are used to pressing TAB for indentation
+// Used by DataInteractive only but still included in application.js
 function enableTab(id) {
   var el = document.getElementById(id);
   if (el !== null) {
