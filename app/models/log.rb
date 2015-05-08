@@ -64,7 +64,7 @@ class Log < ActiveRecord::Base
   #  log = Log.first; session_value = log.value("session");
   def value(key)
   	if self[key].present?
-      self[key].class != ActiveSupport::TimeWithZone ? self[key] : self[key].to_i
+      self[key].class != ActiveSupport::TimeWithZone ? self[key] : self[key].to_f
     elsif self[:parameters].present? && self[:parameters][key].present?
       return self[:parameters][key]
     elsif self[:extras].present? && self[:extras][key].present?
