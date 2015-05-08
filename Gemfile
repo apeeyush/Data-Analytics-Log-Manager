@@ -57,6 +57,8 @@ gem 'rack-cors', '~> 0.3'
 # New Relic application monitoring
 gem 'newrelic_rpm'
 
+gem 'd3-rails'
+
 # Use ActiveModel has_secure_password
 # gem 'bcrypt', '~> 3.1.7'
 

@@ -27,3 +27,4 @@
 //= require codap
 //= require enable_tab
 //= require knockout_binding
+//= require d3
