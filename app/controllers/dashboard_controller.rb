@@ -1,4 +1,7 @@
 class DashboardController < ApplicationController
+
+  before_action :authenticate_user!
+
   def index
     @application_list = Log.access_filter(current_user).uniq.pluck(:application)
     @activity_list = Log.access_filter(current_user).uniq.pluck(:activity)
