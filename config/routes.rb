@@ -24,6 +24,9 @@ Rails.application.routes.draw do
   get 'pages/explore'
   post 'pages/get_explore_data'
 
+  get 'dashboard/index'
+  post 'dashboard/get_monitoring_data'
+
   get 'data_interactive/index'
   get 'di', to: 'data_interactive#index'
 

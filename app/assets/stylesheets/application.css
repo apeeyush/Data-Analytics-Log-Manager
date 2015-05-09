@@ -62,3 +62,10 @@ table {
   font-weight: bold;
   font-size: 1.5em;
 }
+
+.axis path,
+.axis line {
+  fill: none;
+  stroke: #000;
+  shape-rendering: crispEdges;
+}

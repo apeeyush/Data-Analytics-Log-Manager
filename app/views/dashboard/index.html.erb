@@ -1,0 +1,40 @@
+<div class="container">
+<div class="row">
+  <div class="col-md-12">
+    <h4>Select application/activity to monitor</h4>
+    <p>Default value is all applications/activities if left blank</p>
+    <br>
+    <%= simple_form_for :monitor, html: { id: 'monitor', class: "form-horizontal" } do |f| %>
+      <div class="form-group">
+        <%= f.label :application, 'Application', class: 'col-sm-3 control-label' %>
+        <div class="col-sm-9">
+          <%= f.input_field :application, collection: @application_list, class: "form-control chosen-select" %>
+        </div>
+      </div>
+      <div class="form-group">
+        <%= f.label :activity, 'Activity', class: 'col-sm-3 control-label' %>
+        <div class="col-sm-9">
+          <%= f.input_field :activity, collection: @activity_list, class: "form-control chosen-select" %>
+        </div>
+      </div>
+    <% end %>
+	<div class="form-group">
+	    <div class="col-sm-offset-3 col-sm-4">
+	        <button type="submit" class="btn btn-primary js-start-monitoring">Start monitoring</button>
+	    </div>
+	    <div class="col-sm-5">
+	        <button type="submit" class="btn btn-primary js-stop-monitoring" disabled="disabled">Stop monitoring</button>
+	    </div>
+	</div>
+  </div>
+</div>
+<div class="row" id="dashboard">
+<br><br>
+</div>
+<div class="row">
+  <h4>Logs</h4>
+  <ul id="logs-list">
+    <li>A list of logs will appear here once you start monitoring.</li>
+  </ul>
+</div>
+</div>
