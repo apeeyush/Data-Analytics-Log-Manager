@@ -35,8 +35,10 @@ gem 'jquery-rails'
 # integrates Chosen (JS selectbox lib) with Rails
 gem 'chosen-rails'
 gem 'compass-rails', '2.0.2'  # Dependency for chosen-rails. Fix version as latest version incompatible with saas-rails
-# Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
-gem 'turbolinks'
+
+# # Turbolinks makes following links in your web application faster. Read more: https://github.com/rails/turbolinks
+# gem 'turbolinks'
+
 # Build JSON APIs with ease. Read more: https://github.com/rails/jbuilder
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
@@ -45,8 +47,8 @@ gem 'sdoc', '~> 0.4.0',          group: :doc
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring',        group: :development
 
-# jQuery plugin for drop-in fix binded events problem caused by Turbolinks
-gem 'jquery-turbolinks'
+# # jQuery plugin for drop-in fix binded events problem caused by Turbolinks
+# gem 'jquery-turbolinks'
 
 # A streaming JSON parsing and encoding library for Ruby (C bindings to yajl)
 gem 'yajl-ruby', require: 'yajl'
