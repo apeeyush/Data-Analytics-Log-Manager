@@ -27,7 +27,7 @@ function monitor(){
   // Initialize graph
   var margin = {top: 20, right: 20, bottom: 40, left:40},
       width = 1000-margin.left-margin.right,
-      height = 100-margin.top-margin.bottom;
+      height = 200-margin.top-margin.bottom;
   var svg = d3.select("#dashboard").append("svg:svg")
     .attr("width", width+margin.left + margin.right)
     .attr("height", height + margin.top + margin.bottom)
@@ -36,13 +36,14 @@ function monitor(){
   // Initialize variables/functions used by d3
   var time = function(d) { return Date.parse(d.time) }
   var timeDiff = function(d) { var nd = new Date(); return (Date.parse(d['time'])-nd.getTime())/(1000.0*60) }
-  var datumId = function(d) { return d.id }
+  var datumId = function(d) { return 'name'+d.id }
   var x = d3.scale.linear()
     .domain([-5,0])
     .range([0,width]);
   var y = d3.scale.linear()
-   .domain([5,0])
+   .domain([0,5])
    .range([height,0]);
+  var blackStrokeList = [];
   // Draw axis
   var xAxis = d3.svg.axis()
       .scale(x)
@@ -52,6 +53,13 @@ function monitor(){
     .attr("class", "x axis")
     .attr("transform", "translate(0," + height + ")")
     .call(xAxis)
+    .append("text")
+      .attr("class", "label")
+      .attr("x", width)
+      .attr("y", -6)
+      .style("text-anchor", "end")
+      .text("Minutes");
+
   // Refresh the location of datapoints on graph
   var refreshGraph = function(logData) {
     var circles = svg.selectAll("circle").data(logData, datumId)
@@ -61,13 +69,20 @@ function monitor(){
 
     circles.enter()
       .append("svg:circle")
-      .attr("r", 3)
+      .attr("r", 5)
       .attr("cx", function(d) { return x(timeDiff(d)) })
       .attr("cy", function(d) { return y(1.5) })
+      .attr('id', function(d){ return datumId(d); })
       .style("fill-opacity", .7)
       .style("stroke", "green")
-      .style("fill", "green");
-
+      .style("fill", "green")
+      .on("click", function(d){
+        clearBlackStrokes(blackStrokeList);
+        d3.select("#name"+d.id).style("stroke","black");
+        $('#status').empty();
+        $('#status').append('<p>'+JSON.stringify(d)+'</p>');
+        blackStrokeList.push(d.id);
+      });
     circles.exit()
      .remove()
   }
@@ -83,7 +98,6 @@ function monitor(){
       url: "/dashboard/get_monitoring_data",
       data: data,
       success: function(data) {
-        showLogs(data['logs']);
         var logData = data['logs'].slice();
         refreshGraph(logData);
       }
@@ -92,10 +106,9 @@ function monitor(){
   return intervalId;
 }
 
-function showLogs(data){
-  $("#logs-list").empty();
-  var eventsLength = data.length;
-  for (var i = 0; i < eventsLength; i++) {
-    $("#logs-list").append('<li style="font-size:10px";>' + JSON.stringify(data[i]) + '</li>');
+function clearBlackStrokes(blackStrokeList){
+  for (var i=0; i<blackStrokeList.length; i++){
+    id = blackStrokeList[i];
+    d3.select("#name"+id).style("stroke","green");
   }
 }
