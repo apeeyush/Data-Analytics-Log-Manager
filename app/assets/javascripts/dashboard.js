@@ -17,7 +17,6 @@ jQuery(function() {
     clearInterval(intervalId);
     refreshIntervalIds = null;
   });
-
 });
 
 function monitor(){
@@ -43,7 +42,7 @@ function monitor(){
   var y = d3.scale.linear()
    .domain([0,5])
    .range([height,0]);
-  var blackStrokeList = [];
+  var selectedNodesList = [];
   // Draw axis
   var xAxis = d3.svg.axis()
       .scale(x)
@@ -75,13 +74,14 @@ function monitor(){
       .attr('id', function(d){ return datumId(d); })
       .style("fill-opacity", .7)
       .style("stroke", "green")
-      .style("fill", "green")
+      .style("fill", "#99FF66")
       .on("click", function(d){
-        clearBlackStrokes(blackStrokeList);
+        clearSelectedStrokes(selectedNodesList);
         d3.select("#name"+d.id).style("stroke","black");
+        d3.select("#name"+d.id).style("fill", "green");
         $('#status').empty();
         $('#status').append('<p>'+JSON.stringify(d)+'</p>');
-        blackStrokeList.push(d.id);
+        selectedNodesList.push(d.id);
       });
     circles.exit()
      .remove()
@@ -106,9 +106,10 @@ function monitor(){
   return intervalId;
 }
 
-function clearBlackStrokes(blackStrokeList){
-  for (var i=0; i<blackStrokeList.length; i++){
-    id = blackStrokeList[i];
+function clearSelectedStrokes(selectedNodesList){
+  for (var i=0; i<selectedNodesList.length; i++){
+    id = selectedNodesList[i];
     d3.select("#name"+id).style("stroke","green");
+    d3.select("#name"+id).style("fill", "#99FF66");
   }
 }
