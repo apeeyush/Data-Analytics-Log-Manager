@@ -81,6 +81,10 @@ Either update the `username` and `password` with your existing user's value or c
 
     rake db:migrate
 
+### Init git submodules (e.g. vendor/iframe-phone)
+
+    git submodule update --init --recursive
+
 ### Run application on localhost:
 
     rails server
