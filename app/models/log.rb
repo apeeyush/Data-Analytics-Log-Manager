@@ -15,7 +15,6 @@
 #  updated_at  :datetime
 #  event_value :string(255)
 #
-
 class Log < ActiveRecord::Base
 
   # Select logs for user based on user's application list
@@ -83,6 +82,17 @@ class Log < ActiveRecord::Base
       new_log[:parameters][key] = value
     end
     return new_log
+  end
+
+  # Executes JSON query and returns logs set.
+  # Both parsed and unparsed query JSON are accepted.
+  def self.execute_query(query, user)
+    query = JSON.parse(ERB::Util.json_escape(query)) if query.is_a?(String)
+    # Apply filters on logs.
+    logs = Log.access_filter(user)
+    logs = logs.filter(query["filter"]) if (query["filter"].present?)
+    logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
+    logs
   end
 
   # Filters data having specified values/range for the keys

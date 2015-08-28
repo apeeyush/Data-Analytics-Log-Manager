@@ -1,19 +1,10 @@
-require 'json'
-include ERB::Util
-
 class TableTransformController < ApplicationController
 
   before_action :authenticate_user!
 
   def index
-    query = JSON.parse(json_escape(params["json-textarea"]))
-
-    logs = Log.access_filter(current_user)
-    logs = logs.filter(query["filter"]) if (query["filter"].present?)
-    logs = logs.filter_having_keys(query["filter_having_keys"]) if (query["filter_having_keys"].present? && query["filter_having_keys"]["keys_list"].present?)
-
-    if logs != nil
-      @logs = logs
+    @logs = Log.execute_query(params["json-textarea"], current_user)
+    if @logs != nil
       @column_names = []
       @column_names = Log.column_names - %w{id parameters extras}
       @logs.each do |log|
