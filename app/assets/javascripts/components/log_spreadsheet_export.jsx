@@ -21,6 +21,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
     startExport: function () {
       this.setState({
         exportStarted: true,
+        currentStatus: 'requested',
         currentStatusMsg: 'Export requested.'
       });
       $.ajax({
@@ -97,7 +98,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
         )
       } else {
         return (
-          <ProgressDialog onClose={this.cancelExport} content={this.state.currentStatusMsg}
+          <ProgressDialog onClose={this.cancelExport} status={this.state.currentStatus} content={this.state.currentStatusMsg}
                           filePath={this.state.filePath} downloadEnabled={this.exportSuccessfullyCompleted()}/>
         )
       }
@@ -139,6 +140,20 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
       }
     },
 
+    getStatusClass: function () {
+      val = 'label ';
+      if (this.props.status === 'succeed') {
+        val += 'label-success';
+      } else if (this.props.status === 'failed') {
+        val += 'label-danger';
+      } else if (this.props.status === 'requested') {
+        val += 'label-default';
+      } else {
+        val += 'label-info';
+      }
+      return val;
+    },
+
     render: function () {
       return (
         <div className="modal fade">
@@ -148,7 +163,10 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 className="modal-title">Spreadsheet Export Status</h4>
+                <h4 className="modal-title">Spreadsheet export status:
+                  <span> </span>
+                  <span className={this.getStatusClass()}>{this.props.status}</span>
+                </h4>
               </div>
               <div className="modal-body">
                 <p>{this.props.content}</p>

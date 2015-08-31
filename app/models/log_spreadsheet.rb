@@ -35,13 +35,9 @@ class LogSpreadsheet < ActiveRecord::Base
   def generate
     raise StandardError.new('Failed to process spreadsheet without JSON query') unless query
 
-    update_status(STATUS_PROCESSING, 'Processing started...')
-
-    column_names = Log.column_names - %w{id}
-    column_names = column_names.flatten.uniq
-
     update_status(STATUS_PROCESSING, 'Executing SQL query...')
     logs = Log.execute_query(query, user)
+    column_names = logs.keys_list
 
     update_status(STATUS_PROCESSING, 'Generating spreadsheet...')
     book = create_spreadsheet(column_names, logs)
@@ -72,12 +68,14 @@ class LogSpreadsheet < ActiveRecord::Base
     sheet.row(0).concat(columns)
     row_idx = 1
     logs.find_each do |log|
-      if row_idx % 500 == 0
+      if row_idx % 2000 == 0
         update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows)...")
       end
       row = sheet.row(row_idx)
       columns.each do |col|
-        row.push(log[col])
+        val = log.value(col)
+        val = Time.at(val).to_s if ['time', 'created_at', 'updated_at'].include?(col)
+        row.push(val)
       end
       row_idx += 1
     end
