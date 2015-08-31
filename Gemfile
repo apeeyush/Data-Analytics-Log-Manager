@@ -17,7 +17,7 @@ gem 'coffee-rails', '~> 4.0.0'
 # gem 'therubyracer',  platforms: :ruby
 
 # Official Sass port of Bootstrap http://getbootstrap.com/css/#sass
-gem 'bootstrap-sass', '~> 3.1.1'
+gem 'bootstrap-sass', '~> 3.3.5'
 # Flexible authentication solution for Rails with Warden.
 gem 'devise'
 # A Scope & Engine based, clean, powerful, customizable and sophisticated paginator
@@ -44,6 +44,10 @@ gem 'sdoc', '~> 0.4.0', group: :doc
 gem 'spreadsheet', '~> 1.0.3'
 # Delayed jobs are used to generate Excel spreadsheets.
 gem 'delayed_job_active_record', '~> 4.0.3'
+# React JS integration.
+gem 'react-rails', '~> 1.0'
+# JS modules.
+gem 'modulejs-rails'
 
 # Spring speeds up development by keeping your application running in the background. Read more: https://github.com/rails/spring
 gem 'spring', group: :development

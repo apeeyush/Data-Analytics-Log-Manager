@@ -15,6 +15,10 @@
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
+//= require modulejs
+//= require react
+//= require react_ujs
+//= require components
 //= require iframe-phone
 //= require_tree .
 //= require dataTables/jquery.dataTables
