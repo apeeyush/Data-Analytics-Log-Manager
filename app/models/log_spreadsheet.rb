@@ -12,7 +12,13 @@
 #  updated_at  :datetime
 #
 class LogSpreadsheet < ActiveRecord::Base
-  LOGS_COUNT_LIMIT = 65536 # old Excel limit and quite reasonable value to avoid too long processing time
+  # Max number of LogSpreadsheet rows stored in DB.
+  # Generated spreadsheet files can be pretty heavy, so don't store too many of them.
+  SPREADSHEET_COUNT_LIMIT = 10
+
+  # Max number of rows within one spreadsheet.
+  # Use old Excel limit, it's quite reasonable value so we should avoid too long processing time.
+  LOGS_COUNT_LIMIT = 65536
 
   STATUS_CREATED = 'created'
   STATUS_ENQUEUED = 'enqueued'
@@ -24,6 +30,7 @@ class LogSpreadsheet < ActiveRecord::Base
   belongs_to :user
 
   after_create :set_initial_status
+  after_create :remove_old_spreadsheets
 
   def generate
     raise StandardError.new('Failed to process spreadsheet without JSON query') unless query
@@ -68,9 +75,6 @@ class LogSpreadsheet < ActiveRecord::Base
       if row_idx % 500 == 0
         update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows)...")
       end
-      if row_idx > 10000
-        raise StandardError.new('Random error')
-      end
       row = sheet.row(row_idx)
       columns.each do |col|
         row.push(log[col])
@@ -82,5 +86,10 @@ class LogSpreadsheet < ActiveRecord::Base
 
   def set_initial_status
     update_status(STATUS_CREATED, 'Spreadsheet generation job is waiting to be enqueued.')
+  end
+
+  def remove_old_spreadsheets
+    limit = LogSpreadsheet.order(created_at: :desc).limit(SPREADSHEET_COUNT_LIMIT).last.created_at
+    LogSpreadsheet.where('created_at < ?', limit).destroy_all
   end
 end
