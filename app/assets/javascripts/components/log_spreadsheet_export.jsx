@@ -19,23 +19,22 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
     },
 
     startExport: function () {
+      this.setState({
+        exportStarted: true,
+        currentStatusMsg: 'Export requested.'
+      });
       $.ajax({
         type: 'POST',
         url: EXPORT_PATH,
         data: $('#transformation_form').serialize(),
-        success: function(data) {
+        success: function (data) {
           this.setState({
-            exportStarted: true,
             statusPath: data.status_path,
             filePath: data.file_path,
-            currentStatusMsg: 'Export requested',
             statusPollingIntervalId: setInterval(this.updateStatus, STATUS_POLLING_INTERVAL)
           });
         }.bind(this),
-        error: function() {
-          alert('An error occurred! Please try again.');
-          this.cancelExport();
-        }
+        error: this.handleError
       });
     },
 
@@ -65,10 +64,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
             this.stopPolling();
           }
         }.bind(this),
-        error: function() {
-          alert('An error occurred! Please try again.');
-          this.cancelExport();
-        }
+        error: this.handleError
       });
     },
 
@@ -76,6 +72,18 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
       if (this.state.statusPollingIntervalId) {
         clearInterval(this.state.statusPollingIntervalId);
       }
+    },
+
+    handleError: function (jqXHR) {
+      this.stopPolling();
+      var errorMsg = 'An error occurred. Please try again.';
+      if (jqXHR.responseJSON && jqXHR.responseJSON.error) {
+        errorMsg += '\n' + jqXHR.responseJSON.error;
+      }
+      this.setState({
+        currentStatus: 'failed',
+        currentStatusMsg: errorMsg
+      });
     },
 
     exportSuccessfullyCompleted: function () {
@@ -113,6 +121,15 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
   var ProgressDialog = React.createClass({
     componentDidMount: function () {
       $(React.findDOMNode(this)).modal();
+      $(React.findDOMNode(this)).on('hidden.bs.modal', function () {
+        this.props.onClose();
+      }.bind(this));
+    },
+
+    componentWillUnmount: function () {
+      // Note that Bootstrap modifies body tag and possibly other DOM elements,
+      // so make sure the dialog is hidden properly.
+      $(React.findDOMNode(this)).modal('hide');
     },
 
     downloadHandler: function (e) {
@@ -128,13 +145,13 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
           <div className="modal-dialog">
             <div className="modal-content">
               <div className="modal-header">
-                <button type="button" className="close" data-dismiss="modal" aria-label="Close" onClick={this.props.onClose}>
+                <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
                 <h4 className="modal-title">Spreadsheet Export Status</h4>
               </div>
               <div className="modal-body">
-                <p>{this.props.content}.</p>
+                <p>{this.props.content}</p>
                 <p>{this.props.downloadEnabled ? "Use the button below to download exported logs." : ""}</p>
               </div>
               <div className="modal-footer">

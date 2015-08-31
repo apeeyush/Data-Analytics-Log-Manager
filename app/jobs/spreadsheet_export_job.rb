@@ -1,6 +1,6 @@
 class SpreadsheetExportJob < Struct.new(:log_spreadsheet_id)
   def enqueue(job)
-    update_status(LogSpreadsheet::STATUS_ENQUEUED, 'Waiting in queue')
+    update_status(LogSpreadsheet::STATUS_ENQUEUED, 'Waiting in queue...')
 
     job.delayed_reference_id   = log_spreadsheet_id
     job.delayed_reference_type = 'LogSpreadsheet'
@@ -8,15 +8,15 @@ class SpreadsheetExportJob < Struct.new(:log_spreadsheet_id)
   end
 
   def success(job)
-    update_status(LogSpreadsheet::STATUS_SUCCEED, 'Spreadsheet generated')
+    update_status(LogSpreadsheet::STATUS_SUCCEED, 'Spreadsheet generated.')
   end
 
   def error(job, exception)
-    update_status(LogSpreadsheet::STATUS_ERRORED, 'Spreadsheet generation errored, trying again')
+    update_status(LogSpreadsheet::STATUS_ERRORED, "Spreadsheet generation errored (\"#{exception}\"), trying again...")
   end
 
   def failure(job)
-    update_status(LogSpreadsheet::STATUS_FAILED, 'Spreadsheet generation failed')
+    update_status(LogSpreadsheet::STATUS_FAILED, 'Spreadsheet generation failed. Please try again later.')
   end
 
   def perform
