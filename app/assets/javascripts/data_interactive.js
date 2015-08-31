@@ -54,6 +54,10 @@ $(function() {
     });
   });
 
+  // Mount spreadsheet export React component.
+  LogExportComponent = React.createElement(modulejs.require('components/log_spreadsheet_export'));
+  React.render(LogExportComponent, $('#js-log-spreadsheet-export')[0]);
+
   // Enable TAB functionality on TextArea which shows JSON Query
   $(function() {
     enableTab('json-textarea');
