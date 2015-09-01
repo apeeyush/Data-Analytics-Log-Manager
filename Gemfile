@@ -97,6 +97,7 @@ end
 # Capybara helps test web applications by simulating how a real user would interact with app.
 group :test do
   gem 'capybara'
+  gem 'poltergeist'
 end
 
 group :production do

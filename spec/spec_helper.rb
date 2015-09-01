@@ -7,7 +7,7 @@ require 'rspec/active_model/mocks'
 
 # Add this to load Capybara integration
 require 'capybara/rspec'
-require 'capybara/rails'
+require 'capybara/poltergeist'
 
 # Requires supporting ruby files with custom matchers and macros, etc,
 # in spec/support/ and its subdirectories.
@@ -47,4 +47,28 @@ RSpec.configure do |config|
   # the seed, which is printed after each run.
   #     --seed 1234
   config.order = "random"
+
+  # Used by feature tests (e.g. login_as).
+  config.include Warden::Test::Helpers
+  config.before :suite do
+    Warden.test_mode!
+  end
+  config.after :each do
+    Warden.test_reset!
+  end
+
+  Capybara.javascript_driver = :poltergeist
+
+  class ActiveRecord::Base
+    mattr_accessor :shared_connection
+    @@shared_connection = nil
+
+    def self.connection
+      @@shared_connection || retrieve_connection
+    end
+  end
+
+  # Forces all threads to share the same connection. This works on
+  # Capybara because it starts the web server in a thread.
+  ActiveRecord::Base.shared_connection = ActiveRecord::Base.connection
 end
