@@ -173,7 +173,8 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
                 <p>{this.props.downloadEnabled ? "Use the button below to download exported logs." : ""}</p>
               </div>
               <div className="modal-footer">
-                <a type="button" href={this.props.filePath} className="btn btn-primary" disabled={!this.props.downloadEnabled} onClick={this.downloadHandler}>Download spreadsheet</a>
+                <a type="button" href={this.props.filePath} id="download-spreadsheet" className="btn btn-primary"
+                   disabled={!this.props.downloadEnabled} onClick={this.downloadHandler}>Download spreadsheet</a>
               </div>
             </div>
           </div>

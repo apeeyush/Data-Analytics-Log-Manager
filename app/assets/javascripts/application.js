@@ -10,6 +10,7 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require function_bind_polyfill
 //= require jquery
 //= require chosen-jquery
 //= require jquery.turbolinks
