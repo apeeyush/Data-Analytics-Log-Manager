@@ -15,10 +15,11 @@ class LogSpreadsheet < ActiveRecord::Base
   # Max number of LogSpreadsheet rows stored in DB.
   # Generated spreadsheet files can be pretty heavy, so don't store too many of them.
   SPREADSHEET_COUNT_LIMIT = 10
-
   # Max number of rows within one spreadsheet.
   # Use old Excel limit, it's quite reasonable value so we should avoid too long processing time.
   LOGS_COUNT_LIMIT = 65536
+  # Time attributes need to be treated in a special way during spreadsheet generation.
+  TIME_COLS = ['time', 'created_at', 'updated_at']
 
   STATUS_CREATED = 'created'
   STATUS_ENQUEUED = 'enqueued'
@@ -73,8 +74,11 @@ class LogSpreadsheet < ActiveRecord::Base
       end
       row = sheet.row(row_idx)
       columns.each do |col|
-        val = log.value(col)
-        val = Time.at(val).to_s if ['time', 'created_at', 'updated_at'].include?(col)
+        if TIME_COLS.include?(col)
+          val = log[col].to_datetime
+        else
+          val = log.value(col)
+        end
         row.push(val)
       end
       row_idx += 1

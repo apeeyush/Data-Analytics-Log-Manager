@@ -2,9 +2,6 @@
 
 FactoryGirl.define do
   factory :log_spreadsheet do
-    user_id 1
-    status "MyString"
-    progress_msg "MyString"
-    spreadsheet ""
+    query "{}"
   end
 end

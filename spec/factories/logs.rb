@@ -6,5 +6,6 @@ FactoryGirl.define do
   	activity "myActivity"
   	username "myUser"
   	event "myEvent"
+    time { Time.now }
   end
 end
