@@ -235,6 +235,8 @@ GEM
     spreadsheet (1.0.4)
       ruby-ole (>= 1.0)
     spring (1.1.3)
+    spring-commands-rspec (1.0.4)
+      spring (>= 0.9.1)
     sprockets (2.11.0)
       hike (~> 1.2)
       multi_json (~> 1.0)
@@ -299,6 +301,7 @@ DEPENDENCIES
   simple_form
   spreadsheet (~> 1.0.3)
   spring
+  spring-commands-rspec
   turbolinks
   uglifier (>= 1.3.0)
   yajl-ruby

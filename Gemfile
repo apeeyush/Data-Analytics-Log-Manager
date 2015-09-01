@@ -91,6 +91,7 @@ group :development, :test do
   gem 'rspec-activemodel-mocks'
   gem 'factory_girl_rails'
   gem 'byebug'
+  gem 'spring-commands-rspec'
 end
 
 # Capybara helps test web applications by simulating how a real user would interact with app.
