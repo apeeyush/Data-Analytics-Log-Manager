@@ -4,6 +4,10 @@
 @import "bootstrap";
 @import "bootstrap/theme";
 
-.js-submit-query {
+.top-buttons {
   margin-bottom: 20px;
+  
+  #js-log-spreadsheet-export {
+    display: inline-block;
+  }
 }

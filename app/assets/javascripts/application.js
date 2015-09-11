@@ -10,11 +10,16 @@
 // Read Sprockets README (https://github.com/sstephenson/sprockets#sprockets-directives) for details
 // about supported directives.
 //
+//= require function_bind_polyfill
 //= require jquery
 //= require chosen-jquery
 //= require jquery.turbolinks
 //= require jquery_ujs
 //= require turbolinks
+//= require modulejs
+//= require react
+//= require react_ujs
+//= require components
 //= require iframe-phone
 //= require_tree .
 //= require dataTables/jquery.dataTables

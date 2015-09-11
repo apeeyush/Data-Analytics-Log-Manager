@@ -10,6 +10,14 @@ Rails.application.routes.draw do
 
   resources :documents
   resources :logs, only: [:index]
+  resources :log_spreadsheets, only: [] do
+    member do
+      # Returns JSON with status and status message.
+      get 'status'
+      # Returns spreadsheet file or HTTP 404 if spreadsheet is not generated yet.
+      get 'file'
+    end
+  end
 
   get 'analytics/index'
   post 'analytics/all'
@@ -37,6 +45,7 @@ Rails.application.routes.draw do
   # Used for receiving form data from DataInteractive UI and apply appropriate transformation
   post 'group_transform', to: 'group_transform#index'
   post 'table_transform', to: 'table_transform#index'
+  post 'export_log_spreadsheet', to: 'export#log_spreadsheet'
 
   namespace :api, defaults: {format: 'json'} do
 

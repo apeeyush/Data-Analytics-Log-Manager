@@ -1,15 +1,15 @@
-require 'json'
-include ERB::Util
-
 class GroupTransformController < ApplicationController
 
   before_action :authenticate_user!
-  before_action :initialize_transform
+
   require_dependency 'transform_data.rb'
   require_dependency 'add_measure.rb'
   require_dependency 'add_synthetic_data'
 
   def index
+    @query = JSON.parse(ERB::Util.json_escape(query))
+    @logs = Log.execute_query(@query, current_user)
+
     if @query["group"] != nil && %w{username activity application session event}.include?(@query["group"])
       initialize_group_transform
       if @query["child_query"].present?
@@ -25,16 +25,6 @@ class GroupTransformController < ApplicationController
       end
     end
     render "layouts/grouped_data.json.jbuilder"
-  end
-
-  # Used to initialize the transformation process
-  # Extracts query from request params and applies initial filters on Log
-  def initialize_transform
-    @query = JSON.parse(json_escape(params["json-textarea"]))
-    # Apply filters on logs
-    @logs = Log.access_filter(current_user)
-    @logs = @logs.filter(@query["filter"]) if (@query["filter"].present?)
-    @logs = @logs.filter_having_keys(@query["filter_having_keys"]) if (@query["filter_having_keys"].present? && @query["filter_having_keys"]["keys_list"].present?)
   end
 
   # Initialises the variables required for Group Transform
