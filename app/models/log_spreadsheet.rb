@@ -8,6 +8,7 @@
 #  status_msg  :string(255)
 #  query       :text
 #  file        :binary
+#  all_columns :boolean
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -38,7 +39,12 @@ class LogSpreadsheet < ActiveRecord::Base
 
     update_status(STATUS_PROCESSING, 'Executing SQL query...')
     logs = Log.execute_query(query, user)
-    column_names = logs.keys_list
+
+    if all_columns
+      column_names = logs.keys_list Log::ALL_COLUMNS
+    else
+      column_names = logs.keys_list
+    end
 
     update_status(STATUS_PROCESSING, 'Generating spreadsheet...')
     book = create_spreadsheet(column_names, logs)

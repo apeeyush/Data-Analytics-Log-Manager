@@ -17,19 +17,21 @@
 #
 class Log < ActiveRecord::Base
 
+  ALL_COLUMNS = true
+
   # Select logs for user based on user's application list
   scope :access_filter, lambda { |user|
       where(application: user.applications.pluck(:name) )
   }
 
-  # Returns a hash with key as column_type and value as lists of names of that column_type 
+  # Returns a hash with key as column_type and value as lists of names of that column_type
   #
   # Example:
   #   Log.column_lists
   #   Returns:
   #     {
   #       "string_columns"=>["session", "username", "application", "activity", "event"],
-  #       "time_columns"=>["time", "created_at", "updated_at"], 
+  #       "time_columns"=>["time", "created_at", "updated_at"],
   #       "hstore_columns"=>"parameters || extras"
   #     }
   def self.column_lists
@@ -55,22 +57,22 @@ class Log < ActiveRecord::Base
     return logs_columns
   end
 
-  # Takes a key, returns the corresponding value if key is a column name, otherwise 
+  # Takes a key, returns the corresponding value if key is a column name, otherwise
   # searches parameters and extras for presence of key, and if present, returns the
   # corresponding value.
   #
   # Example:
   #  log = Log.first; session_value = log.value("session");
   def value(key)
-  	if self[key].present?
+    if self[key].present?
       self[key].class != ActiveSupport::TimeWithZone ? self[key] : self[key].to_f
     elsif self[:parameters].present? && self[:parameters][key].present?
       return self[:parameters][key]
     elsif self[:extras].present? && self[:extras][key].present?
       return self[:extras][key]
-  	else
-  		return ""
-  	end
+    else
+      return ""
+    end
   end
 
   def update_value(key, value)
@@ -181,10 +183,17 @@ class Log < ActiveRecord::Base
   #
   # Example:
   #   Log.keys_list
-  def self.keys_list
+  def self.keys_list(all_possible=false)
     ids = all.pluck(:id)
     list = Log.column_names - %w{id parameters extras}
     if ids.size > 0
+
+      # include all ids with the same application/activity pair so that all the possible parameters and extras are included
+      if all_possible
+        ids << (Log.connection.execute("SELECT id FROM logs WHERE application IN (SELECT DISTINCT application FROM logs WHERE id in (#{ids.join(',')})) AND activity IN (SELECT DISTINCT activity FROM logs WHERE id in (#{ids.join(',')}))").values.flatten rescue [])
+        ids = ids.flatten.uniq
+      end
+
       list << (Log.connection.execute("SELECT DISTINCT (each(parameters)).key FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
       list << (Log.connection.execute("SELECT DISTINCT (each(extras)).key     FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
     end
