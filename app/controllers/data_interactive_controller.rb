@@ -12,4 +12,7 @@ class DataInteractiveController < ApplicationController
       @prepopulated_data[:stringFilters].push :key => "run_remote_endpoint", :values => run_remote_endpoints
     end
   end
+
+  def export
+  end
 end
