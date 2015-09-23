@@ -10,7 +10,8 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
         statusPath: '',
         filePath: '',
         currentStatus: '',
-        statusPollingIntervalId: null
+        statusPollingIntervalId: null,
+        allPossibleColumns: false
       }
     },
 
@@ -27,7 +28,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
       $.ajax({
         type: 'POST',
         url: EXPORT_PATH,
-        data: $('#transformation_form').serialize(),
+        data: $('#transformation_form').serialize() + '&all_columns=' + this.state.allPossibleColumns,
         success: function (data) {
           this.setState({
             statusPath: data.status_path,
@@ -91,10 +92,14 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
       return this.state.currentStatus === 'succeed';
     },
 
+    allPossibleColumnsChanged: function (e) {
+      this.setState({allPossibleColumns: e.target.checked})
+    },
+
     render: function () {
       if (!this.state.exportStarted) {
         return (
-          <ExportButton onClick={this.startExport}/>
+          <ExportButton onClick={this.startExport} allPossibleColumns={this.state.allPossibleColumns} onAllPossibleColumnsChanged={this.allPossibleColumnsChanged}/>
         )
       } else {
         return (
@@ -114,6 +119,8 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
           <button className="btn btn-primary export-spreadsheet" data-loading-text="Processing..." onClick={this.props.onClick}>
             Export Spreadsheet
           </button>
+          <input type="checkbox" checked={this.props.allPossibleColumns} onChange={this.props.onAllPossibleColumnsChanged}/>
+          Export all possible columns
         </div>
       )
     }

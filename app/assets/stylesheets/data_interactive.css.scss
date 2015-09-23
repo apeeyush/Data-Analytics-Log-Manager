@@ -6,8 +6,13 @@
 
 .top-buttons {
   margin-bottom: 20px;
-  
+
   #js-log-spreadsheet-export {
     display: inline-block;
+
+    input[type=checkbox] {
+      margin: 0 5px 0 10px;
+      vertical-align: middle;
+    }
   }
 }
