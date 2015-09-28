@@ -80,12 +80,7 @@ class LogSpreadsheet < ActiveRecord::Base
       end
       row = sheet.row(row_idx)
       columns.each do |col|
-        if TIME_COLS.include?(col)
-          val = log[col].to_datetime
-        else
-          val = log.value(col)
-        end
-        row.push(val)
+        row.push(log.value(col))
       end
       row_idx += 1
     end
