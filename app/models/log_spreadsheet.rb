@@ -29,6 +29,9 @@ class LogSpreadsheet < ActiveRecord::Base
   STATUS_ERRORED = 'errored' # encountered an unexpected error, but trying again
   STATUS_FAILED = 'failed'   # definite failure
 
+  FIND_EACH_BATCH_SIZE = 500
+  UPDATE_BATCH_SIZE = 500
+
   belongs_to :user
 
   after_create :set_initial_status
@@ -46,13 +49,8 @@ class LogSpreadsheet < ActiveRecord::Base
       column_names = logs.keys_list
     end
 
-    update_status(STATUS_PROCESSING, 'Generating spreadsheet...')
-    book = create_spreadsheet(column_names, logs)
-
-    update_status(STATUS_PROCESSING, 'Saving spreadsheet...')
-    io = StringIO.new
-    book.write io
-    update_attributes!(file: io.string.force_encoding('binary'))
+    update_status(STATUS_PROCESSING, 'Generating and saving csv...')
+    create_and_write_csv(column_names, logs)
   end
 
   def update_status(status, status_msg)
@@ -67,24 +65,44 @@ class LogSpreadsheet < ActiveRecord::Base
     logs_count > LOGS_COUNT_LIMIT
   end
 
+  def append_to_file(data, skip_reload=false)
+    ActiveRecord::Base.connection.execute "UPDATE log_spreadsheets SET file = file || #{ActiveRecord::Base.connection.quote(data)} WHERE id = #{id}"
+    reload() unless skip_reload
+  end
+
   private
 
-  def create_spreadsheet(columns, logs)
-    book = Spreadsheet::Workbook.new
-    sheet = book.create_worksheet name: "Logs #{Time.now}"
-    sheet.row(0).concat(columns)
+  def create_and_write_csv(columns, logs)
+    # reset the output to the headers so we can concat blocks of csv
+    update_attributes!(file: columns.to_csv)
+
+    rows = []
     row_idx = 1
-    logs.find_each do |log|
-      if row_idx % 2000 == 0
-        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows)...")
-      end
-      row = sheet.row(row_idx)
+
+    logs.find_each(batch_size: FIND_EACH_BATCH_SIZE) do |log|
+
+      # add the row to the csv
+      row = []
       columns.each do |col|
         row.push(log.value(col))
       end
+      rows.push row.to_csv
+
+      if row_idx % 2000 == 0
+        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows)...")
+      end
+
+      # batch concat the csv without reloading it and then reset the rows for the next batch
+      if row_idx % UPDATE_BATCH_SIZE == 0
+        append_to_file rows.join(''), true
+        rows = []
+      end
+
       row_idx += 1
     end
-    book
+
+    # add any remaining csv data and reload the file column
+    append_to_file rows.join(''), false
   end
 
   def set_initial_status
