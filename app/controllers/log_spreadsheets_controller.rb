@@ -17,6 +17,6 @@ class LogSpreadsheetsController < ApplicationController
       render nothing: true, status: 400
       return
     end
-    send_data spreadsheet.file.force_encoding('binary'), filename: 'logs.xls'
+    send_data spreadsheet.file.force_encoding('binary'), filename: "logs-#{spreadsheet.id}.csv", type: 'text/csv'
   end
 end

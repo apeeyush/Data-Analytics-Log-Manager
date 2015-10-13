@@ -40,9 +40,7 @@ gem 'turbolinks'
 gem 'jbuilder', '~> 2.0'
 # bundle exec rake doc:rails generates the API under doc/api.
 gem 'sdoc', '~> 0.4.0', group: :doc
-# Generate Excel spreadsheets.
-gem 'spreadsheet', '~> 1.0.3'
-# Delayed jobs are used to generate Excel spreadsheets.
+# Delayed jobs are used to generate csv files.
 gem 'delayed_job_active_record', '~> 4.0.3'
 # React JS integration.
 gem 'react-rails', '~> 1.0'

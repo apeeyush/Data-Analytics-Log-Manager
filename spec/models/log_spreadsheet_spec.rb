@@ -54,30 +54,26 @@ describe LogSpreadsheet, :type => :model do
     it "generates spreadsheet which matches log data and query" do
       spreadsheet.generate
 
-      data = StringIO.new(spreadsheet.file)
-      book = Spreadsheet.open(data)
-      sheet = book.worksheet(0)
+      csv = CSV.new StringIO.new(spreadsheet.file), :headers => true
 
       logs_matching_query = Log.where(application: app.name).where(activity: "myActivity").where("extras -> :key IN ( :list )", :key => "groupname", :list => ["group1"]).order(id: :asc)
-      expect(sheet.rows.count).to eql(logs_matching_query.count + 1)
+      expect(csv.count).to eql(logs_matching_query.count)
 
-      headers = sheet.row(0).to_a
-      expect(headers).to eql(logs_matching_query.keys_list)
-      expect(headers).to_not include("extra_param_3", "custom_param_3", "extra_param_4", "custom_param_4")
+      expect(csv.headers).to eql(logs_matching_query.keys_list)
+      expect(csv.headers).to_not include("extra_param_3", "custom_param_3", "extra_param_4", "custom_param_4")
 
-      for idx in 1..logs_matching_query.count
-        row = sheet.row(idx)
-        log = logs_matching_query[idx - 1]
-        headers.count.times do |header_idx|
-          header = headers[header_idx]
+      csv.rewind()
+      for idx in 0...logs_matching_query.count
+        row = csv.shift
+        log = logs_matching_query[idx]
+        csv.headers.count.times do |header_idx|
+          header = csv.headers[header_idx]
           if LogSpreadsheet::TIME_COLS.include?(header)
             # Accept small difference in time value. Without range comparison, tests seem to fail randomly.
             # Maybe some precision is lost when date is converted to Excel format.
             expect(row[header_idx].to_i).to be_within(1).of(log[header].to_i)
           else
-            val = log.value(header)
-            val = nil if val === ''
-            expect(row[header_idx]).to eql(val)
+            expect(row[header_idx]).to eql(log.value(header))
           end
         end
       end
@@ -89,30 +85,26 @@ describe LogSpreadsheet, :type => :model do
       it "generates spreadsheet which matches log data and query" do
         spreadsheet.generate
 
-        data = StringIO.new(spreadsheet.file)
-        book = Spreadsheet.open(data)
-        sheet = book.worksheet(0)
+        csv = CSV.new StringIO.new(spreadsheet.file), :headers => true
 
         logs_matching_query = Log.where(application: app.name).where(activity: "myActivity").where("extras -> :key IN ( :list )", :key => "groupname", :list => ["group1"]).order(id: :asc)
-        expect(sheet.rows.count).to eql(logs_matching_query.count + 1)
+        expect(csv.count).to eql(logs_matching_query.count)
 
-        headers = sheet.row(0).to_a
-        expect(headers).to eql(logs_matching_query.keys_list Log::ALL_COLUMNS)
-        expect(headers).to include("extra_param_3", "custom_param_3", "extra_param_4", "custom_param_4")
+        expect(csv.headers).to eql(logs_matching_query.keys_list Log::ALL_COLUMNS)
+        expect(csv.headers).to include("extra_param_3", "custom_param_3", "extra_param_4", "custom_param_4")
 
-        for idx in 1..logs_matching_query.count
-          row = sheet.row(idx)
-          log = logs_matching_query[idx - 1]
-          headers.count.times do |header_idx|
-            header = headers[header_idx]
+        csv.rewind()
+        for idx in 0...logs_matching_query.count
+          row = csv.shift
+          log = logs_matching_query[idx]
+          csv.headers.count.times do |header_idx|
+            header = csv.headers[header_idx]
             if LogSpreadsheet::TIME_COLS.include?(header)
               # Accept small difference in time value. Without range comparison, tests seem to fail randomly.
               # Maybe some precision is lost when date is converted to Excel format.
               expect(row[header_idx].to_i).to be_within(1).of(log[header].to_i)
             else
-              val = log.value(header)
-              val = nil if val === ''
-              expect(row[header_idx]).to eql(val)
+              expect(row[header_idx]).to eql(log.value(header))
             end
           end
         end
