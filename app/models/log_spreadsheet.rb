@@ -65,9 +65,9 @@ class LogSpreadsheet < ActiveRecord::Base
     logs_count > LOGS_COUNT_LIMIT
   end
 
-  def append_to_file(data, skip_reload=false)
-    ActiveRecord::Base.connection.execute "UPDATE log_spreadsheets SET file = file || #{ActiveRecord::Base.connection.quote(data)} WHERE id = #{id}"
-    reload() unless skip_reload
+  def append_to_file(data, reload_after_update=true)
+    ActiveRecord::Base.connection.exec_query "UPDATE log_spreadsheets SET file = file || $1 WHERE id = $2", 'SQL', [[nil, data], [nil, id]]
+    reload() if reload_after_update
   end
 
   private
@@ -94,15 +94,15 @@ class LogSpreadsheet < ActiveRecord::Base
 
       # batch concat the csv without reloading it and then reset the rows for the next batch
       if row_idx % UPDATE_BATCH_SIZE == 0
-        append_to_file rows.join(''), true
+        append_to_file rows.join(''), false
         rows = []
       end
 
       row_idx += 1
     end
 
-    # add any remaining csv data and reload the file column
-    append_to_file rows.join(''), false
+    # add any remaining csv data and reload the file column by default
+    append_to_file rows.join('')
   end
 
   def set_initial_status
