@@ -1,6 +1,7 @@
 require 'json'
 
 class LogSpreadsheetsController < ApplicationController
+  include ActionController::Live
 
   before_action :authenticate_user!
 
@@ -18,6 +19,22 @@ class LogSpreadsheetsController < ApplicationController
       render nothing: true, status: 400
       return
     end
-    send_data spreadsheet.file, filename: "logs-#{spreadsheet.id}.csv", type: 'text/csv'
+
+    begin
+      set_file_headers("logs-#{spreadsheet.id}.csv")
+      spreadsheet.for_file_chunks do |chunk|
+        response.stream.write chunk
+      end
+    ensure
+      response.stream.close
+    end
   end
+
+  private
+
+  def set_file_headers(file_name)
+    headers["Content-Type"] = "text/csv"
+    headers["Content-disposition"] = "attachment; filename=\"#{file_name}\""
+  end
+
 end
