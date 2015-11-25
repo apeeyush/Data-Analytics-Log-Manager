@@ -16,9 +16,8 @@ class LogSpreadsheet < ActiveRecord::Base
   # Max number of LogSpreadsheet rows stored in DB.
   # Generated spreadsheet files can be pretty heavy, so don't store too many of them.
   SPREADSHEET_COUNT_LIMIT = 10
-  # Max number of rows within one spreadsheet.
-  # Use old Excel limit, it's quite reasonable value so we should avoid too long processing time.
-  LOGS_COUNT_LIMIT = 65536
+  # Max number of rows within one spreadsheet (so processing time and memory usage are reasonable).
+  LOGS_COUNT_LIMIT = 600000
   # Time attributes need to be treated in a special way during spreadsheet generation.
   TIME_COLS = ['time', 'created_at', 'updated_at']
 
@@ -29,8 +28,8 @@ class LogSpreadsheet < ActiveRecord::Base
   STATUS_ERRORED = 'errored' # encountered an unexpected error, but trying again
   STATUS_FAILED = 'failed'   # definite failure
 
-  FIND_EACH_BATCH_SIZE = 500
-  UPDATE_BATCH_SIZE = 500
+  FIND_EACH_BATCH_SIZE = 5000
+  UPDATE_BATCH_SIZE = 5000
 
   belongs_to :user
 
@@ -78,6 +77,7 @@ class LogSpreadsheet < ActiveRecord::Base
 
     rows = []
     row_idx = 1
+    start_time = Time.now
 
     logs.find_each(batch_size: FIND_EACH_BATCH_SIZE) do |log|
 
@@ -89,10 +89,12 @@ class LogSpreadsheet < ActiveRecord::Base
       rows.push row.to_csv
 
       if row_idx % 2000 == 0
-        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows)...")
+        rows_per_sec = (row_idx / (Time.now - start_time)).round
+        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
       end
 
       # batch concat the csv without reloading it and then reset the rows for the next batch
+
       if row_idx % UPDATE_BATCH_SIZE == 0
         append_to_file rows.join(''), false
         rows = []
