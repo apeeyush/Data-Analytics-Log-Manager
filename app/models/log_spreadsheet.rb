@@ -7,7 +7,7 @@
 #  status      :string(255)
 #  status_msg  :string(255)
 #  query       :text
-#  file        :binary
+#  file        :text
 #  all_columns :boolean
 #  created_at  :datetime
 #  updated_at  :datetime
@@ -16,9 +16,8 @@ class LogSpreadsheet < ActiveRecord::Base
   # Max number of LogSpreadsheet rows stored in DB.
   # Generated spreadsheet files can be pretty heavy, so don't store too many of them.
   SPREADSHEET_COUNT_LIMIT = 10
-  # Max number of rows within one spreadsheet.
-  # Use old Excel limit, it's quite reasonable value so we should avoid too long processing time.
-  LOGS_COUNT_LIMIT = 65536
+  # Max number of rows within one spreadsheet (so processing time and memory usage are reasonable).
+  LOGS_COUNT_LIMIT = 600000
   # Time attributes need to be treated in a special way during spreadsheet generation.
   TIME_COLS = ['time', 'created_at', 'updated_at']
 
@@ -29,13 +28,21 @@ class LogSpreadsheet < ActiveRecord::Base
   STATUS_ERRORED = 'errored' # encountered an unexpected error, but trying again
   STATUS_FAILED = 'failed'   # definite failure
 
-  FIND_EACH_BATCH_SIZE = 500
-  UPDATE_BATCH_SIZE = 500
+  FIND_EACH_BATCH_SIZE = 5000
+  UPDATE_BATCH_SIZE = 5000
 
   belongs_to :user
 
   after_create :set_initial_status
   after_create :remove_old_spreadsheets
+
+  # DO NOT load 'file' field by default, as it might be huge. Use #file_chunk instead!
+  default_scope { select(LogSpreadsheet.attribute_names.select { |x| x != 'file' }) }
+
+  def self.count
+    # Default scope is breaking #count.
+    LogSpreadsheet.unscoped.count
+  end
 
   def generate
     raise StandardError.new('Failed to process spreadsheet without JSON query') unless query
@@ -66,8 +73,31 @@ class LogSpreadsheet < ActiveRecord::Base
   end
 
   def append_to_file(data, reload_after_update=true)
+    # Warning: that's memory efficient, but when 'file' grows, this call gets slower and slower.
+    #          So, probably SQL server is reloading file content each time anyway.
     ActiveRecord::Base.connection.exec_query "UPDATE log_spreadsheets SET file = file || $1 WHERE id = $2", 'SQL', [[nil, data], [nil, id]]
     reload() if reload_after_update
+  end
+
+  def file_length
+    result = ActiveRecord::Base.connection.exec_query "SELECT CHAR_LENGTH(file) from log_spreadsheets WHERE id = $1", 'SQL', [[nil, id]]
+    result.rows[0][0].to_i
+  end
+
+  def file_chunk(offset = 0, chunk_size = 16777216) # chunk_size = 16MB
+    result = ActiveRecord::Base.connection.exec_query "SELECT SUBSTRING(file from CAST($1 AS INTEGER) for CAST($2 AS INTEGER)) from log_spreadsheets WHERE id = $3",
+                                                      'SQL', [[nil, offset], [nil, chunk_size], [nil, id]]
+    result.rows[0][0]
+  end
+
+  def for_file_chunks(chunk_size = 16777216) # chunk_size = 16MB
+    offset = 0
+    frag = file_chunk(offset, chunk_size)
+    while frag != ""
+      yield frag
+      offset += chunk_size
+      frag = file_chunk(offset, chunk_size)
+    end
   end
 
   private
@@ -78,6 +108,7 @@ class LogSpreadsheet < ActiveRecord::Base
 
     rows = []
     row_idx = 1
+    start_time = Time.now
 
     logs.find_each(batch_size: FIND_EACH_BATCH_SIZE) do |log|
 
@@ -89,10 +120,12 @@ class LogSpreadsheet < ActiveRecord::Base
       rows.push row.to_csv
 
       if row_idx % 2000 == 0
-        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows)...")
+        rows_per_sec = (row_idx / (Time.now - start_time)).round
+        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
       end
 
       # batch concat the csv without reloading it and then reset the rows for the next batch
+
       if row_idx % UPDATE_BATCH_SIZE == 0
         append_to_file rows.join(''), false
         rows = []

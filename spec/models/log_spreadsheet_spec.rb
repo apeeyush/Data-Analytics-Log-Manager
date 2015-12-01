@@ -54,7 +54,7 @@ describe LogSpreadsheet, :type => :model do
     it "generates spreadsheet which matches log data and query" do
       spreadsheet.generate
 
-      csv = CSV.new StringIO.new(spreadsheet.file), :headers => true
+      csv = CSV.new StringIO.new(spreadsheet.file_chunk), :headers => true
 
       logs_matching_query = Log.where(application: app.name).where(activity: "myActivity").where("extras -> :key IN ( :list )", :key => "groupname", :list => ["group1"]).order(id: :asc)
       expect(csv.count).to eql(logs_matching_query.count)
@@ -85,7 +85,7 @@ describe LogSpreadsheet, :type => :model do
       it "generates spreadsheet which matches log data and query" do
         spreadsheet.generate
 
-        csv = CSV.new StringIO.new(spreadsheet.file), :headers => true
+        csv = CSV.new StringIO.new(spreadsheet.file_chunk), :headers => true
 
         logs_matching_query = Log.where(application: app.name).where(activity: "myActivity").where("extras -> :key IN ( :list )", :key => "groupname", :list => ["group1"]).order(id: :asc)
         expect(csv.count).to eql(logs_matching_query.count)
