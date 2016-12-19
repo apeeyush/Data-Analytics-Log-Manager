@@ -1,0 +1,72 @@
+{
+  "name": "Data-Analytics-Log-Manager",
+  "scripts": {
+  },
+  "env": {
+    "DEVISE_SECRET_KEY": {
+      "required": true
+    },
+    "HEROKU_APP_ID": {
+      "required": true
+    },
+    "HEROKU_APP_NAME": {
+      "required": true
+    },
+    "HEROKU_POSTGRESQL_BRONZE_URL": {
+      "required": true
+    },
+    "HEROKU_POSTGRESQL_PINK_URL": {
+      "required": true
+    },
+    "HEROKU_RELEASE_VERSION": {
+      "required": true
+    },
+    "HEROKU_SLUG_COMMIT": {
+      "required": true
+    },
+    "HEROKU_SLUG_DESCRIPTION": {
+      "required": true
+    },
+    "LANG": {
+      "required": true
+    },
+    "MAIL_FROM": {
+      "required": true
+    },
+    "MAILER_DELIVERY_METHOD": {
+      "required": true
+    },
+    "MAILER_DOMAIN_NAME": {
+      "required": true
+    },
+    "MAILER_SMTP_HOST": {
+      "required": true
+    },
+    "MAILER_SMTP_PASSWORD": {
+      "required": true
+    },
+    "MAILER_SMTP_USER_NAME": {
+      "required": true
+    },
+    "RACK_ENV": {
+      "required": true
+    },
+    "RAILS_ENV": {
+      "required": true
+    },
+    "SECRET_KEY_BASE": {
+      "required": true
+    }
+  },
+  "formation": {
+  },
+  "addons": [
+    "heroku-postgresql",
+    "heroku-postgresql"
+  ],
+  "buildpacks": [
+    {
+      "url": "heroku/ruby"
+    }
+  ]
+}
