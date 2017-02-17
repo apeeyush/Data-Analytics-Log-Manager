@@ -9,6 +9,7 @@
 #  query       :text
 #  file        :text
 #  all_columns :boolean
+#  format      :string ("csv" or "json")
 #  created_at  :datetime
 #  updated_at  :datetime
 #
@@ -45,19 +46,24 @@ class LogSpreadsheet < ActiveRecord::Base
   end
 
   def generate
-    raise StandardError.new('Failed to process spreadsheet without JSON query') unless query
+    raise StandardError.new('Failed to process export without JSON query') unless query
 
     update_status(STATUS_PROCESSING, 'Executing SQL query...')
     logs = Log.execute_query(query, user)
 
-    if all_columns
-      column_names = logs.keys_list Log::ALL_COLUMNS
+    if format == "json"
+      update_status(STATUS_PROCESSING, 'Generating and saving json...')
+      create_and_write_json(logs)
     else
-      column_names = logs.keys_list
-    end
+      if all_columns
+        column_names = logs.keys_list Log::ALL_COLUMNS
+      else
+        column_names = logs.keys_list
+      end
 
-    update_status(STATUS_PROCESSING, 'Generating and saving csv...')
-    create_and_write_csv(column_names, logs)
+      update_status(STATUS_PROCESSING, 'Generating and saving csv...')
+      create_and_write_csv(column_names, logs)
+    end
   end
 
   def update_status(status, status_msg)
@@ -121,7 +127,7 @@ class LogSpreadsheet < ActiveRecord::Base
 
       if row_idx % 2000 == 0
         rows_per_sec = (row_idx / (Time.now - start_time)).round
-        update_status(STATUS_PROCESSING, "Generating spreadsheet (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
+        update_status(STATUS_PROCESSING, "Generating export (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
       end
 
       # batch concat the csv without reloading it and then reset the rows for the next batch
@@ -138,8 +144,40 @@ class LogSpreadsheet < ActiveRecord::Base
     append_to_file rows.join('')
   end
 
+  def create_and_write_json(logs)
+    update_attributes!(file: "[\n")
+
+    rows = []
+    row_idx = 1
+    start_time = Time.now
+
+    logs.find_each(batch_size: FIND_EACH_BATCH_SIZE) do |log|
+
+      # add the row to the json array
+      rows.push "  #{log.to_json(:except => [:created_at, :updated_at])}"
+
+      if row_idx % 2000 == 0
+        rows_per_sec = (row_idx / (Time.now - start_time)).round
+        update_status(STATUS_PROCESSING, "Generating export (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
+      end
+
+      # batch concat the csv without reloading it and then reset the rows for the next batch
+
+      if row_idx % UPDATE_BATCH_SIZE == 0
+        append_to_file rows.join(",\n"), false
+        rows = []
+      end
+
+      row_idx += 1
+    end
+
+    # add any remaining csv data and reload the file column by default
+    append_to_file rows.join(",\n")
+    append_to_file "\n]"
+  end
+
   def set_initial_status
-    update_status(STATUS_CREATED, 'Spreadsheet generation job is waiting to be enqueued.')
+    update_status(STATUS_CREATED, 'Export job is waiting to be enqueued.')
   end
 
   def remove_old_spreadsheets

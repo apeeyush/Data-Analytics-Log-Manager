@@ -21,7 +21,7 @@ class LogSpreadsheetsController < ApplicationController
     end
 
     begin
-      set_file_headers("logs-#{spreadsheet.id}.csv")
+      set_file_headers("logs-#{spreadsheet.id}.#{spreadsheet.format}")
       spreadsheet.for_file_chunks do |chunk|
         response.stream.write chunk
       end
