@@ -11,12 +11,12 @@ feature "Export Log Spreadsheet", :type => :feature do
 
     click_button("Export Spreadsheet")
 
-    expect(page).to have_text("Spreadsheet export status: requested")
+    expect(page).to have_text("Export status: requested")
     expect(page).to have_css("#download-spreadsheet[disabled]")
 
     Delayed::Worker.new.work_off
 
-    expect(page).to have_text("Spreadsheet export status: succeed", wait: 10)
+    expect(page).to have_text("Export status: succeed", wait: 10)
     expect(page).to have_css("#download-spreadsheet")
     expect(page).not_to have_css("#download-spreadsheet[disabled]")
   end

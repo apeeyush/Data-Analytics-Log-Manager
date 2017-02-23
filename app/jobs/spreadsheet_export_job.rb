@@ -8,15 +8,15 @@ class SpreadsheetExportJob < Struct.new(:log_spreadsheet_id)
   end
 
   def success(job)
-    update_status(LogSpreadsheet::STATUS_SUCCEED, 'Spreadsheet generated.')
+    update_status(LogSpreadsheet::STATUS_SUCCEED, 'Export generated.')
   end
 
   def error(job, exception)
-    update_status(LogSpreadsheet::STATUS_ERRORED, "Spreadsheet generation errored (\"#{exception}\"), trying again...")
+    update_status(LogSpreadsheet::STATUS_ERRORED, "Export errored (\"#{exception}\"), trying again...")
   end
 
   def failure(job)
-    update_status(LogSpreadsheet::STATUS_FAILED, 'Spreadsheet generation failed. Please try again later.')
+    update_status(LogSpreadsheet::STATUS_FAILED, 'Export failed. Please try again later.')
   end
 
   def perform

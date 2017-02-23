@@ -92,6 +92,10 @@ group :development, :test do
   gem 'spring-commands-rspec'
 end
 
+group :development do
+  gem "daemons"
+end
+
 # Capybara helps test web applications by simulating how a real user would interact with app.
 group :test do
   gem 'capybara'

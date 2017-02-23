@@ -19,7 +19,15 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
       this.stopPolling();
     },
 
-    startExport: function () {
+    startSpreadsheetExport: function () {
+      this.startExport("csv");
+    },
+
+    startJSONExport: function () {
+      this.startExport("json");
+    },
+
+    startExport: function (format) {
       this.setState({
         exportStarted: true,
         currentStatus: 'requested',
@@ -28,7 +36,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
       $.ajax({
         type: 'POST',
         url: EXPORT_PATH,
-        data: $('#transformation_form').serialize() + '&all_columns=' + this.state.allPossibleColumns,
+        data: $('#transformation_form').serialize() + '&all_columns=' + this.state.allPossibleColumns + "&format=" + format,
         success: function (data) {
           this.setState({
             statusPath: data.status_path,
@@ -99,7 +107,10 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
     render: function () {
       if (!this.state.exportStarted) {
         return (
-          <ExportButton onClick={this.startExport} allPossibleColumns={this.state.allPossibleColumns} onAllPossibleColumnsChanged={this.allPossibleColumnsChanged}/>
+          <div>
+            <ExportJSONButton onClick={this.startJSONExport} />
+            <ExportSpreadsheetButton onClick={this.startSpreadsheetExport} allPossibleColumns={this.state.allPossibleColumns} onAllPossibleColumnsChanged={this.allPossibleColumnsChanged}/>
+          </div>
         )
       } else {
         return (
@@ -112,16 +123,26 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
 
   // Helper components:
 
-  var ExportButton = React.createClass({
+  var ExportSpreadsheetButton = React.createClass({
     render: function () {
       return (
-        <div>
+        <div style={{display: "inline-block"}}>
           <button className="btn btn-primary export-spreadsheet" data-loading-text="Processing..." onClick={this.props.onClick}>
             Export Spreadsheet
           </button>
           <input type="checkbox" checked={this.props.allPossibleColumns} onChange={this.props.onAllPossibleColumnsChanged}/>
-          Export all possible columns
+          Export all possible columns in spreadsheet
         </div>
+      )
+    }
+  });
+
+  var ExportJSONButton = React.createClass({
+    render: function () {
+      return (
+        <button className="btn btn-primary export-json" data-loading-text="Processing..." onClick={this.props.onClick}>
+          Export JSON
+        </button>
       )
     }
   });
@@ -170,7 +191,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
                 <button type="button" className="close" data-dismiss="modal" aria-label="Close">
                   <span aria-hidden="true">&times;</span>
                 </button>
-                <h4 className="modal-title">Spreadsheet export status:
+                <h4 className="modal-title">Export status:
                   <span> </span>
                   <span className={this.getStatusClass()}>{this.props.status}</span>
                 </h4>
@@ -181,7 +202,7 @@ modulejs.define('components/log_spreadsheet_export', [], function () {
               </div>
               <div className="modal-footer">
                 <a type="button" target="_blank" href={this.props.filePath} id="download-spreadsheet" className="btn btn-primary"
-                   disabled={!this.props.downloadEnabled} onClick={this.downloadHandler}>Download spreadsheet</a>
+                   disabled={!this.props.downloadEnabled} onClick={this.downloadHandler}>Download file</a>
               </div>
             </div>
           </div>
