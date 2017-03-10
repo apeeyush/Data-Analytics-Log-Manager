@@ -150,6 +150,7 @@ class LogSpreadsheet < ActiveRecord::Base
     rows = []
     row_idx = 1
     start_time = Time.now
+    batch_count = 0
 
     logs.find_each(batch_size: FIND_EACH_BATCH_SIZE) do |log|
 
@@ -164,16 +165,19 @@ class LogSpreadsheet < ActiveRecord::Base
       # batch concat the csv without reloading it and then reset the rows for the next batch
 
       if row_idx % UPDATE_BATCH_SIZE == 0
+        append_to_file ",\n", false if batch_count > 0 # add comma between batches
         append_to_file rows.join(",\n"), false
         rows = []
+        batch_count = batch_count + 1
       end
 
       row_idx += 1
     end
 
     # add any remaining csv data and reload the file column by default
-    append_to_file rows.join(",\n")
-    append_to_file "\n]"
+    append_to_file ",\n", false if batch_count > 0 # add comma between batches
+    append_to_file rows.join(",\n"), false
+    append_to_file "\n]", true
   end
 
   def set_initial_status
