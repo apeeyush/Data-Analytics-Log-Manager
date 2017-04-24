@@ -1,0 +1,13 @@
+{
+  "name": "Data-Analytics-Log-Manager",
+  "version": "0.0.1",
+  "dependencies": {
+    "iframe-phone": "~1.2.0"
+  },
+  "repository": {
+    "type": "git",
+    "url": "https://github.com/concord-consortium/Data-Analytics-Log-Manager"
+  },
+  "license": "MIT",
+  "readmeFilename": "README.md"
+}

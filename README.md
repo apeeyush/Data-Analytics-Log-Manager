@@ -70,6 +70,7 @@ Project Setup, local install (no Docker)
 
     cd Data-Analytics-Log-Manager/
     bundle install
+    npm install
 
 ### Setup the database:
 
@@ -80,10 +81,6 @@ Either update the `username` and `password` with your existing user's value or c
 ### Run migrations on database:
 
     rake db:migrate
-
-### Init git submodules (e.g. vendor/iframe-phone)
-
-    git submodule update --init --recursive
 
 ### Run application on localhost:
 
