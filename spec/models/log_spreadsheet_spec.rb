@@ -7,8 +7,8 @@ describe LogSpreadsheet, :type => :model do
       count = LogSpreadsheet::SPREADSHEET_COUNT_LIMIT + 10
       count.times do
         FactoryGirl.create(:log_spreadsheet)
-        expect(LogSpreadsheet.count).to be <= LogSpreadsheet::SPREADSHEET_COUNT_LIMIT
       end
+      LogSpreadsheet.remove_old_spreadsheets
       expect(LogSpreadsheet.count).to eql(LogSpreadsheet::SPREADSHEET_COUNT_LIMIT)
     end
   end
