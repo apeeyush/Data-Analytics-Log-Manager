@@ -9,6 +9,7 @@ class SpreadsheetExportJob < Struct.new(:log_spreadsheet_id)
 
   def success(job)
     update_status(LogSpreadsheet::STATUS_SUCCEED, 'Export generated.')
+    LogSpreadsheet.remove_old_spreadsheets
   end
 
   def error(job, exception)
