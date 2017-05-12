@@ -1,0 +1,8 @@
+# This file will NOT be automatically included if you define 
+# COMPOSE_FILE in .env
+# You need to explicity include it in the list COMPOSE_FILE files.
+version: '2'
+services:
+  app:
+    ports:
+      - "3000:3000"
