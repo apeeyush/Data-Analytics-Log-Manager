@@ -1,0 +1,51 @@
+#
+# CC Log Manager container orchestration
+# 
+version: '2'
+services:
+
+  #
+  # Log Manager app
+  #
+  app:
+    build:
+      context: .
+      dockerfile: Dockerfile-dev
+    command: docker/dev/run.sh
+    environment:
+      LOG_MANAGER_DATABASE_PASSWORD: log_manager
+      DATABASE_URL: postgres://log_manager:log_manager@postgres/log_manager_development
+    volumes:
+      - .:/cc-log-manager
+      - bundle:/bundle
+    networks:
+      #
+      # app service needs to be on default network too so it
+      # can connect to postgres
+      #
+      default:
+    depends_on:
+      - postgres
+
+  #
+  # Log Manager postgres database
+  #
+  postgres:
+    image: postgres:9.3
+    environment:
+      POSTGRES_PASSWORD:    log_manager
+      POSTGRES_USER:        log_manager
+      POSTGRES_DB:          log_manager_development
+    ports: 
+      - 5432
+    command: postgres
+    volumes:
+      #
+      # Use named volume for storage dir
+      #
+      - postgres:/var/lib/postgresql/data
+
+volumes:
+  bundle:
+  postgres:
+

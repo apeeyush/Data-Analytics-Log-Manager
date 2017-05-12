@@ -1,0 +1,28 @@
+FROM rails:4.1
+
+#
+# Set some env variables
+#
+ENV APP_HOME /cc-log-manager
+ENV BUNDLE_PATH /bundle
+
+#
+# Create app dir and set it as workdir
+#
+RUN mkdir $APP_HOME
+WORKDIR $APP_HOME
+
+#
+# Install npm
+#
+RUN apt-get update && apt-get install -y npm
+
+#
+# Expose UI port
+#
+EXPOSE 3000
+
+#
+# Start rails
+#
+CMD rails s -b 0.0.0.0

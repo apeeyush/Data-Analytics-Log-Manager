@@ -17,6 +17,7 @@
 
 # Ignore the application's environment variable values
 /config/initializers/app_env_vars.rb
+/config/db.initialized
 
 # Ignore project files
 .idea
