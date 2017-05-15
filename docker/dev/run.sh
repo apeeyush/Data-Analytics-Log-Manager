@@ -25,5 +25,5 @@ if [ -f $PID_FILE ]; then
     rm -rf $PID_FILE
 fi
 
-bundle exec rails s -b 0.0.0.0
+bundle exec rails s -b 0.0.0.0 & bundle exec rake jobs:work
 
