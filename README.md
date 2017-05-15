@@ -36,7 +36,7 @@ Project Setup, Docker Compose option
 
 
 
-Project Setup, Docker option
+Project Setup, Docker Fig option
 --------
 
 This project includes a Dockerfile and a Fig (now [Docker Compose](http://blog.docker.com/2015/02/announcing-docker-compose/)) configuration that allows you to use containers based on prebuilt Rails and Postgres images, rather than having to install software
@@ -83,6 +83,7 @@ Project Setup, local install (no Docker)
 ### Run the following commands:
 
     cd Data-Analytics-Log-Manager/
+    cp config/database.sample.yml config/database.yml
     bundle install
     npm install
 

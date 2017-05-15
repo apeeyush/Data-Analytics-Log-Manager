@@ -3,7 +3,7 @@
 # Run this app in a docker container
 #
 
-DB_INIT_FILE=config/db.initialized
+DB_CONFIG=$APP_HOME/config/database.yml
 PID_FILE=tmp/pids/server.pid
 
 #
@@ -16,9 +16,9 @@ bundle check || bundle install
 #
 npm install
 
-if [ ! -f $DB_INIT_FILE ]; then
+if [ ! -f $DB_CONFIG ]; then
+    cp $APP_HOME/config/database.sample.yml $DB_CONFIG
     bundle exec rake db:migrate
-    touch $DB_INIT_FILE
 fi
 
 if [ -f $PID_FILE ]; then

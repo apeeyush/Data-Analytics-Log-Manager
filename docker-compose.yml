@@ -31,7 +31,7 @@ services:
   # Log Manager postgres database
   #
   postgres:
-    image: postgres:9.3
+    image: postgres:9.4
     environment:
       POSTGRES_PASSWORD:    log_manager
       POSTGRES_USER:        log_manager
