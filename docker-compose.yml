@@ -31,7 +31,7 @@ services:
   # Log Manager postgres database
   #
   postgres:
-    image: postgres:9.4
+    image: postgres:9.3
     environment:
       POSTGRES_PASSWORD:    log_manager
       POSTGRES_USER:        log_manager
@@ -44,6 +44,10 @@ services:
       # Use named volume for storage dir
       #
       - postgres:/var/lib/postgresql/data
+      #
+      # Enable extensions
+      #
+      - ./docker/dev/postgres-extensions:/docker-entrypoint-initdb.d
 
 volumes:
   bundle:
