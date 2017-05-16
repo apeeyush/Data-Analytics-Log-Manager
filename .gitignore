@@ -23,3 +23,8 @@ config/database.yml
 .idea
 
 node_modules
+
+#
+# Ignore docker-compose .env file
+#
+.env
