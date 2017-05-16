@@ -53,6 +53,6 @@ Rails.application.configure do
   #
   # use structure.sql
   #
-  config.active_record.schema_format = :sql
+  # config.active_record.schema_format = :sql
 
 end
