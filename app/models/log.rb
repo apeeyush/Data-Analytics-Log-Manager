@@ -20,7 +20,7 @@ class Log < ActiveRecord::Base
   ALL_COLUMNS = true
 
   #
-  # Define size of "large" filter lists which might be handled 
+  # Define size of "large" filter lists which might be handled
   # differently than other filters.
   #
   LARGE_FILTER_LIST_SIZE = 5
@@ -137,8 +137,8 @@ class Log < ActiveRecord::Base
     where_clause_filters = []
 
     #
-    # Check for special keys we handle in JOIN prior to WHERE clause. 
-    # Should this be generic and handle *all* keys where list size is 
+    # Check for special keys we handle in JOIN prior to WHERE clause.
+    # Should this be generic and handle *all* keys where list size is
     # greater than some value?
     #
     # This should be used for filter lists that are too large to fit
@@ -148,11 +148,14 @@ class Log < ActiveRecord::Base
 
         key     = filter['key']
         list    = filter['list']
+        remove  = filter['remove']
 
-        if key == 'run_remote_endpoint' && list.size > LARGE_FILTER_LIST_SIZE
+        if  key == 'run_remote_endpoint'        &&
+            list.size > LARGE_FILTER_LIST_SIZE  &&
+            remove != true
 
             #
-            # Create SQL safe strings for key and value
+            # Create SQL safe strings for key and values
             #
             clean_key = Log.connection.quote_string(key)
             clean_item_list = []
@@ -165,7 +168,7 @@ class Log < ActiveRecord::Base
             #
             join_sql =  "INNER JOIN ( "
             join_sql << "   VALUES "
-            join_sql << "       ('" << clean_item_list.join("'), ('") + "') "
+            join_sql << "       ('" << clean_item_list.join("'), ('") << "') "
             join_sql << "   ) vals(v) ON "
             join_sql << "( #{hstore_columns} -> '#{clean_key}' ) = v"
 

@@ -57,11 +57,14 @@ class LogSpreadsheet < ActiveRecord::Base
     raise StandardError.new('Failed to process export without JSON query') unless query
 
     update_status(STATUS_PROCESSING, 'Executing SQL query...')
-    logs = Log.execute_query(query, user)
+
+    total   = Log.execute_query(query, user).count
+    logs    = Log.execute_query(query, user)
 
     if format == "json"
-      update_status(STATUS_PROCESSING, 'Generating and saving json...')
-      create_and_write_json(logs)
+      update_status(STATUS_PROCESSING,
+                    "Generating and saving json... (#{total} total rows)")
+      create_and_write_json(logs, total)
     else
       if all_columns
         column_names = logs.keys_list Log::ALL_COLUMNS
@@ -69,8 +72,9 @@ class LogSpreadsheet < ActiveRecord::Base
         column_names = logs.keys_list
       end
 
-      update_status(STATUS_PROCESSING, 'Generating and saving csv...')
-      create_and_write_csv(column_names, logs)
+      update_status(STATUS_PROCESSING,
+                    "Generating and saving csv... (#{total} total rows)")
+      create_and_write_csv(column_names, logs, total)
     end
   end
 
@@ -116,7 +120,7 @@ class LogSpreadsheet < ActiveRecord::Base
 
   private
 
-  def create_and_write_csv(columns, logs)
+  def create_and_write_csv(columns, logs, total)
     # reset the output to the headers so we can concat blocks of csv
     update_attributes!(file: columns.to_csv)
 
@@ -135,7 +139,8 @@ class LogSpreadsheet < ActiveRecord::Base
 
       if row_idx % 2000 == 0
         rows_per_sec = (row_idx / (Time.now - start_time)).round
-        update_status(STATUS_PROCESSING, "Generating export (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
+        update_status(  STATUS_PROCESSING,
+                        "Generating export (#{row_idx}/#{total} rows, #{rows_per_sec} rows/sec)... ")
       end
 
       # batch concat the csv without reloading it and then reset the rows for the next batch
@@ -152,7 +157,7 @@ class LogSpreadsheet < ActiveRecord::Base
     append_to_file rows.join('')
   end
 
-  def create_and_write_json(logs)
+  def create_and_write_json(logs, total)
     update_attributes!(file: "[\n")
 
     rows = []
@@ -167,7 +172,8 @@ class LogSpreadsheet < ActiveRecord::Base
 
       if row_idx % 2000 == 0
         rows_per_sec = (row_idx / (Time.now - start_time)).round
-        update_status(STATUS_PROCESSING, "Generating export (#{row_idx} rows, #{rows_per_sec} rows/sec)...")
+        update_status(  STATUS_PROCESSING,
+                        "Generating export (#{row_idx}/#{total} rows, #{rows_per_sec} rows/sec)...")
       end
 
       # batch concat the csv without reloading it and then reset the rows for the next batch
