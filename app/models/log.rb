@@ -19,6 +19,12 @@ class Log < ActiveRecord::Base
 
   ALL_COLUMNS = true
 
+  #
+  # Define size of "large" filter lists which might be handled 
+  # differently than other filters.
+  #
+  LARGE_FILTER_LIST_SIZE = 5
+
   # Select logs for user based on user's application list
   scope :access_filter, lambda { |user|
       where(application: user.applications.pluck(:name) )
@@ -97,6 +103,7 @@ class Log < ActiveRecord::Base
     logs
   end
 
+  #
   # Filters data having specified values/range for the keys
   #
   # Example JSON Body:
@@ -117,14 +124,71 @@ class Log < ActiveRecord::Base
   #     }
   #   ]
   #   logs.filter(body)
+  #
   def self.filter(filter_list)
+
     logs = self
-    logs_columns = Log.column_lists
-    string_columns = logs_columns["string_columns"]
-    time_columns = logs_columns["time_columns"]
-    hstore_columns = logs_columns["hstore_columns"]
+
+    logs_columns    = Log.column_lists
+    string_columns  = logs_columns["string_columns"]
+    time_columns    = logs_columns["time_columns"]
+    hstore_columns  = logs_columns["hstore_columns"]
+
+    where_clause_filters = []
+
+    #
+    # Check for special keys we handle in JOIN prior to WHERE clause. 
+    # Should this be generic and handle *all* keys where list size is 
+    # greater than some value?
+    #
+    # This should be used for filter lists that are too large to fit
+    # in the WHERE clause's IN (...) block.
+    #
     filter_list.each do |filter|
+
+        key     = filter['key']
+        list    = filter['list']
+
+        if key == 'run_remote_endpoint' && list.size > LARGE_FILTER_LIST_SIZE
+
+            #
+            # Create SQL safe strings for key and value
+            #
+            clean_key = Log.connection.quote_string(key)
+            clean_item_list = []
+            list.each do |item|
+                clean_item_list.push(Log.connection.quote_string(item))
+            end
+
+            #
+            # Create join values
+            #
+            join_sql =  "INNER JOIN ( "
+            join_sql << "   VALUES "
+            join_sql << "       ('" << clean_item_list.join("'), ('") + "') "
+            join_sql << "   ) vals(v) ON "
+            join_sql << "( #{hstore_columns} -> '#{clean_key}' ) = v"
+
+            logs = logs.joins(join_sql)
+
+        else 
+
+            #
+            # Otherwise, handle this below in where clause.
+            #
+            where_clause_filters.push(filter)
+
+        end
+
+    end
+
+    #
+    # Handle remaining filters here.
+    #
+    where_clause_filters.each do |filter|
+
       key = filter["key"]
+
       if string_columns.include? key
         if filter["remove"] == true
           logs = logs.where.not({ key => filter["list"]})
