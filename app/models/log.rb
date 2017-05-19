@@ -9,8 +9,8 @@
 #  activity    :string(255)
 #  event       :string(255)
 #  time        :datetime
-#  parameters  :jsonb
-#  extras      :jsonb
+#  parameters  :hstore
+#  extras      :hstore
 #  created_at  :datetime
 #  updated_at  :datetime
 #  event_value :string(255)
@@ -24,38 +24,38 @@ class Log < ActiveRecord::Base
       where(application: user.applications.pluck(:name) )
   }
 
+  # Returns a hash with key as column_type and value as lists of names of that column_type
   #
-  # Returns a hash with key as column_type and value as lists of 
-  # column names of that column_type
-  #
+  # Example:
+  #   Log.column_lists
+  #   Returns:
+  #     {
+  #       "string_columns"=>["session", "username", "application", "activity", "event"],
+  #       "time_columns"=>["time", "created_at", "updated_at"],
+  #       "hstore_columns"=>"parameters || extras"
+  #     }
   def self.column_lists
-
-    ret = 
-        {
-
-            "string_columns" =>
-
-                [   "session", 
-                    "username", 
-                    "application", 
-                    "activity", 
-                    "event", 
-                    "event_value"   ],
-
-            "time_columns" =>
-                [   "time", 
-                    "created_at", 
-                    "updated_at"    ],
-
-            "jsonb_columns" =>
-                [   "parameters", 
-                    "extras"        ]
-        }
-
-    return ret
-
+    string_columns, time_columns, hstore_concat_string = [], [], ""
+    columns_hash = Hash.new
+    Log.columns.each do |column|
+      columns_hash[column.name] = column.type
+    end
+    columns_hash.except!("id")
+    columns_hash.each do |column_name, type|
+      if type == :string
+        string_columns << column_name
+      elsif type == :datetime
+        time_columns << column_name
+      elsif type == :hstore
+        hstore_concat_string == "" ? hstore_concat_string << column_name : hstore_concat_string << " || " + column_name
+      end
+    end
+    logs_columns = Hash.new
+    logs_columns["string_columns"] = string_columns
+    logs_columns["time_columns"] = time_columns
+    logs_columns["hstore_columns"] = hstore_concat_string
+    return logs_columns
   end
-
 
   # Takes a key, returns the corresponding value if key is a column name, otherwise
   # searches parameters and extras for presence of key, and if present, returns the
@@ -118,18 +118,13 @@ class Log < ActiveRecord::Base
   #   ]
   #   logs.filter(body)
   def self.filter(filter_list)
-
     logs = self
-    logs_columns    = Log.column_lists
-
-    string_columns  = logs_columns["string_columns"]
-    time_columns    = logs_columns["time_columns"]
-    jsonb_columns   = logs_columns["jsonb_columns"]
-
+    logs_columns = Log.column_lists
+    string_columns = logs_columns["string_columns"]
+    time_columns = logs_columns["time_columns"]
+    hstore_columns = logs_columns["hstore_columns"]
     filter_list.each do |filter|
-
       key = filter["key"]
-
       if string_columns.include? key
         if filter["remove"] == true
           logs = logs.where.not({ key => filter["list"]})
@@ -145,61 +140,28 @@ class Log < ActiveRecord::Base
           logs = logs.where("#{key} >= :start_time AND #{key} <= :end_time",{start_time: filter["start_time"], end_time: filter["end_time"]})
         end
       else
-
         if filter["remove"] == true
           logs = logs.where("#{hstore_columns} -> :key NOT IN ( :list )", :key => key, :list => filter["list"])
-
         else
-
-          list = filter["list"]
-
-          #
-          # Create a where clause that will use the @> operator
-          # to take advantage of the indexes on the jsonb columns.
-          #
-          where_clause = ""
-          clean_key = Log.connection.quote_string(key)
-
-          jsonb_columns.each { |column| 
-
-            list.each { |item| 
-
-              if where_clause != ""
-                where_clause << " OR "
-              end
-
-              clean_item = Log.connection.quote_string(item)
-
-              where_clause << "#{column} @> '{\"#{key}\": \"#{item}\"}'"
-
-            }
-          }
-
-          logs = logs.where(where_clause)
-
+          logs = logs.where("#{hstore_columns} -> :key IN ( :list )", :key => key, :list => filter["list"])
         end
       end
     end
-
     return logs
   end
 
-  #
   # Filters data having specified keys
   #
   # Example JSON Body:
   #   {
   #     "keys_list" : ["event","color"]
   #   }
-  #
   def self.filter_having_keys(filter)
     logs = self
     logs_columns = Log.column_lists
-
-    string_columns  = logs_columns["string_columns"]
-    time_columns    = logs_columns["time_columns"]
-    jsonb_columns   = logs_columns["jsonb_columns"]
-
+    string_columns = logs_columns["string_columns"]
+    time_columns = logs_columns["time_columns"]
+    hstore_columns = logs_columns["hstore_columns"]
     if filter["keys_list"].present?
       list = filter["keys_list"]
       additional_keys = []
@@ -210,16 +172,9 @@ class Log < ActiveRecord::Base
           additional_keys << key
         end
       end
-
       if additional_keys.any?
-
-        jsonb_columns.each do |column|
-            logs = logs.where("#{column} ?& ARRAY[:additional_keys]", additional_keys: additional_keys)
-
-        end
-
+        logs = logs.where("#{hstore_columns} ?& ARRAY[:additional_keys]", additional_keys: additional_keys)
       end
-
     end
     return logs
   end
@@ -239,8 +194,8 @@ class Log < ActiveRecord::Base
         ids = ids.flatten.uniq
       end
 
-      list << (Log.connection.execute("SELECT DISTINCT (jsonb_each(parameters)).key FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
-      list << (Log.connection.execute("SELECT DISTINCT (jsonb_each(extras)).key     FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
+      list << (Log.connection.execute("SELECT DISTINCT (each(parameters)).key FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
+      list << (Log.connection.execute("SELECT DISTINCT (each(extras)).key     FROM logs WHERE id in (#{ids.join(',')})").values.flatten rescue [])
     end
     list.flatten.uniq
   end
